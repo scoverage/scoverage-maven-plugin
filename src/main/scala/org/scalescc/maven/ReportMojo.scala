@@ -5,7 +5,7 @@ import org.apache.maven.project.MavenProject
 import org.apache.maven.plugin.descriptor.PluginDescriptor
 import org.apache.maven.settings.Settings
 import org.apache.maven.plugin.AbstractMojo
-import scales.InstrumentationRuntime
+import scales.{Env, IOUtils}
 
 /** @author Stephen Samuel */
 @Mojo(name = "report",
@@ -25,8 +25,13 @@ class ReportMojo extends AbstractMojo {
 
   def execute() {
     getLog.info("Creating report")
-    getLog.info("Coverage" + System.identityHashCode(InstrumentationRuntime.coverage))
-    getLog.info("Statements: " + InstrumentationRuntime.coverage.statements)
+
+    val coverage = IOUtils.deserialize(Env.coverageFile)
+    val measurements = IOUtils.invoked(Env.measurementFile)
+    coverage.apply(measurements)
+
+    getLog.info("Coverage" + System.identityHashCode(coverage))
+    getLog.info("Statements: " + coverage.statements)
     getLog.info("Writing report [todo]")
   }
 }
