@@ -5,9 +5,9 @@ import org.apache.maven.project.MavenProject
 import org.apache.maven.plugin.descriptor.PluginDescriptor
 import org.apache.maven.settings.Settings
 import org.apache.maven.plugin.AbstractMojo
+import java.io.File
 import scales.{Env, IOUtils}
-import scales.report.{CoberturaXmlWriter, ScalesXmlWriter}
-import java.io.{File, FileWriter}
+import org.scalescc.reporters.{CoberturaXmlWriter, ScalesXmlWriter}
 
 /** @author Stephen Samuel */
 @Mojo(name = "report",
@@ -36,17 +36,12 @@ class ReportMojo extends AbstractMojo {
 
     getLog.info("Statements: " + coverage.statements)
 
-    val scalesFile = new File("target/scales.xml")
-    val coberturaFile = new File("target/cobertura.xml")
+    val targetDirectory = new File("target")
 
-    getLog.info(s"Writing ScalesXML report [$scalesFile]")
-    val writer = new FileWriter(scalesFile)
-    writer.write(ScalesXmlWriter.write(coverage))
-    writer.close()
+    getLog.info("Writing ScalesXML report")
+    ScalesXmlWriter.write(coverage, targetDirectory)
 
-    getLog.info(s"Writing CoberturaXML report [$coberturaFile]")
-    val writer2 = new FileWriter(coberturaFile)
-    writer2.write(CoberturaXmlWriter.write(coverage))
-    writer2.close()
+    getLog.info("Writing CoberturaXML report")
+    CoberturaXmlWriter.write(coverage, targetDirectory)
   }
 }

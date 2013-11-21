@@ -5,7 +5,7 @@
 
     <groupId>org.scalescc</groupId>
     <artifactId>maven-scales-plugin</artifactId>
-    <version>1.0.0</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>Maven plugin for Scales</name>
@@ -155,6 +155,11 @@
         <dependency>
             <groupId>org.scalescc</groupId>
             <artifactId>scalac-scales-plugin</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scalescc</groupId>
+            <artifactId>scales-reporters</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
