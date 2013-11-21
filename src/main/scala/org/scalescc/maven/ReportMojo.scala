@@ -8,23 +8,6 @@ import org.apache.maven.plugin.AbstractMojo
 import scales.{Env, IOUtils}
 
 /** @author Stephen Samuel */
-@Mojo(name = "prepare",
-  threadSafe = false,
-  defaultPhase = org.apache.maven.plugins.annotations.LifecyclePhase.INITIALIZE)
-class PrepareMojo extends AbstractMojo {
-
-  val coverageFile: String = "target/scales.coverage"
-  val measurementFile: String = "target/scales.measurement"
-
-  def execute() {
-    getLog.info(s"Using Scales coverage file [$coverageFile]")
-    System.setProperty("scales.coverage.file", coverageFile)
-
-    getLog.info(s"Using Scales measurement file [$measurementFile]")
-    System.setProperty("scales.measurement.file", measurementFile)
-  }
-}
-
 @Mojo(name = "report",
   threadSafe = false,
   requiresDependencyResolution = ResolutionScope.TEST,
