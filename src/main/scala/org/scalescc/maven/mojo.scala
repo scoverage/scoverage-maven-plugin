@@ -24,7 +24,7 @@ class PrepareMojo extends AbstractMojo {
   var settings: Settings = _
 
   def execute() {
-    getLog.info("Loading prepared coverage data")
+    getLog.info("Loading prepared coverage data [" + Env.coverageFile.getAbsolutePath + "]")
     val coverage = IOUtils.deserialize(Env.coverageFile)
     InstrumentationRuntime.setCoverage(coverage)
   }
@@ -48,5 +48,6 @@ class ReportMojo extends AbstractMojo {
   def execute() {
     getLog.info("Creating report")
     getLog.info("Statements: " + InstrumentationRuntime.coverage.statements)
+    getLog.info("Writing report [todo]")
   }
 }
