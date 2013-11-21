@@ -16,7 +16,6 @@
     </prerequisites>
 
     <properties>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -28,28 +27,17 @@
         <maven.plugin.scala.version>3.1.6</maven.plugin.scala.version>
         <maven.plugin.scalatest.version>1.0-M2</maven.plugin.scalatest.version>
         <maven.plugin.release.version>2.3.2</maven.plugin.release.version>
-        <maven.plugin.autoinc.version>2.0-SNAPSHOT</maven.plugin.autoinc.version>
 
         <compiler.version.source>1.6</compiler.version.source>
         <compiler.version.target>1.6</compiler.version.target>
 
-        <commons.lang.version>2.6</commons.lang.version>
-        <commons.io.version>2.4</commons.io.version>
-        <commons.collections.version>3.2.1</commons.collections.version>
-        <commons.logging.version>1.1.1</commons.logging.version>
-        <commons.beanutils.version>1.8.3</commons.beanutils.version>
-
-        <google.guava.version>13.0-rc1</google.guava.version>
         <junit.version>4.10</junit.version>
 
         <mockito.version>1.9.0</mockito.version>
-        <log4j.version>1.2.17</log4j.version>
-        <slf4j.version>1.6.6</slf4j.version>
 
         <scala.test.version>2.0</scala.test.version>
         <scala.version>2.10.3</scala.version>
     </properties>
-
 
     <distributionManagement>
         <repository>
@@ -58,106 +46,6 @@
             <url>file:///home/sam/development/repo</url>
         </repository>
     </distributionManagement>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>autoincrement-versions-maven-plugin</id>
-            <name>autoincrement-versions-maven-plugin</name>
-            <url>http://autoincrement-versions-maven-plugin.googlecode.com/svn/repo</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>commons-beanutils</groupId>
-                <artifactId>commons-beanutils</artifactId>
-                <version>${commons.beanutils.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${commons.lang.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons.io.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-collections</groupId>
-                <artifactId>commons-collections</artifactId>
-                <version>${commons.collections.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpcore-nio</artifactId>
-                <version>${commons.httpcore.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpcore</artifactId>
-                <version>${commons.httpcore.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${commons.httpclient.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>commons-logging</artifactId>
-                        <groupId>commons-logging</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${google.guava.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
-                <version>${mockito.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>${log4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>log4j-over-slf4j</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.scala-lang</groupId>
-                <artifactId>scala-library</artifactId>
-                <version>${scala.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
 
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -261,54 +149,29 @@
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
-            <version>3.1</version>
+            <version>3.0</version>
         </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.extcos</groupId>
-            <artifactId>extcos</artifactId>
-            <version>0.3b</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>net.sf.extcos</groupId>-->
+        <!--<artifactId>extcos</artifactId>-->
+        <!--<version>0.3b</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
         </dependency>
         <dependency>
             <groupId>org.scalescc</groupId>
