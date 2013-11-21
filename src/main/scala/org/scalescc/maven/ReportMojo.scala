@@ -6,7 +6,7 @@ import org.apache.maven.plugin.descriptor.PluginDescriptor
 import org.apache.maven.settings.Settings
 import org.apache.maven.plugin.AbstractMojo
 import scales.{Env, IOUtils}
-import scales.report.ScalesXmlWriter
+import scales.report.{CoberturaXmlWriter, ScalesXmlWriter}
 import java.io.{File, FileWriter}
 
 /** @author Stephen Samuel */
