@@ -6,6 +6,8 @@ import org.apache.maven.plugin.descriptor.PluginDescriptor
 import org.apache.maven.settings.Settings
 import org.apache.maven.plugin.AbstractMojo
 import scales.{Env, IOUtils}
+import scales.report.ScalesXmlWriter
+import java.io.{File, FileWriter}
 
 /** @author Stephen Samuel */
 @Mojo(name = "report",
@@ -33,6 +35,18 @@ class ReportMojo extends AbstractMojo {
     coverage.apply(measurements)
 
     getLog.info("Statements: " + coverage.statements)
-    getLog.info("Writing report [todo]")
+
+    val scalesFile = new File("target/scales.xml")
+    val coberturaFile = new File("target/cobertura.xml")
+
+    getLog.info(s"Writing ScalesXML report [$scalesFile]")
+    val writer = new FileWriter(scalesFile)
+    writer.write(ScalesXmlWriter.write(coverage))
+    writer.close()
+
+    getLog.info(s"Writing CoberturaXML report [$coberturaFile]")
+    val writer2 = new FileWriter(coberturaFile)
+    writer2.write(CoberturaXmlWriter.write(coverage))
+    writer2.close()
   }
 }
