@@ -33,7 +33,8 @@ class ReportMojo extends AbstractMojo {
 
     coverage.apply(measurements)
 
-    val targetDirectory = new File("target")
+    val targetDirectory = new File("target/scales")
+    targetDirectory.mkdirs()
 
     getLog.info("Writing ScalesXML report")
     ScalesXmlWriter.write(coverage, targetDirectory)
