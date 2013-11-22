@@ -26,23 +26,21 @@ class ReportMojo extends AbstractMojo {
   var settings: Settings = _
 
   def execute() {
-    getLog.info("Creating report")
-
     val coverage = IOUtils.deserialize(Env.coverageFile)
     val measurements = IOUtils.invoked(Env.measurementFile)
 
     coverage.apply(measurements)
 
-    val targetDirectory = new File("target/scales")
+    val targetDirectory = new File("target/coverage-report")
     targetDirectory.mkdirs()
 
-    getLog.info("Writing ScalesXML report")
+    getLog.info("Generating ScalesXML report...")
     ScalesXmlWriter.write(coverage, targetDirectory)
 
-    getLog.info("Writing CoberturaXML report")
+    getLog.info("Generating CoberturaXML report...")
     CoberturaXmlWriter.write(coverage, targetDirectory)
 
-    getLog.info("Writing Scales HTML report")
+    getLog.info("Generating Scales HTML report...")
     ScalesHtmlWriter.write(coverage, targetDirectory)
   }
 }
