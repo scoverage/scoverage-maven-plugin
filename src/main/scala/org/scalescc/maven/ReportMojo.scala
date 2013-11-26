@@ -7,7 +7,7 @@ import org.apache.maven.settings.Settings
 import org.apache.maven.plugin.AbstractMojo
 import java.io.File
 import scales.{Env, IOUtils}
-import org.scalescc.reporters.{ScalesHtmlWriter, CoberturaXmlWriter, ScalesXmlWriter}
+import scales.report.{ScalesHtmlWriter, CoberturaXmlWriter, ScalesXmlWriter}
 
 /** @author Stephen Samuel */
 @Mojo(name = "report",
@@ -26,7 +26,8 @@ class ReportMojo extends AbstractMojo {
   var settings: Settings = _
 
   def execute() {
-    val coverage = IOUtils.deserialize(Env.coverageFile)
+
+    val coverage = IOUtils.deserialize(getClass.getClassLoader, Env.coverageFile)
     val measurements = IOUtils.invoked(Env.measurementFile)
 
     coverage.apply(measurements)
