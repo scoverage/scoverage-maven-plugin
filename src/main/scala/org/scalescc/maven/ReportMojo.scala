@@ -35,13 +35,13 @@ class ReportMojo extends AbstractMojo {
     val targetDirectory = new File("target/coverage-report")
     targetDirectory.mkdirs()
 
-    getLog.info("Generating ScalesXML report...")
+    getLog.info("Generating ScootXML report...")
     ScalesXmlWriter.write(coverage, targetDirectory)
 
     getLog.info("Generating CoberturaXML report...")
     CoberturaXmlWriter.write(coverage, targetDirectory)
 
-    getLog.info("Generating Scales HTML report...")
+    getLog.info("Generating ScootHTML report...")
     ScalesHtmlWriter.write(coverage, targetDirectory)
   }
 }

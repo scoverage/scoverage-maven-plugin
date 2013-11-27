@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.scalescc</groupId>
-    <artifactId>maven-scales-plugin</artifactId>
+    <groupId>com.sksamuel.scoot</groupId>
+    <artifactId>maven-scoot-plugin</artifactId>
     <version>0.11.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
-    <name>Maven plugin for Scales</name>
-    <description>Maven plugin for Scales code coverage tool</description>
+    <name>Maven plugin for Scoot</name>
+    <description>Maven plugin for Scoot code coverage tool</description>
 
     <prerequisites>
         <maven>3.0</maven>
@@ -153,8 +153,8 @@
             <version>${scala.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.scalescc</groupId>
-            <artifactId>scalac-scales-plugin</artifactId>
+            <groupId>com.sksamuel.scoot</groupId>
+            <artifactId>scalac-scoot-plugin</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
