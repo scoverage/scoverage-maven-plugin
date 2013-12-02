@@ -3,3 +3,104 @@ maven-scoot-plugin
 
 
 [![Build Status](https://travis-ci.org/scoverage/maven-scoverage-plugin.png)](https://travis-ci.org/scoverage/maven-scoverage-plugin)
+
+```xml
+<!-- seperate compiler phases -->
+<plugin>
+    <groupId>net.alchim31.maven</groupId>
+    <artifactId>scala-maven-plugin</artifactId>
+    <version>${maven.plugin.scala.version}</version>
+    <configuration>
+        <args>
+            <arg>-g:vars</arg>
+            <arg>-Yrangepos</arg>
+        </args>
+        <jvmArgs>
+            <jvmArg>-Xms64m</jvmArg>
+            <jvmArg>-Xmx1024m</jvmArg>
+        </jvmArgs>
+    </configuration>
+    <executions>
+        <execution>
+            <id>compile</id>
+            <goals>
+                <goal>add-source</goal>
+                <goal>compile</goal>
+            </goals>
+            <configuration>
+                <compilerPlugins>
+                    <compilerPlugin>
+                        <groupId>com.sksamuel.scoverage</groupId>
+                        <artifactId>scalac-scoverage-plugin</artifactId>
+                        <version>0.92.0</version>
+                    </compilerPlugin>
+                </compilerPlugins>
+            </configuration>
+        </execution>
+        <execution>
+            <id>test</id>
+            <goals>
+                <goal>add-source</goal>
+                <goal>testCompile</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+<!-- disable surefire -->
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>${maven.plugin.surefire.version}</version>
+    <configuration>
+        <skipTests>true</skipTests>
+    </configuration>
+</plugin>
+<!-- enable scalatest -->
+<plugin>
+    <groupId>org.scalatest</groupId>
+    <artifactId>scalatest-maven-plugin</artifactId>
+    <version>1.0-RC2</version>
+    <executions>
+        <execution>
+            <id>test</id>
+            <phase>test</phase>
+            <goals>
+                <goal>test</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <argLine>-XX:MaxPermSize=512m -Xmx1024m</argLine>
+    </configuration>
+</plugin>       
+...
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.10</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sksamuel.scoverage</groupId>
+            <artifactId>scalac-scoverage-plugin</artifactId>
+            <version>0.92.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+```
