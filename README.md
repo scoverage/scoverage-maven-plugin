@@ -1,4 +1,4 @@
-maven-scoot-plugin
+maven-scoverage-plugin
 ===================
 
 
