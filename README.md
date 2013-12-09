@@ -1,11 +1,17 @@
 maven-scoverage-plugin
 ===================
 
+maven-scoverage-plugin is a plugin for Maven that integrates the scoverage code coverage library. Find out more about [scoverage](https://github.com/scoverage/scalac-scoverage-plugin).
 
 [![Build Status](https://travis-ci.org/scoverage/maven-scoverage-plugin.png)](https://travis-ci.org/scoverage/maven-scoverage-plugin)
 
+## How to use
+
+The maven support works in two ways. Firstly, you add a compiler plugin to the scala build which causes the source to be instrumented during the test run. Then secondly you run a maven plugin which converts the output of the instrumentation into the XML / HTML reports.
+
+You must split the scala compiler into two phases - one for main sources and one for test sources - and attach the compiler plugin to the main sources phase. Otherwise your tests would also be included in the coverage metrics. Note the important compiler arguments.
+
 ```xml
-<!-- seperate compiler phases -->
 <plugin>
     <groupId>net.alchim31.maven</groupId>
     <artifactId>scala-maven-plugin</artifactId>
@@ -14,6 +20,7 @@ maven-scoverage-plugin
         <args>
             <arg>-g:vars</arg>
             <arg>-Yrangepos</arg>
+            <arg>-P:scoverage:dataDir:/tmp</arg>
         </args>
         <jvmArgs>
             <jvmArg>-Xms64m</jvmArg>
@@ -32,7 +39,7 @@ maven-scoverage-plugin
                     <compilerPlugin>
                         <groupId>com.sksamuel.scoverage</groupId>
                         <artifactId>scalac-scoverage-plugin</artifactId>
-                        <version>0.92.0</version>
+                        <version>0.95.0</version>
                     </compilerPlugin>
                 </compilerPlugins>
             </configuration>
@@ -45,66 +52,38 @@ maven-scoverage-plugin
             </goals>
         </execution>
     </executions>
-</plugin>
-<!-- disable surefire -->
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <version>${maven.plugin.surefire.version}</version>
-    <configuration>
-        <skipTests>true</skipTests>
-    </configuration>
-</plugin>
-<!-- enable scalatest -->
-<plugin>
-    <groupId>org.scalatest</groupId>
-    <artifactId>scalatest-maven-plugin</artifactId>
-    <version>1.0-RC2</version>
-    <executions>
-        <execution>
-            <id>test</id>
-            <phase>test</phase>
-            <goals>
-                <goal>test</goal>
-            </goals>
-        </execution>
-    </executions>
-    <configuration>
-        <argLine>-XX:MaxPermSize=512m -Xmx1024m</argLine>
-    </configuration>
 </plugin>       
-...
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>${scala.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_2.10</artifactId>
-            <version>2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sksamuel.scoverage</groupId>
-            <artifactId>scalac-scoverage-plugin</artifactId>
-            <version>0.92.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 ```
 
+Include the dependencies on the compiler plugin. Versions must match the above.
+
+```xml
+<dependency>
+    <groupId>com.sksamuel.scoverage</groupId>
+    <artifactId>scalac-scoverage-plugin</artifactId>
+    <version>0.95.0</version>
+</dependency>
+```
+
+Finally, add the plugin to the build.
+
+```xml
+<build>
+  <plugins>
+    <plugin>
+        <groupId>com.sksamuel.scoverage</groupId>
+        <artifactId>maven-scoverage-plugin</artifactId>
+        <version>0.95.0</version>
+    </plugin>
+  </plugins>
+</build>
+
+```
+
+Then you can run your build as normal eg mvn clean test, or maven clean install.
+After that you can run mvn scoverage:report to generate the XML / HTML reports which you will find inside target/coverage-report. 
+
+Of course you can setup the plugin to run as part of the normal build, without having to enter mvn scoverage:report, by simply binding the plugin to a phase.
 
 ## License
 ```
