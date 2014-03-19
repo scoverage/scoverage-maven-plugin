@@ -11,22 +11,20 @@ The maven support works in two ways. Firstly, you add a compiler plugin to the s
 
 You must split the scala compiler into two phases - one for main sources and one for test sources - and attach the compiler plugin to the main sources phase. Otherwise your tests would also be included in the coverage metrics. Note the important compiler arguments.
 
+> Note: The ``coverage.data.dir`` property is used to figure out which directory to read the coverage files from. Please make sure that the ``-P:scoverage:dataDir`` compiler arg is set to the same value as the ``coverage.data.dir`` property. Otherwise, the plugin will not be able to generate the reports.
+
+
 ```xml
+<properties>
+	<scoverage-plugin.version>[latest]</scoverage-plugin.version>
+	<scala.major>2.10</scala.major>
+	<coverage.data.dir>${project.build.outputDirectory}</coverage.datadir>
+</properties>
+...
 <plugin>
     <groupId>net.alchim31.maven</groupId>
     <artifactId>scala-maven-plugin</artifactId>
     <version>${maven.plugin.scala.version}</version>
-    <configuration>
-        <args>
-            <arg>-g:vars</arg>
-            <arg>-Yrangepos</arg>
-            <arg>-P:scoverage:dataDir:/tmp</arg>
-        </args>
-        <jvmArgs>
-            <jvmArg>-Xms64m</jvmArg>
-            <jvmArg>-Xmx1024m</jvmArg>
-        </jvmArgs>
-    </configuration>
     <executions>
         <execution>
             <id>compile</id>
@@ -35,11 +33,20 @@ You must split the scala compiler into two phases - one for main sources and one
                 <goal>compile</goal>
             </goals>
             <configuration>
+		        <args>
+            		<arg>-g:vars</arg>
+            		<arg>-Yrangepos</arg>
+            		<arg>-P:scoverage:dataDir:${coverage.data.dir}</arg>
+        		</args>
+        		<jvmArgs>
+            		<jvmArg>-Xms64m</jvmArg>
+            		<jvmArg>-Xmx1024m</jvmArg>
+		        </jvmArgs>
                 <compilerPlugins>
                     <compilerPlugin>
                         <groupId>com.sksamuel.scoverage</groupId>
-                        <artifactId>scalac-scoverage-plugin</artifactId>
-                        <version>0.95.0</version>
+                        <artifactId>scalac-scoverage-plugin_${scala.major}</artifactId>
+                        <version>${scoverage-plugin.version}</version>
                     </compilerPlugin>
                 </compilerPlugins>
             </configuration>
@@ -60,8 +67,8 @@ Include the dependencies on the compiler plugin. Versions must match the above.
 ```xml
 <dependency>
     <groupId>com.sksamuel.scoverage</groupId>
-    <artifactId>scalac-scoverage-plugin</artifactId>
-    <version>0.95.0</version>
+    <artifactId>scalac-scoverage-plugin_${scala.major}</artifactId>
+    <version>${scoverage-plugin.version}</version>
 </dependency>
 ```
 
@@ -81,7 +88,7 @@ Finally, add the plugin to the build.
 ```
 
 Then you can run your build as normal eg mvn clean test, or maven clean install.
-After that you can run mvn scoverage:report to generate the XML / HTML reports which you will find inside target/coverage-report. 
+After that you can run mvn scoverage:report to generate the XML / HTML reports which you will find inside ``${project.build.outputDirectory}/coverage-report. ``
 
 Of course you can setup the plugin to run as part of the normal build, without having to enter mvn scoverage:report, by simply binding the plugin to a phase.
 

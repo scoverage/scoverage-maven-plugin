@@ -26,9 +26,9 @@ class ReportMojo extends AbstractMojo {
   var settings: Settings = _
 
   def execute() {
-
-    val coverage = IOUtils.deserialize(getClass.getClassLoader, Env.coverageFile(project.getBuild.getOutputDirectory))
-    val measurements = IOUtils.invoked(Env.measurementFile(project.getBuild.getOutputDirectory))
+    val coverageFilesDirName = project.getProperties.getProperty(ReportMojo.COVERAGE_DATA_DIR_PROP, project.getBuild.getOutputDirectory)
+    val coverage = IOUtils.deserialize(getClass.getClassLoader, Env.coverageFile(coverageFilesDirName))
+    val measurements = IOUtils.invoked(Env.measurementFile(coverageFilesDirName))
 
     coverage.apply(measurements)
 
@@ -44,4 +44,8 @@ class ReportMojo extends AbstractMojo {
     getLog.info("[scoverage] Generating scoverage HTML report...")
     new ScoverageHtmlWriter(new File(project.getBuild.getSourceDirectory), targetDirectory).write(coverage)
   }
+}
+
+object ReportMojo {
+    val COVERAGE_DATA_DIR_PROP = "coverage.data.dir"
 }
