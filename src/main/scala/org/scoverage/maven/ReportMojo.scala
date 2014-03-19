@@ -1,4 +1,4 @@
-package com.sksamuel.scoverage.maven
+package org.scoverage.maven
 
 import org.apache.maven.plugins.annotations.{Component, Mojo, ResolutionScope}
 import org.apache.maven.project.MavenProject

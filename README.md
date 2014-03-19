@@ -44,7 +44,7 @@ You must split the scala compiler into two phases - one for main sources and one
 		        </jvmArgs>
                 <compilerPlugins>
                     <compilerPlugin>
-                        <groupId>com.sksamuel.scoverage</groupId>
+                        <groupId>org.scoverage</groupId>
                         <artifactId>scalac-scoverage-plugin_${scala.major}</artifactId>
                         <version>${scoverage-plugin.version}</version>
                     </compilerPlugin>
@@ -66,7 +66,7 @@ Include the dependencies on the compiler plugin. Versions must match the above.
 
 ```xml
 <dependency>
-    <groupId>com.sksamuel.scoverage</groupId>
+    <groupId>org.scoverage</groupId>
     <artifactId>scalac-scoverage-plugin_${scala.major}</artifactId>
     <version>${scoverage-plugin.version}</version>
 </dependency>
@@ -78,7 +78,7 @@ Finally, add the plugin to the build.
 <build>
   <plugins>
     <plugin>
-        <groupId>com.sksamuel.scoverage</groupId>
+        <groupId>org.scoverage</groupId>
         <artifactId>maven-scoverage-plugin</artifactId>
         <version>0.95.0</version>
     </plugin>
