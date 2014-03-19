@@ -178,7 +178,7 @@
             <version>${scala.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.scoverage</groupId>
+            <groupId>com.sksamuel.scoverage</groupId>
             <artifactId>scalac-scoverage-plugin_2.10</artifactId>
             <version>${project.version}</version>
         </dependency>
