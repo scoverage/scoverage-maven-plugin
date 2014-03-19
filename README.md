@@ -16,6 +16,7 @@ You must split the scala compiler into two phases - one for main sources and one
 
 ```xml
 <properties>
+	<scoverage-plugin.version>[latest]</scoverage-plugin.version>
 	<scala.major>2.10</scala.major>
 	<coverage.data.dir>${project.build.outputDirectory}</coverage.datadir>
 </properties>
@@ -45,7 +46,7 @@ You must split the scala compiler into two phases - one for main sources and one
                     <compilerPlugin>
                         <groupId>com.sksamuel.scoverage</groupId>
                         <artifactId>scalac-scoverage-plugin_${scala.major}</artifactId>
-                        <version>0.95.0</version>
+                        <version>${scoverage-plugin.version}</version>
                     </compilerPlugin>
                 </compilerPlugins>
             </configuration>
@@ -67,7 +68,7 @@ Include the dependencies on the compiler plugin. Versions must match the above.
 <dependency>
     <groupId>com.sksamuel.scoverage</groupId>
     <artifactId>scalac-scoverage-plugin_${scala.major}</artifactId>
-    <version>0.95.0</version>
+    <version>${scoverage-plugin.version}</version>
 </dependency>
 ```
 
