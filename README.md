@@ -87,7 +87,7 @@ Finally, add the plugin to the build.
 ```
 
 Then you can run your build as normal eg mvn clean test, or maven clean install.
-After that you can run mvn scoverage:report to generate the XML / HTML reports which you will find inside target/coverage-report. 
+After that you can run mvn scoverage:report to generate the XML / HTML reports which you will find inside ``${project.build.outputDirectory}/coverage-report. ``
 
 Of course you can setup the plugin to run as part of the normal build, without having to enter mvn scoverage:report, by simply binding the plugin to a phase.
 
