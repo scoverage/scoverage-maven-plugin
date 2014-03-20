@@ -11,7 +11,7 @@
 
     <groupId>org.scoverage</groupId>
     <artifactId>maven-scoverage-plugin</artifactId>
-    <version>0.95.4</version>
+    <version>0.98.0</version>
     <packaging>maven-plugin</packaging>
 
     <name>Maven plugin for scoverage</name>
