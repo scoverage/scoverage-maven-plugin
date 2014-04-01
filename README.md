@@ -80,7 +80,7 @@ Finally, add the plugin to the build.
     <plugin>
         <groupId>org.scoverage</groupId>
         <artifactId>maven-scoverage-plugin</artifactId>
-        <version>0.95.0</version>
+        <version>0.98.0</version>
     </plugin>
   </plugins>
 </build>
@@ -96,7 +96,7 @@ Of course you can setup the plugin to run as part of the normal build, without h
 ```
 This software is licensed under the Apache 2 license, quoted below.
 
-Copyright 2013 Stephen Samuel
+Copyright 2014 Stephen Samuel
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
