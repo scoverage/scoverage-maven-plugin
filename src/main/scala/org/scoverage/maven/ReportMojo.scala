@@ -39,7 +39,7 @@ class ReportMojo extends AbstractMojo {
     new CoberturaXmlWriter(project.getBasedir, targetDirectory).write(coverage)
 
     getLog.info("[scoverage] Generating scoverage XML report...")
-    new ScoverageXmlWriter(new File(project.getBuild.getSourceDirectory), targetDirectory).write(coverage)
+    new ScoverageXmlWriter(new File(project.getBuild.getSourceDirectory), targetDirectory, false).write(coverage)
 
     getLog.info("[scoverage] Generating scoverage HTML report...")
     new ScoverageHtmlWriter(new File(project.getBuild.getSourceDirectory), targetDirectory).write(coverage)
