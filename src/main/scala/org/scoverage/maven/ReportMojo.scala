@@ -6,7 +6,7 @@ import org.apache.maven.plugin.descriptor.PluginDescriptor
 import org.apache.maven.settings.Settings
 import org.apache.maven.plugin.AbstractMojo
 import java.io.File
-import scoverage.{Env, IOUtils}
+import scoverage.IOUtils
 import scoverage.report.{ScoverageHtmlWriter, ScoverageXmlWriter, CoberturaXmlWriter}
 
 /** @author Stephen Samuel */
@@ -26,10 +26,11 @@ class ReportMojo extends AbstractMojo {
   var settings: Settings = _
 
   def execute() {
-    val coverageFilesDirName = project.getProperties.getProperty(ReportMojo.COVERAGE_DATA_DIR_PROP, project.getBuild.getOutputDirectory)
-    val coverage = IOUtils.deserialize(getClass.getClassLoader, Env.coverageFile(coverageFilesDirName))
-    val measurements = IOUtils.invoked(Env.measurementFile(coverageFilesDirName))
 
+    val coverageFilesDirName = project.getProperties.getProperty(ReportMojo.COVERAGE_DATA_DIR_PROP, project.getBuild.getOutputDirectory)
+    val coverage = IOUtils.deserialize(getClass.getClassLoader, IOUtils.coverageFile(coverageFilesDirName))
+    val measurementFiles = IOUtils.findMeasurementFiles(coverageFilesDirName)
+    val measurements = IOUtils.invoked(measurementFiles)
     coverage.apply(measurements)
 
     val targetDirectory = new File(project.getBuild.getOutputDirectory + "/coverage-report")
