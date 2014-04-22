@@ -18,7 +18,7 @@ You must split the scala compiler into two phases - one for main sources and one
 <properties>
 	<scoverage-plugin.version>[latest]</scoverage-plugin.version>
 	<scala.major>2.10</scala.major>
-	<coverage.data.dir>${project.build.outputDirectory}</coverage.datadir>
+	<coverage.data.dir>${project.build.outputDirectory}</coverage.data.dir>
 </properties>
 ...
 <plugin>
