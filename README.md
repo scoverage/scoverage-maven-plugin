@@ -16,7 +16,7 @@ You must split the scala compiler into two phases - one for main sources and one
 
 ```xml
 <properties>
-	<scoverage-plugin.version>[latest]</scoverage-plugin.version>
+	<scoverage-plugin.version>put version here</scoverage-plugin.version>
 	<scala.major>2.10</scala.major>
 	<coverage.data.dir>${project.build.outputDirectory}</coverage.data.dir>
 </properties>
@@ -24,7 +24,7 @@ You must split the scala compiler into two phases - one for main sources and one
 <plugin>
     <groupId>net.alchim31.maven</groupId>
     <artifactId>scala-maven-plugin</artifactId>
-    <version>${maven.plugin.scala.version}</version>
+    <version>${scoverage-plugin.version}</version>
     <executions>
         <execution>
             <id>compile</id>
@@ -80,7 +80,7 @@ Finally, add the plugin to the build.
     <plugin>
         <groupId>org.scoverage</groupId>
         <artifactId>maven-scoverage-plugin</artifactId>
-        <version>0.98.0</version>
+        <version>${scoverage-plugin.version}</version>
     </plugin>
   </plugins>
 </build>
@@ -98,7 +98,7 @@ Of course you can setup the plugin to run as part of the normal build, without h
     <plugin>
         <groupId>org.scoverage</groupId>
         <artifactId>maven-scoverage-plugin</artifactId>
-        <version>0.98.0</version>
+        <version>${scoverage-plugin.version}</version>
         <executions>
           <execution>
             <id>install</id>
