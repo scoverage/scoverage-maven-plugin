@@ -112,6 +112,7 @@ Of course you can setup the plugin to run as part of the normal build, without h
 </build>
 ```
 
+You can see a working maven example in the [samples project](https://github.com/scoverage/scoverage-samples). Clone that project and run `mvn clean install`.
 
 ## License
 ```
