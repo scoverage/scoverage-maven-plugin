@@ -28,7 +28,8 @@ class ReportMojo extends AbstractMojo {
   def execute() {
 
     val coverageFilesDirName = project.getProperties.getProperty(ReportMojo.COVERAGE_DATA_DIR_PROP, project.getBuild.getOutputDirectory)
-    val coverage = IOUtils.deserialize(getClass.getClassLoader, IOUtils.coverageFile(coverageFilesDirName))
+    val coverageFile = IOUtils.coverageFile(coverageFilesDirName)
+    val coverage = IOUtils.deserialize(coverageFile)
     val measurementFiles = IOUtils.findMeasurementFiles(coverageFilesDirName)
     val measurements = IOUtils.invoked(measurementFiles)
     coverage.apply(measurements)
