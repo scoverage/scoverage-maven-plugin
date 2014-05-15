@@ -27,27 +27,25 @@ class ReportMojo extends AbstractMojo {
 
   def execute() {
 
-    val coverageFilesDirName = project.getProperties.getProperty(ReportMojo.COVERAGE_DATA_DIR_PROP, project.getBuild.getOutputDirectory)
-    val coverageFile = IOUtils.coverageFile(coverageFilesDirName)
+    val coberturaDir = new File(project.getBasedir + "/target/coverage-report")
+    val reportsDir = new File(project.getBasedir + "/target/scoverage-report")
+    val dataDir = new File(project.getBasedir + "/target")
+    val classesDir = new File(project.getBuild.getOutputDirectory)
+
+    val coverageFile = IOUtils.coverageFile(dataDir)
     val coverage = IOUtils.deserialize(coverageFile)
-    val measurementFiles = IOUtils.findMeasurementFiles(coverageFilesDirName)
+
+    val measurementFiles = IOUtils.findMeasurementFiles(dataDir)
     val measurements = IOUtils.invoked(measurementFiles)
     coverage.apply(measurements)
 
-    val targetDirectory = new File(project.getBuild.getOutputDirectory + "/coverage-report")
-    targetDirectory.mkdirs()
-
     getLog.info("[scoverage] Generating cobertura XML report...")
-    new CoberturaXmlWriter(project.getBasedir, targetDirectory).write(coverage)
+    new CoberturaXmlWriter(classesDir, coberturaDir).write(coverage)
 
     getLog.info("[scoverage] Generating scoverage XML report...")
-    new ScoverageXmlWriter(new File(project.getBuild.getSourceDirectory), targetDirectory, false).write(coverage)
+    new ScoverageXmlWriter(classesDir, reportsDir, false).write(coverage)
 
     getLog.info("[scoverage] Generating scoverage HTML report...")
-    new ScoverageHtmlWriter(new File(project.getBuild.getSourceDirectory), targetDirectory).write(coverage)
+    new ScoverageHtmlWriter(classesDir, reportsDir).write(coverage)
   }
-}
-
-object ReportMojo {
-    val COVERAGE_DATA_DIR_PROP = "coverage.data.dir"
 }
