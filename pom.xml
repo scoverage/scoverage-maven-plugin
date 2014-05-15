@@ -64,7 +64,7 @@
         <mockito.version>1.9.0</mockito.version>
 
         <scala.test.version>2.1.6</scala.test.version>
-        <scala.version>2.10.4</scala.version>
+        <scala.version>2.11.0</scala.version>
     </properties>
 
     <build>
@@ -183,7 +183,7 @@
         </dependency>
         <dependency>
             <groupId>org.scoverage</groupId>
-            <artifactId>scalac-scoverage-plugin_2.10</artifactId>
+            <artifactId>scalac-scoverage-plugin_2.11</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
