@@ -108,6 +108,11 @@
                         <target>${compiler.version.target}</target>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.scalatest</groupId>
+                    <artifactId>scalatest-maven-plugin</artifactId>
+                    <version>${maven.plugin.scalatest.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
