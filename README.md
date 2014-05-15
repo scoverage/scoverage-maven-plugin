@@ -9,16 +9,14 @@ maven-scoverage-plugin is a plugin for Maven that integrates the scoverage code 
 
 The maven support works in two ways. Firstly, you add a compiler plugin to the scala build which causes the source to be instrumented during the test run. Then secondly you run a maven plugin which converts the output of the instrumentation into the XML / HTML reports.
 
-You must split the scala compiler into two phases - one for main sources and one for test sources - and attach the compiler plugin to the main sources phase. Otherwise your tests would also be included in the coverage metrics. Note the important compiler arguments.
-
-> Note: The ``coverage.data.dir`` property is used to figure out which directory to read the coverage files from. Please make sure that the ``-P:scoverage:dataDir`` compiler arg is set to the same value as the ``coverage.data.dir`` property. Otherwise, the plugin will not be able to generate the reports.
-
+You must split the scala compiler into two phases - one for main sources and one for test sources - 
+and attach the compiler plugin to the main sources phase. 
+Otherwise your tests would also be included in the coverage metrics. Also note the important compiler arguments.
 
 ```xml
 <properties>
-	<scoverage-plugin.version>put version here</scoverage-plugin.version>
-	<scala.major>2.10</scala.major>
-	<coverage.data.dir>${project.build.outputDirectory}</coverage.data.dir>
+	<scoverage-plugin.version>put version here eg 0.99.2</scoverage-plugin.version>
+	<scala.short>2.11</scala.short>
 </properties>
 ...
 <plugin>
@@ -33,11 +31,6 @@ You must split the scala compiler into two phases - one for main sources and one
                 <goal>compile</goal>
             </goals>
             <configuration>
-		        <args>
-            		<arg>-g:vars</arg>
-            		<arg>-Yrangepos</arg>
-            		<arg>-P:scoverage:dataDir:${coverage.data.dir}</arg>
-        		</args>
         		<jvmArgs>
             		<jvmArg>-Xms64m</jvmArg>
             		<jvmArg>-Xmx1024m</jvmArg>
@@ -45,10 +38,15 @@ You must split the scala compiler into two phases - one for main sources and one
                 <compilerPlugins>
                     <compilerPlugin>
                         <groupId>org.scoverage</groupId>
-                        <artifactId>scalac-scoverage-plugin_${scala.major}</artifactId>
+                        <artifactId>scalac-scoverage-plugin_${scala.short}</artifactId>
                         <version>${scoverage-plugin.version}</version>
                     </compilerPlugin>
                 </compilerPlugins>
+                <args>
+                    <arg>-g:vars</arg>
+                    <arg>-Yrangepos</arg>
+                    <arg>-P:scoverage:dataDir:${project.build.outputDirectory}</arg>
+                </args>
             </configuration>
         </execution>
         <execution>
@@ -67,7 +65,7 @@ Include the dependencies on the compiler plugin. Versions must match the above.
 ```xml
 <dependency>
     <groupId>org.scoverage</groupId>
-    <artifactId>scalac-scoverage-plugin_${scala.major}</artifactId>
+    <artifactId>scalac-scoverage-plugin_${scala.short}</artifactId>
     <version>${scoverage-plugin.version}</version>
 </dependency>
 ```
@@ -112,7 +110,8 @@ Of course you can setup the plugin to run as part of the normal build, without h
 </build>
 ```
 
-You can see a working maven example in the [samples project](https://github.com/scoverage/scoverage-samples). Clone that project and run `mvn clean install`.
+You can see a working maven example in the [samples project](https://github.com/scoverage/scoverage-samples). Clone 
+that project and run `mvn clean test`.
 
 ## License
 ```
