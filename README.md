@@ -13,9 +13,12 @@ You must split the scala compiler into two phases - one for main sources and one
 and attach the compiler plugin to the main sources phase. 
 Otherwise your tests would also be included in the coverage metrics. Also note the important compiler arguments.
 
+There are two version numbers to be aware of. The maven plugin and the compiler plugin. These use similar version numbers but are not neccessarily the same - for instance the compiler plugin might be updated without needing a new release of the maven plugin. 
+
 ```xml
 <properties>
-	<scoverage-plugin.version>put version here eg 0.99.2</scoverage-plugin.version>
+	<scoverage-plugin.version>put version here of the compiler plugin eg 0.99.4</scoverage-plugin.version>
+	<maven.plugin.scoverage.version>put version here of the maven plugin, eg 0.99.2</maven.plugin.scoverage.version>
 	<scala.short>2.11</scala.short>
 </properties>
 ...
@@ -78,7 +81,7 @@ Finally, add the plugin to the build.
     <plugin>
         <groupId>org.scoverage</groupId>
         <artifactId>maven-scoverage-plugin</artifactId>
-        <version>${scoverage-plugin.version}</version>
+        <version>${maven.plugin.scoverage.version}</version>
     </plugin>
   </plugins>
 </build>
