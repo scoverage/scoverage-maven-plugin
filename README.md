@@ -47,7 +47,6 @@ There are two version numbers to be aware of. The maven plugin and the compiler 
                 </compilerPlugins>
                 <args>
                     <arg>-g:vars</arg>
-                    <arg>-Yrangepos</arg>
                     <arg>-P:scoverage:dataDir:${project.build.outputDirectory}</arg>
                 </args>
             </configuration>
