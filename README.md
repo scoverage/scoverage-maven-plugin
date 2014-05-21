@@ -17,7 +17,7 @@ There are two version numbers to be aware of. The maven plugin and the compiler 
 
 ```xml
 <properties>
-	<scoverage-plugin.version>put version here of the compiler plugin eg 0.99.4</scoverage-plugin.version>
+	<scoverage-plugin.version>put version here of the compiler plugin eg 0.99.5</scoverage-plugin.version>
 	<maven.plugin.scoverage.version>put version here of the maven plugin, eg 0.99.2</maven.plugin.scoverage.version>
 	<scala.short>2.11</scala.short>
 </properties>
