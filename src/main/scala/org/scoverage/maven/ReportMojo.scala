@@ -34,7 +34,7 @@ class ReportMojo extends AbstractMojo {
 
     val coverageFile = IOUtils.coverageFile(dataDir)
     if (!coverageFile.exists()) {
-       getLog.info(s"[scoverage] Logfile ${coverageFile.getAbsoluteFile} doesn't exist. Skipping report generation...")
+       getLog.info(s"[scoverage] ${coverageFile.getAbsoluteFile} doesn't exist. Skipping report generation...")
     } else {
        val coverage = IOUtils.deserialize(coverageFile)
 
