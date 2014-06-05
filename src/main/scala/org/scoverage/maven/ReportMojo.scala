@@ -33,19 +33,23 @@ class ReportMojo extends AbstractMojo {
     val classesDir = new File(project.getBuild.getOutputDirectory)
 
     val coverageFile = IOUtils.coverageFile(dataDir)
-    val coverage = IOUtils.deserialize(coverageFile)
+    if (!coverageFile.exists()) {
+       getLog.info(s"[scoverage] ${coverageFile.getAbsoluteFile} doesn't exist. Skipping report generation...")
+    } else {
+       val coverage = IOUtils.deserialize(coverageFile)
 
-    val measurementFiles = IOUtils.findMeasurementFiles(dataDir)
-    val measurements = IOUtils.invoked(measurementFiles)
-    coverage.apply(measurements)
+       val measurementFiles = IOUtils.findMeasurementFiles(dataDir)
+       val measurements = IOUtils.invoked(measurementFiles)
+       coverage.apply(measurements)
 
-    getLog.info("[scoverage] Generating cobertura XML report...")
-    new CoberturaXmlWriter(classesDir, coberturaDir).write(coverage)
+       getLog.info("[scoverage] Generating cobertura XML report...")
+       new CoberturaXmlWriter(classesDir, coberturaDir).write(coverage)
 
-    getLog.info("[scoverage] Generating scoverage XML report...")
-    new ScoverageXmlWriter(classesDir, reportsDir, false).write(coverage)
+       getLog.info("[scoverage] Generating scoverage XML report...")
+       new ScoverageXmlWriter(classesDir, reportsDir, false).write(coverage)
 
-    getLog.info("[scoverage] Generating scoverage HTML report...")
-    new ScoverageHtmlWriter(classesDir, reportsDir).write(coverage)
+       getLog.info("[scoverage] Generating scoverage HTML report...")
+       new ScoverageHtmlWriter(classesDir, reportsDir).write(coverage)
+    }
   }
 }
