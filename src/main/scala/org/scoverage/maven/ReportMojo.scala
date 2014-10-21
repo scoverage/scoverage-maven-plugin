@@ -29,7 +29,7 @@ class ReportMojo extends AbstractMojo {
 
     val coberturaDir = new File(project.getBasedir + "/target/coverage-report")
     val reportsDir = new File(project.getBasedir + "/target/scoverage-report")
-    val dataDir = new File(project.getBasedir + "/target")
+    val dataDir = project.getBasedir + "/target"
     val classesDir = new File(project.getBuild.getOutputDirectory)
 
     val coverageFile = IOUtils.coverageFile(dataDir)
