@@ -1,9 +1,9 @@
-maven-scoverage-plugin
+scoverage-maven-plugin
 ===================
 
-maven-scoverage-plugin is a plugin for Maven that integrates the scoverage code coverage library. Find out more about [scoverage](https://github.com/scoverage/scalac-scoverage-plugin).
+scoverage-maven-plugin is a plugin for Maven that integrates the scoverage code coverage library. Find out more about [scoverage](https://github.com/scoverage/scalac-scoverage-plugin).
 
-[![Build Status](https://travis-ci.org/scoverage/maven-scoverage-plugin.png)](https://travis-ci.org/scoverage/maven-scoverage-plugin)
+[![Build Status](https://travis-ci.org/scoverage/scoverage-maven-plugin.png)](https://travis-ci.org/scoverage/scoverage-maven-plugin)
 
 ## How to use
 
@@ -79,7 +79,7 @@ Finally, add the plugin to the build.
   <plugins>
     <plugin>
         <groupId>org.scoverage</groupId>
-        <artifactId>maven-scoverage-plugin</artifactId>
+        <artifactId>scoverage-maven-plugin</artifactId>
         <version>${maven.plugin.scoverage.version}</version>
     </plugin>
   </plugins>
@@ -97,7 +97,7 @@ Of course you can setup the plugin to run as part of the normal build, without h
   <plugins>
     <plugin>
         <groupId>org.scoverage</groupId>
-        <artifactId>maven-scoverage-plugin</artifactId>
+        <artifactId>scoverage-maven-plugin</artifactId>
         <version>${scoverage-plugin.version}</version>
         <executions>
           <execution>
