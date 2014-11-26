@@ -1,14 +1,9 @@
-*.class
-*.log
-
-# sbt specific
-dist/*
+.settings/
 target/
-lib_managed/
-src_managed/
-project/boot/
-project/plugins/project/
-
-# Scala-IDE specific
-.scala_dependencies
-.idea
+.classpath
+.project
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
