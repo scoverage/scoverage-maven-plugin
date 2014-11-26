@@ -39,8 +39,17 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * Configures project and other (only dependent?) reactor projects
- * for {@code report} mojo execution.
+ * Configures project for compilation with SCoverage instrumentation.
+ * <br>
+ * <br>
+ * This is internal mojo, executed in forked {@code cobertura} life cycle before compilation.
+ * <br>
+ * <br>
+ * Supported compilers:
+ * <ul>
+ * <li>{@code net.alchim31.maven:scala-maven-plugin}</li>
+ * <li>{@code com.google.code.sbt-compiler-maven-plugin:sbt-compiler-maven-plugin}</li>
+ * </ul>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -68,7 +77,7 @@ public class SCoveragePreCompileMojo
      * @since 1.0.0
      */
     @Parameter( property = "scala.version" )
-    protected String scalaVersion;
+    private String scalaVersion;
 
     /**
      * Directory where the coverage files should be written.
@@ -80,8 +89,10 @@ public class SCoveragePreCompileMojo
     private File dataDir;
 
     /**
-     * Semicolon-separated list of regexes for packages to exclude.
+     * Semicolon-separated list of regexes for packages to exclude, "(empty)" for default package.
      * <br/>
+     * Example:
+     * {@code (empty);Reverse.*;.*AuthService.*;models\.data\..*}
      *
      * @since 1.0.0
      */
@@ -105,15 +116,6 @@ public class SCoveragePreCompileMojo
     @Parameter( property = "scoverage.highlighting", defaultValue = "false" )
     private boolean highlighting;
 
-//    /**
-//     * ...
-//     * <br/>
-//     *
-//     * @since 1.0.0
-//     */
-//    @Parameter( property = "scoverage.scalacOptions", defaultValue = "-g:vars -Yrangepos" )
-//    private String scalacOptions;
-
     /**
      * ...
      * <br/>
@@ -127,13 +129,13 @@ public class SCoveragePreCompileMojo
      * Maven project to interact with.
      */
     @Parameter( defaultValue = "${project}", readonly = true, required = true )
-    protected MavenProject project;
+    private MavenProject project;
 
     /**
      * All Maven projects in the reactor.
      */
     @Parameter( defaultValue = "${reactorProjects}", required = true, readonly = true )
-    protected List<MavenProject> reactorProjects;
+    private List<MavenProject> reactorProjects;
 
     /**
      * Artifact factory used to look up artifacts in the remote repository.
@@ -145,28 +147,28 @@ public class SCoveragePreCompileMojo
      * Artifact resolver used to resolve artifacts.
      */
     @Component
-    protected ArtifactResolver resolver;
+    private ArtifactResolver resolver;
 
     /**
      * Location of the local repository.
      */
     @Parameter( property = "localRepository", readonly = true, required = true )
-    protected ArtifactRepository localRepo;
+    private ArtifactRepository localRepo;
 
     /**
      * Remote repositories used by the resolver
      */
     @Parameter( property = "project.remoteArtifactRepositories", readonly = true, required = true )
-    protected List<ArtifactRepository> remoteRepos;
+    private List<ArtifactRepository> remoteRepos;
 
     /**
      * List of artifacts this plugin depends on.
      */
     @Parameter( property = "plugin.artifacts", readonly = true, required = true )
-    protected List<Artifact> pluginArtifacts;
+    private List<Artifact> pluginArtifacts;
 
     /**
-     * ...
+     * Configures project (adds/modifies project properties) for compilation with SCoverage instrumentation.
      * 
      * @throws MojoExecutionException if unexpected problem occurs
      */
@@ -247,12 +249,7 @@ public class SCoveragePreCompileMojo
 
             addScoverageDependenciesToTestClasspath( runtimeArtifact );
 
-//            String _scalacOptions = scalacOptions;
-//            String addScalacArgs = scalacOptions.replace( SPACE, PIPE );
-
             String arg = DATA_DIR_OPTION + dataDir.getAbsolutePath();
-//            _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
-//            addScalacArgs = addScalacArgs + PIPE + arg;
             String _scalacOptions = quoteArgument( arg );
             String addScalacArgs = arg;
 

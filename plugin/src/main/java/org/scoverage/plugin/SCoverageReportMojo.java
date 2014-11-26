@@ -42,7 +42,11 @@ import scoverage.report.ScoverageHtmlWriter;
 import scoverage.report.ScoverageXmlWriter;
 
 /**
- * Generates instrumented classes, runs tests and creates SCoverage reports.
+ * Generates SCoverage report in forked {@code scoverage} life cycle.
+ * <br>
+ * <br>
+ * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
+ * and tests are executed.
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -52,13 +56,21 @@ import scoverage.report.ScoverageXmlWriter;
 public class SCoverageReportMojo
     extends AbstractMavenReport
 {
+
+    /**
+     * Allows SCoverage to be skipped.
+     * 
+     * @since 1.0.0
+     */
+    @Parameter( property = "scoverage.skip", defaultValue = "false" )
+    private boolean skip;
+
     /**
      * Directory where the coverage files should be written.
      * <br/>
      *
      * @since 1.0.0
      */
-    //The same parameter is in "prepare" mojo
     @Parameter( property = "scoverage.dataDir", defaultValue = "${project.build.directory}/scoverage-data" )
     private File dataDir;
 
@@ -137,6 +149,11 @@ public class SCoverageReportMojo
     @Override
     public boolean canGenerateReport()
     {
+        if ( skip )
+        {
+            return false;
+        }
+
         if ( "pom".equals( project.getPackaging() ) )
         {
             return false;

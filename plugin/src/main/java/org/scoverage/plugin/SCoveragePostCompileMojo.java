@@ -26,7 +26,10 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
- * ...
+ * Restores project original configuration.
+ * <br>
+ * <br>
+ * This is internal mojo, executed in forked {@code cobertura} life cycle after compilation.
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -47,23 +50,22 @@ public class SCoveragePostCompileMojo
      * Maven project to interact with.
      */
     @Parameter( defaultValue = "${project}", readonly = true, required = true )
-    protected MavenProject project;
+    private MavenProject project;
 
     /**
-     * ...
+     * Restores project original configuration (removes project properties added
+     * and restores property values modified in {@link SCoveragePreCompileMojo}).
      */
     @Override
     public void execute()
     {
         if ( "pom".equals( project.getPackaging() ) )
         {
-            //?getLog().info( "Skipping SCoverage execution for project with packaging type 'pom'" );
             return;
         }
 
         if ( skip )
         {
-            //?getLog().info( "Skipping Scoverage execution" );
             return;
         }
         

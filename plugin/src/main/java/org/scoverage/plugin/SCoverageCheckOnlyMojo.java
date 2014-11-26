@@ -22,8 +22,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * Creates SCoverage reports.
- * This goal does not run the tests, it only ...
+ * Checks if coverage minimum reached without forking {@code scoverage} life cycle.
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0

@@ -34,7 +34,11 @@ import scoverage.IOUtils;
 import scoverage.Serializer;
 
 /**
- * ...
+ * Checks if minimum coverage reached in forked {@code scoverage} life cycle.
+ * <br>
+ * <br>
+ * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
+ * and tests are executed.
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -52,17 +56,6 @@ public class SCoverageCheckMojo
      */
     @Parameter( property = "scoverage.skip", defaultValue = "false" )
     private boolean skip;
-
-//    /**
-//     * Scala version used for compiler plugin artifact resolution<br>
-//     * <br>
-//     * If specified, and starts with {@code 2.10.} - <b>{@code scalac-scoverage-plugin_2.10}</b> will be used.
-//     * If does not start with {@code 2.10.} or not specified - <b>{@code scalac-scoverage-plugin_2.11}</b> will be used.<br>
-//     * 
-//     * @since 1.0.0
-//     */
-//    @Parameter( property = "scala.version" )
-//    protected String scalaVersion;
 
     /**
      * Directory where the coverage files should be written.
@@ -111,10 +104,10 @@ public class SCoverageCheckMojo
      * Maven project to interact with.
      */
     @Parameter( defaultValue = "${project}", readonly = true, required = true )
-    protected MavenProject project;
+    private MavenProject project;
 
     /**
-     * ...
+     * Checks tests coverage and optionally fails the build if minimum level not reached.
      * 
      * @throws MojoFailureException if coverage is below minimumCoverage and failOnMinimumCoverage option set
      */

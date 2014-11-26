@@ -262,9 +262,11 @@ under the License.
                     <version>2.10.1</version>
                     <configuration>
                         <source>1.6</source>
+                        <subpackages>org.scoverage.plugin</subpackages>
                         <links>
                             <link>http://docs.oracle.com/javase/1.6.0/docs/api/</link>
                             <link>http://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
+                            <link>http://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
                         </links>
                         <notimestamp>true</notimestamp>
                         <tagletArtifacts>
@@ -558,9 +560,11 @@ under the License.
                         <version>2.10.1</version>
                         <configuration>
                             <source>1.6</source>
+                            <subpackages>org.scoverage.plugin</subpackages>
                             <links>
                                 <link>http://docs.oracle.com/javase/1.6.0/docs/api/</link>
                                 <link>http://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
+                                <link>http://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
                             </links>
                             <notimestamp>true</notimestamp>
                             <!-- graphviz -->
@@ -664,9 +668,11 @@ under the License.
                         <version>2.10.1</version>
                         <configuration>
                             <source>1.6</source>
+                            <subpackages>org.scoverage.plugin</subpackages>
                             <links>
                                 <link>http://docs.oracle.com/javase/1.6.0/docs/api/</link>
                                 <link>http://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
+                                <link>http://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
                             </links>
                             <notimestamp>true</notimestamp>
                         </configuration>
