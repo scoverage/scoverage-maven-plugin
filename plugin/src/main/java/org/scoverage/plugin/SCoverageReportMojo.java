@@ -22,18 +22,27 @@ import java.io.File;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.maven.doxia.module.xhtml.decoration.render.RenderingContext;
+import org.apache.maven.doxia.siterenderer.sink.SiteRendererSink;
+
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.reporting.AbstractMavenReport;
+import org.apache.maven.project.MavenProject;
+import org.apache.maven.reporting.MavenReport;
+//import org.apache.maven.reporting.AbstractMavenReport;
 import org.apache.maven.reporting.MavenReportException;
+
+import org.codehaus.doxia.sink.Sink;
 
 //import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
 import scala.Predef$;
-
 import scoverage.Coverage;
 import scoverage.IOUtils;
 import scoverage.Serializer;
@@ -54,7 +63,8 @@ import scoverage.report.ScoverageXmlWriter;
 @Mojo( name = "report", threadSafe = false )
 @Execute( lifecycle = "scoverage", phase = LifecyclePhase.TEST )
 public class SCoverageReportMojo
-    extends AbstractMavenReport
+    extends AbstractMojo
+    implements MavenReport
 {
 
     /**
@@ -66,19 +76,39 @@ public class SCoverageReportMojo
     private boolean skip;
 
     /**
+     * Specifies if the build will fail if there are errors during javadoc execution or not.
+     *
+     * @since 1.0.0
+     */
+    @Parameter( property = "scoverage.failOnError", defaultValue = "true" )
+    private boolean failOnError;
+
+    /**
+     * Maven project to interact with.
+     */
+    @Parameter( defaultValue = "${project}", readonly = true, required = true )
+    private MavenProject project;
+
+    /**
      * Directory where the coverage files should be written.
      * <br/>
      *
      * @since 1.0.0
      */
-    @Parameter( property = "scoverage.dataDir", defaultValue = "${project.build.directory}/scoverage-data" )
+    @Parameter( property = "scoverage.dataDir", defaultValue = "${project.build.directory}/scoverage-data", required = true )
     private File dataDir;
 
     /**
      * Specifies the destination directory where SCoverage saves the generated HTML files.
      */
-    @Parameter( property = "reportOutputDirectory", defaultValue = "${project.reporting.outputDirectory}/scoverage", required = true )
-    private File reportOutputDirectory;
+    @Parameter( property = "scoverage.outputDirectory", defaultValue = "${project.reporting.outputDirectory}/scoverage", required = true, readonly = true )
+    private File outputDirectory;
+
+    /**
+     * Specifies the destination directory where SCoverage saves the generated HTML files.
+     */
+    @Parameter( property = "scoverage.xmlOutputDirectory", defaultValue = "${project.build.directory}", required = true, readonly = true )
+    private File xmlOutputDirectory;
 
     /**
      * The name of the destination directory.
@@ -132,6 +162,69 @@ public class SCoverageReportMojo
     }
 
     /** {@inheritDoc} */
+    public void generate( Sink sink, Locale locale )
+        throws MavenReportException
+    {
+        try
+        {
+            long ts = System.currentTimeMillis();
+
+            File sourceDir = new File( project.getBuild().getSourceDirectory() );
+
+            mkdirs( outputDirectory );
+            mkdirs( xmlOutputDirectory );
+            
+            /*does not work, because empty "index.html" is already there and cannot be deleted.
+            File reportOutputDir = getReportOutputDirectory();
+            if ( reportOutputDir.exists() )
+            {
+                if ( reportOutputDir.isDirectory() )
+                {
+                    try
+                    {
+                        FileUtils.deleteDirectory( reportOutputDir );
+                    }
+                    catch ( IOException e)
+                    {
+                        throw new MavenReportException( String.format( "Cannot delete \"%s\" directory", reportsDir.getAbsolutePath() ), e ); 
+                    }
+                }
+                else
+                {
+                   throw new MavenReportException( String.format( "\"%s\" is not a directory", reportsDir.getAbsolutePath() ) ); 
+                }
+            }*/
+
+            File coverageFile = Serializer.coverageFile( dataDir );
+            Coverage coverage = Serializer.deserialize( coverageFile );
+
+            File[] measurementFiles = IOUtils.findMeasurementFiles( dataDir );
+            scala.collection.Set<Object> measurements = IOUtils.invoked( Predef$.MODULE$.wrapRefArray( measurementFiles ) );
+            coverage.apply( measurements );
+
+            getLog().info( "[scoverage] Generating cobertura XML report..." );
+            new CoberturaXmlWriter( project.getBasedir(), xmlOutputDirectory ).write( coverage );
+
+            getLog().info( "[scoverage] Generating scoverage XML report..." );
+            new ScoverageXmlWriter( sourceDir, xmlOutputDirectory, false ).write( coverage );
+
+            getLog().info( "[scoverage] Generating scoverage HTML report..." );
+            new ScoverageHtmlWriter( sourceDir, outputDirectory ).write( coverage );
+
+            long te = System.currentTimeMillis();
+            getLog().debug( String.format( "Mojo execution time: %d ms", te - ts ) );
+        }
+        catch ( RuntimeException e )
+        {
+            if ( failOnError )
+            {
+                throw e;
+            }
+            getLog().error( "Error while creating javadoc report: " + e.getMessage(), e );
+        }
+    }
+
+    /** {@inheritDoc} */
     @Override
     public String getOutputName()
     {
@@ -171,15 +264,16 @@ public class SCoverageReportMojo
     }
 
     /** {@inheritDoc} */
+    public String getCategoryName()
+    {
+        return MavenReport.CATEGORY_PROJECT_REPORTS;
+    }
+
+    /** {@inheritDoc} */
     @Override
     public File getReportOutputDirectory()
     {
-        if ( reportOutputDirectory == null )
-        {
-            return outputDirectory;
-        }
-
-        return reportOutputDirectory;
+        return outputDirectory;
     }
 
     /**
@@ -193,77 +287,44 @@ public class SCoverageReportMojo
         updateReportOutputDirectory( reportOutputDirectory, destDir );
     }
 
-    /*?public void setDestDir( String destDir )
-    {
-        this.destDir = destDir;
-        updateReportOutputDirectory( reportOutputDirectory, destDir );
-    }*/
-
     private void updateReportOutputDirectory( File reportOutputDirectory, String destDir )
     {
         if ( reportOutputDirectory != null && destDir != null
              && !reportOutputDirectory.getAbsolutePath().endsWith( destDir ) )
         {
-            this.reportOutputDirectory = new File( reportOutputDirectory, destDir );
+            this.outputDirectory = new File( reportOutputDirectory, destDir );
         }
         else
         {
-            this.reportOutputDirectory = reportOutputDirectory;
+            this.outputDirectory = reportOutputDirectory;
         }
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected void executeReport( Locale locale )
-        throws MavenReportException
+    public void execute()
+        throws MojoExecutionException, MojoFailureException
     {
-        long ts = System.currentTimeMillis();
-
-        File targetDir = new File( project.getBuild().getDirectory() );
-//        File coberturaDir = new File( targetDir, "coverage-report" );
-//        File reportsDir = new File( targetDir, "scoverage-report" );
-        File dataDir = new File( targetDir, "scoverage-data" );
-        File sourceDir = new File( project.getBuild().getSourceDirectory() );
-
-        /*does not work, because empty "index.html" is already there and cannot be deleted.
-        File reportOutputDir = getReportOutputDirectory();
-        if ( reportOutputDir.exists() )
+        if ( skip )
         {
-            if ( reportOutputDir.isDirectory() )
-            {
-                try
-                {
-                    FileUtils.deleteDirectory( reportOutputDir );
-                }
-                catch ( IOException e)
-                {
-                    throw new MavenReportException( String.format( "Cannot delete \"%s\" directory", reportsDir.getAbsolutePath() ), e ); 
-                }
-            }
-            else
-            {
-               throw new MavenReportException( String.format( "\"%s\" is not a directory", reportsDir.getAbsolutePath() ) ); 
-            }
-        }*/
+            getLog().info( "Skipping javadoc generation" );
+            return;
+        }
 
-        File coverageFile = Serializer.coverageFile( dataDir );
-        Coverage coverage = Serializer.deserialize( coverageFile );
-
-        File[] measurementFiles = IOUtils.findMeasurementFiles( dataDir );
-        scala.collection.Set<Object> measurements = IOUtils.invoked( Predef$.MODULE$.wrapRefArray( measurementFiles ) );
-        coverage.apply( measurements );
-
-        getLog().info( "[scoverage] Generating cobertura XML report..." );
-        new CoberturaXmlWriter( project.getBasedir(), targetDir/*coberturaDir*/ ).write( coverage );
-
-        getLog().info( "[scoverage] Generating scoverage XML report..." );
-        new ScoverageXmlWriter( sourceDir, targetDir/*reportsDir*/, false ).write( coverage );
-
-        getLog().info( "[scoverage] Generating scoverage HTML report..." );
-        new ScoverageHtmlWriter( sourceDir, getReportOutputDirectory() ).write( coverage );
-
-        long te = System.currentTimeMillis();
-        getLog().debug( String.format( "Mojo execution time: %d ms", te - ts ) );
+        try
+        {
+            RenderingContext context = new RenderingContext( outputDirectory, getOutputName() + ".html" );
+            SiteRendererSink sink = new SiteRendererSink( context );
+            Locale locale = Locale.getDefault();
+            generate( sink, locale );
+        }
+        catch ( MavenReportException e )
+        {
+            failOnError( "An error has occurred in " + getName( Locale.ENGLISH ) + " report generation", e );
+        }
+        catch ( RuntimeException e )
+        {
+            failOnError( "An error has occurred in " + getName( Locale.ENGLISH ) + " report generation", e );
+        }
     }
 
     /**
@@ -275,6 +336,31 @@ public class SCoverageReportMojo
     private ResourceBundle getBundle( Locale locale )
     {
         return ResourceBundle.getBundle( "scoverage-report", locale, getClass().getClassLoader() );
+    }
+
+    private void failOnError( String prefix, Exception e )
+        throws MojoExecutionException
+    {
+        if ( failOnError )
+        {
+            if ( e instanceof RuntimeException )
+            {
+                throw (RuntimeException) e;
+            }
+            throw new MojoExecutionException( prefix + ": " + e.getMessage(), e );
+        }
+
+        getLog().error( prefix + ": " + e.getMessage(), e );
+    }
+
+    private void mkdirs( File directory )
+        throws MavenReportException
+    {
+        if ( !directory.exists() && !directory.mkdirs() )
+        {
+            throw new MavenReportException( String.format( "Cannot create \"%s\" directory ",
+                                                           directory.getAbsolutePath() ) );
+        }
     }
 
 }
