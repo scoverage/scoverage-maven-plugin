@@ -25,7 +25,7 @@ In short:
 
 ##### Prerequisities / limitations
 
-Plugin was tested with two compiler plugins:
+Plugin is compatible with two Maven Scala compiler plugins:
 
 - [SBT Compiler Maven Plugin](https://code.google.com/p/sbt-compiler-maven-plugin/) - version **1.0.0-beta5** or later required,
 
