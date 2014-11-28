@@ -39,6 +39,7 @@ import scoverage.Serializer;
  * <br/>
  * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
  * and tests are executed before checking.
+ * <br/>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -51,6 +52,7 @@ public class SCoverageCheckMojo
 
     /**
      * Allows SCoverage to be skipped.
+     * <br/>
      * 
      * @since 1.0.0
      */
@@ -63,11 +65,14 @@ public class SCoverageCheckMojo
      *
      * @since 1.0.0
      */
-    @Parameter( property = "scoverage.dataDir", defaultValue = "${project.build.directory}/scoverage-data" )
-    private File dataDir;
+    @Parameter( property = "scoverage.dataDirectory", defaultValue = "${project.build.directory}/scoverage-data", required = true, readonly = true )
+    private File dataDirectory;
 
     /**
-     * ...
+     * Required minimum coverage.
+     * <br/>
+     * <br/>
+     * See <a href="https://github.com/scoverage/sbt-scoverage#minimum-coverage">https://github.com/scoverage/sbt-scoverage#minimum-coverage</a> for additional documentation.
      * <br/>
      *
      * @since 1.0.0
@@ -76,7 +81,11 @@ public class SCoverageCheckMojo
     private Double minimumCoverage;
 
     /**
-     * ...
+     * Fail the build if minimum coverage was not reached.
+     * <br/>
+     * <br/>
+     * See <a href="https://github.com/scoverage/sbt-scoverage#minimum-coverage">https://github.com/scoverage/sbt-scoverage#minimum-coverage</a> for additional documentation.
+     * <br/>
      * 
      * @since 1.0.0
      */
@@ -112,13 +121,13 @@ public class SCoverageCheckMojo
         
         long ts = System.currentTimeMillis();
 
-        if ( !dataDir.exists() || !dataDir.isDirectory() )
+        if ( !dataDirectory.exists() || !dataDirectory.isDirectory() )
         {
             getLog().info( "Cannot perform check, instrumentation not performed - skipping" );
             return;
         }
 
-        File coverageFile = Serializer.coverageFile( dataDir );
+        File coverageFile = Serializer.coverageFile( dataDirectory );
         if ( !coverageFile.exists() )
         {
             getLog().info( "Scoverage data file does not exist. Skipping report generation" );
@@ -131,7 +140,7 @@ public class SCoverageCheckMojo
         }
 
         Coverage coverage = Serializer.deserialize( coverageFile );
-        File[] measurementFiles = IOUtils.findMeasurementFiles( dataDir );
+        File[] measurementFiles = IOUtils.findMeasurementFiles( dataDirectory );
         scala.collection.Set<Object> measurements = IOUtils.invoked( Predef$.MODULE$.wrapRefArray( measurementFiles ) );
         coverage.apply( measurements );
 

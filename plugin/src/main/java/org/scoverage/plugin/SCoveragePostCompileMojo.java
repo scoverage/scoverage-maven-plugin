@@ -36,6 +36,7 @@ import org.apache.maven.project.MavenProject;
  * </ul> 
  * <br/>
  * This is internal mojo, executed in forked {@code cobertura} life cycle.
+ * <br/>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -46,6 +47,7 @@ public class SCoveragePostCompileMojo
 {
     /**
      * Allows SCoverage to be skipped.
+     * <br/>
      * 
      * @since 1.0.0
      */

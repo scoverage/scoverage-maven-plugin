@@ -54,6 +54,7 @@ import scoverage.report.ScoverageXmlWriter;
  * <br/>
  * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
  * and tests are executed before report generation.
+ * <br/>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -67,6 +68,7 @@ public class SCoverageReportMojo
 
     /**
      * Allows SCoverage to be skipped.
+     * <br/>
      * 
      * @since 1.0.0
      */
@@ -75,10 +77,8 @@ public class SCoverageReportMojo
 
     /**
      * Specifies if the build will fail if there are errors during javadoc execution or not.
-     *
-     * @since 1.0.0
      */
-    @Parameter( property = "scoverage.failOnError", defaultValue = "true" )
+    @Parameter( property = "scoverage.failOnError", defaultValue = "true", readonly = true )
     private boolean failOnError;
 
     /**
@@ -93,8 +93,8 @@ public class SCoverageReportMojo
      *
      * @since 1.0.0
      */
-    @Parameter( property = "scoverage.dataDir", defaultValue = "${project.build.directory}/scoverage-data", required = true )
-    private File dataDir;
+    @Parameter( property = "scoverage.dataDirectory", defaultValue = "${project.build.directory}/scoverage-data", required = true, readonly = true )
+    private File dataDirectory;
 
     /**
      * Specifies the destination directory where SCoverage saves the generated HTML files.
@@ -111,28 +111,22 @@ public class SCoverageReportMojo
     /**
      * The name of the destination directory.
      * <br/>
-     *
-     * @since 1.0.0
      */
-    @Parameter( property = "destDir", defaultValue = "scoverage" )
+    @Parameter( property = "destDir", defaultValue = "scoverage", required = true, readonly = true )
     private String destDir;
 
     /**
      * The name of the SCoverage report to be displayed in the Maven Generated Reports page
      * (i.e. <code>project-reports.html</code>).
-     *
-     * @since 1.0.0
      */
-    @Parameter( property = "name" )
+    @Parameter( property = "name", readonly = true )
     private String name;
 
     /**
      * The description of the Javadoc report to be displayed in the Maven Generated Reports page
      * (i.e. <code>project-reports.html</code>).
-     *
-     * @since 1.0.0
      */
-    @Parameter( property = "description" )
+    @Parameter( property = "description", readonly = true )
     private String description;
 
     /** {@inheritDoc} */
@@ -194,10 +188,10 @@ public class SCoverageReportMojo
                 }
             }*/
 
-            File coverageFile = Serializer.coverageFile( dataDir );
+            File coverageFile = Serializer.coverageFile( dataDirectory );
             Coverage coverage = Serializer.deserialize( coverageFile );
 
-            File[] measurementFiles = IOUtils.findMeasurementFiles( dataDir );
+            File[] measurementFiles = IOUtils.findMeasurementFiles( dataDirectory );
             scala.collection.Set<Object> measurements = IOUtils.invoked( Predef$.MODULE$
                 .wrapRefArray( measurementFiles ) );
             coverage.apply( measurements );
@@ -254,7 +248,7 @@ public class SCoverageReportMojo
 //        return !"pom".equals( project.getPackaging() );
         //return true;//TODO-don't generate for aggregator nodes 
 
-        File coverageFile = Serializer.coverageFile( dataDir );
+        File coverageFile = Serializer.coverageFile( dataDirectory );
         if ( !coverageFile.exists() || !coverageFile.isFile() )
         {
 //            getLog().warn( "[scoverage] No coverage data, report generation skipped." );

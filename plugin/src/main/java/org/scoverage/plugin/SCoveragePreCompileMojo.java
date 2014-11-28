@@ -44,11 +44,12 @@ import org.codehaus.plexus.util.StringUtils;
  * <br/>
  * Supported compiler plugins:
  * <ul>
- * <li>{@code net.alchim31.maven:scala-maven-plugin}</li>
- * <li>{@code com.google.code.sbt-compiler-maven-plugin:sbt-compiler-maven-plugin}</li>
+ * <li><a href="https://davidb.github.io/scala-maven-plugin/">net.alchim31.maven:scala-maven-plugin</a></li>
+ * <li><a href="https://code.google.com/p/sbt-compiler-maven-plugin/">com.google.code.sbt-compiler-maven-plugin:sbt-compiler-maven-plugin</a></li>
  * </ul>
  * <br/>
  * This is internal mojo, executed in forked {@code cobertura} life cycle.
+ * <br/>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -60,6 +61,7 @@ public class SCoveragePreCompileMojo
 
     /**
      * Allows SCoverage to be skipped.
+     * <br/>
      * 
      * @since 1.0.0
      */
@@ -67,11 +69,12 @@ public class SCoveragePreCompileMojo
     private boolean skip;
 
     /**
-     * Scala version used for compiler plugin artifact resolution<br>
-     * <br>
-     * If specified, and starts with {@code 2.10.} - <b>{@code scalac-scoverage-plugin_2.10}</b> will be used.
-     * If specified, and starts with {@code 2.11.} - <b>{@code scalac-scoverage-plugin_2.11}</b> will be used.
-     * If does not start with {@code 2.10.} or with {@code 2.11.} or is not specified - plugin execution will be skipped.
+     * Scala version used for compiler plugin artifact resolution.
+     * <ul>
+     * <li>if specified, and starts with {@code 2.10.} - <b>{@code scalac-scoverage-plugin_2.10}</b> will be used</li>
+     * <li>if specified, and starts with {@code 2.11.} - <b>{@code scalac-scoverage-plugin_2.11}</b> will be used</li>
+     * <li>if specified, but does not start with {@code 2.10.} or with {@code 2.11.} or is not specified - plugin execution will be skipped</li>
+     * </ul>
      * 
      * @since 1.0.0
      */
@@ -84,14 +87,19 @@ public class SCoveragePreCompileMojo
      *
      * @since 1.0.0
      */
-    @Parameter( property = "scoverage.dataDir", defaultValue = "${project.build.directory}/scoverage-data" )
-    private File dataDir;
+    @Parameter( property = "scoverage.dataDirectory", defaultValue = "${project.build.directory}/scoverage-data", required = true, readonly = true )
+    private File dataDirectory;
 
     /**
-     * Semicolon-separated list of regexes for packages to exclude, "(empty)" for default package.
+     * Semicolon-separated list of regular expressions for packages to exclude, "(empty)" for default package.
+     * <br/>
      * <br/>
      * Example:
      * {@code (empty);Reverse.*;.*AuthService.*;models\.data\..*}
+     * <br/>
+     * <br/>
+     * See <a href="https://github.com/scoverage/sbt-scoverage#exclude-classes-and-packages">https://github.com/scoverage/sbt-scoverage#exclude-classes-and-packages</a> for additional documentation.
+     * <br/>
      *
      * @since 1.0.0
      */
@@ -99,7 +107,7 @@ public class SCoveragePreCompileMojo
     private String excludedPackages;
 
     /**
-     * Semicolon separated list of regexs for paths to exclude.
+     * Semicolon separated list of regular expressions for source paths to exclude.
      * <br/>
      *
      * @since 1.0.0
@@ -108,7 +116,8 @@ public class SCoveragePreCompileMojo
     private String excludedFiles;
 
     /**
-     * ...
+     * See <a href="https://github.com/scoverage/sbt-scoverage#highlighting">https://github.com/scoverage/sbt-scoverage#highlighting</a>.
+     * <br/>
      * 
      * @since 1.0.0
      */
@@ -116,7 +125,7 @@ public class SCoveragePreCompileMojo
     private boolean highlighting;
 
     /**
-     * ...
+     * Force <a href="https://github.com/scoverage/scalac-scoverage-plugin">scalac-scoverage-plugin</a> version used.
      * <br/>
      *
      * @since 1.0.0
@@ -249,7 +258,7 @@ public class SCoveragePreCompileMojo
 
             addScoverageDependenciesToTestClasspath( runtimeArtifact );
 
-            String arg = DATA_DIR_OPTION + dataDir.getAbsolutePath();
+            String arg = DATA_DIR_OPTION + dataDirectory.getAbsolutePath();
             String _scalacOptions = quoteArgument( arg );
             String addScalacArgs = arg;
 
