@@ -28,7 +28,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.scoverage</groupId>
     <artifactId>scoverage-maven-plugin</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>SCoverage Maven Plugin</name>
