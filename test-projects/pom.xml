@@ -28,9 +28,10 @@ under the License.
     <name>SCoverage Maven Test Projects</name>
 
     <scm>
-        <connection>scm:svn:http://scoverage-maven-plugin.googlecode.com/svn/trunk/test-projects/</connection>
-        <developerConnection>scm:svn:https://scoverage-maven-plugin.googlecode.com/svn/trunk/test-projects/</developerConnection>
-        <url>http://scoverage-maven-plugin.googlecode.com/svn/trunk/test-projects/</url>
+        <connection>scm:git:git://github.com/scoverage/scoverage-maven-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:scoverage/scoverage-maven-plugin.git</developerConnection>
+        <url>https://github.com/scoverage/scoverage-maven-plugin/tree/${project.scm.tag}</url>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
