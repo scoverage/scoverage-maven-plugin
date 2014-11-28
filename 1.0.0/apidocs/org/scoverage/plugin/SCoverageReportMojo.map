@@ -1,0 +1,13 @@
+<map id="G" name="G">
+<area shape="rect" id="c122" href="./SCoverageReportOnlyMojo.html" title="org.scoverage.plugin.SCoverageReportOnlyMojo" alt="" coords="15,229,182,253"/>
+<area shape="rect" id="node1" href="./SCoverageReportOnlyMojo.html" title="&lt;TABLE&gt;" alt="" coords="5,217,192,265"/>
+<area shape="rect" id="c123" href="./SCoverageReportMojo.html" title="org.scoverage.plugin.SCoverageReportMojo" alt="" coords="219,127,362,151"/>
+<area shape="rect" id="node2" href="./SCoverageReportMojo.html" title="&lt;TABLE&gt;" alt="" coords="209,115,372,163"/>
+<area shape="rect" id="node9" href="null" title="&lt;TABLE&gt;" alt="" coords="216,217,365,265"/>
+<area shape="rect" id="c132" href="http://maven.apache.org/doxia/doxia/apidocs/org/codehaus/doxia/sink/Sink.html" title="org.codehaus.doxia.sink.Sink" alt="" coords="400,216,520,267"/>
+<area shape="rect" id="node11" href="http://maven.apache.org/doxia/doxia/apidocs/org/codehaus/doxia/sink/Sink.html" title="&lt;TABLE&gt;" alt="" coords="389,211,531,272"/>
+<area shape="rect" id="c128" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="org.apache.maven.plugin.AbstractMojo" alt="" coords="142,18,266,54"/>
+<area shape="rect" id="node4" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="&lt;TABLE&gt;" alt="" coords="132,12,276,60"/>
+<area shape="rect" id="c129" href="http://maven.apache.org/ref/2.2.1/maven-reporting/maven-reporting-api/apidocs/org/apache/maven/reporting/MavenReport.html" title="org.apache.maven.reporting.MavenReport" alt="" coords="311,11,447,61"/>
+<area shape="rect" id="node6" href="http://maven.apache.org/ref/2.2.1/maven-reporting/maven-reporting-api/apidocs/org/apache/maven/reporting/MavenReport.html" title="&lt;TABLE&gt;" alt="" coords="300,5,457,67"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="c55" href="./SCoverageCheckOnlyMojo.html" title="org.scoverage.plugin.SCoverageCheckOnlyMojo" alt="" coords="16,209,181,233"/>
+<area shape="rect" id="node1" href="./SCoverageCheckOnlyMojo.html" title="&lt;TABLE&gt;" alt="" coords="5,197,192,245"/>
+<area shape="rect" id="c56" href="./SCoverageCheckMojo.html" title="org.scoverage.plugin.SCoverageCheckMojo" alt="" coords="124,113,265,137"/>
+<area shape="rect" id="node2" href="./SCoverageCheckMojo.html" title="&lt;TABLE&gt;" alt="" coords="113,101,276,149"/>
+<area shape="rect" id="node7" href="null" title="&lt;TABLE&gt;" alt="" coords="216,197,365,245"/>
+<area shape="rect" id="c57" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="org.apache.maven.plugin.AbstractMojo" alt="" coords="133,11,257,47"/>
+<area shape="rect" id="node4" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="&lt;TABLE&gt;" alt="" coords="123,5,267,53"/>
+</map>
