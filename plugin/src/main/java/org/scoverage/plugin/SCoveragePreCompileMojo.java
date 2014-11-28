@@ -40,16 +40,15 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Configures project for compilation with SCoverage instrumentation.
- * <br>
- * <br>
- * This is internal mojo, executed in forked {@code cobertura} life cycle before compilation.
- * <br>
- * <br>
- * Supported compilers:
+ * <br/>
+ * <br/>
+ * Supported compiler plugins:
  * <ul>
  * <li>{@code net.alchim31.maven:scala-maven-plugin}</li>
  * <li>{@code com.google.code.sbt-compiler-maven-plugin:sbt-compiler-maven-plugin}</li>
  * </ul>
+ * <br/>
+ * This is internal mojo, executed in forked {@code cobertura} life cycle.
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -168,7 +167,7 @@ public class SCoveragePreCompileMojo
     private List<Artifact> pluginArtifacts;
 
     /**
-     * Configures project (adds/modifies project properties) for compilation with SCoverage instrumentation.
+     * Configures project for compilation with SCoverage instrumentation.
      * 
      * @throws MojoExecutionException if unexpected problem occurs
      */

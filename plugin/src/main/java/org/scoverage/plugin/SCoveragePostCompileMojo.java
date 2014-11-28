@@ -26,10 +26,16 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
- * Restores project original configuration.
- * <br>
- * <br>
- * This is internal mojo, executed in forked {@code cobertura} life cycle after compilation.
+ * Restores project original configuration after compilation with SCoverage instrumentation.
+ * <br/>
+ * <br/>
+ * Removes changes done in project properties by {@link SCoveragePreCompileMojo} before compilation:
+ * <ul>
+ * <li>removes added properties</li>
+ * <li>restores original values of modified properties</li>
+ * </ul> 
+ * <br/>
+ * This is internal mojo, executed in forked {@code cobertura} life cycle.
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -53,8 +59,7 @@ public class SCoveragePostCompileMojo
     private MavenProject project;
 
     /**
-     * Restores project original configuration (removes project properties added
-     * and restores property values modified in {@link SCoveragePreCompileMojo}).
+     * Restores project original configuration after compilation with SCoverage instrumentation.
      */
     @Override
     public void execute()

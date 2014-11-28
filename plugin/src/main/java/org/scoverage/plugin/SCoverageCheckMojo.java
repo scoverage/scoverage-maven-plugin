@@ -35,10 +35,10 @@ import scoverage.Serializer;
 
 /**
  * Checks if minimum coverage reached in forked {@code scoverage} life cycle.
- * <br>
- * <br>
+ * <br/>
+ * <br/>
  * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
- * and tests are executed.
+ * and tests are executed before checking.
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -82,23 +82,6 @@ public class SCoverageCheckMojo
      */
     @Parameter( property = "scoverage.failOnMinimumCoverage", defaultValue = "false" )
     private boolean failOnMinimumCoverage;
-
-    /**
-     * ...
-     * 
-     * @since 1.0.0
-     */
-    @Parameter( property = "scoverage.highlighting", defaultValue = "false" )
-    private boolean highlighting;
-
-    /**
-     * ...
-     * <br/>
-     *
-     * @since 1.0.0
-     */
-    @Parameter( property = "scoverage.scalacPluginVersion", defaultValue = "" )
-    private String scalacPluginVersion;
 
     /**
      * Maven project to interact with.

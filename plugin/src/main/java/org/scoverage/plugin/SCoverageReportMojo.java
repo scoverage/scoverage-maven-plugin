@@ -52,10 +52,10 @@ import scoverage.report.ScoverageXmlWriter;
 
 /**
  * Generates SCoverage report in forked {@code scoverage} life cycle.
- * <br>
- * <br>
+ * <br/>
+ * <br/>
  * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
- * and tests are executed.
+ * and tests are executed before report generation.
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -162,6 +162,7 @@ public class SCoverageReportMojo
     }
 
     /** {@inheritDoc} */
+    @Override
     public void generate( Sink sink, Locale locale )
         throws MavenReportException
     {
@@ -264,6 +265,7 @@ public class SCoverageReportMojo
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getCategoryName()
     {
         return MavenReport.CATEGORY_PROJECT_REPORTS;
@@ -276,11 +278,12 @@ public class SCoverageReportMojo
         return outputDirectory;
     }
 
-    /**
-     * Method to set the directory where the generated reports will be put
-     *
-     * @param reportOutputDirectory the directory file to be set
-     */
+//    /**
+//     * Method to set the directory where the generated reports will be put
+//     *
+//     * @param reportOutputDirectory the directory file to be set
+//     */
+    /** {@inheritDoc} */
     @Override
     public void setReportOutputDirectory( File reportOutputDirectory )
     {
@@ -300,7 +303,10 @@ public class SCoverageReportMojo
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Generates SCoverage report.
+     */
+    @Override
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
