@@ -8,8 +8,6 @@ scoverage-maven-plugin is a plugin for Maven that integrates the scoverage code 
 
 ## How to use
 
-It works similarly to [Cobertura Maven Plugin](http://mojo.codehaus.org/cobertura-maven-plugin/).
-
 In short:
 
 - **check** goal compiles classes with instrumentation, runs tests and checks coverage,
@@ -21,6 +19,8 @@ In short:
 - **pre-compile** and **post-compile** are internal goals, don't use them,
 
 - **check-only** goal only check coverage, honestly I don't know if it will be usable at all. 
+
+Check [all plugin goals (mojos) documentation](http://scoverage.github.io/scoverage-maven-plugin/1.0.0/plugin-info.html).
 
 
 ##### Prerequisities / limitations
