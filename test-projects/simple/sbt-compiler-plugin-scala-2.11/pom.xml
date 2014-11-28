@@ -35,7 +35,7 @@ under the License.
         <sbt.version>0.13.5</sbt.version>
 
         <sbt-compiler.plugin.version>1.0.0-beta5</sbt-compiler.plugin.version>
-        <scoverage.plugin.version>1.0.0-SNAPSHOT</scoverage.plugin.version>
+        <scoverage.plugin.version>1.0.0</scoverage.plugin.version>
     </properties>
 
     <dependencies>

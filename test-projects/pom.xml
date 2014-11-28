@@ -37,7 +37,7 @@ under the License.
     <properties>
         <play2.plugin.version>1.0.0-alpha9</play2.plugin.version>
         <sbt-compiler.plugin.version>1.0.0-beta5</sbt-compiler.plugin.version>
-        <scoverage.plugin.version>1.0.0-SNAPSHOT</scoverage.plugin.version>
+        <scoverage.plugin.version>1.0.0</scoverage.plugin.version>
     </properties>
 
     <modules>
