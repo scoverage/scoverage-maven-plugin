@@ -5,121 +5,219 @@ scoverage-maven-plugin is a plugin for Maven that integrates the scoverage code 
 
 [![Build Status](https://travis-ci.org/scoverage/scoverage-maven-plugin.png)](https://travis-ci.org/scoverage/scoverage-maven-plugin)
 
+
 ## How to use
 
-The maven support works in two ways. Firstly, you add a compiler plugin to the scala build which causes the source to be instrumented during the test run. Then secondly you run a maven plugin which converts the output of the instrumentation into the XML / HTML reports.
+It works similarly to [Cobertura Maven Plugin](http://mojo.codehaus.org/cobertura-maven-plugin/).
 
-You must split the scala compiler into two phases - one for main sources and one for test sources - 
-and attach the compiler plugin to the main sources phase. 
-Otherwise your tests would also be included in the coverage metrics. Also note the important compiler arguments.
+In short:
 
-There are two version numbers to be aware of. The maven plugin and the compiler plugin. These use similar version numbers but are not neccessarily the same - for instance the compiler plugin might be updated without needing a new release of the maven plugin. 
+- **check** goal compiles classes with instrumentation, runs tests and checks coverage,
 
-```xml
-<properties>
-	<scoverage-plugin.version>put version here of the compiler plugin eg 0.99.5</scoverage-plugin.version>
-	<maven.plugin.scoverage.version>put version here of the maven plugin, eg 0.99.10</maven.plugin.scoverage.version>
-	<scala.short>2.11</scala.short>
-</properties>
-...
-<plugin>
-    <groupId>net.alchim31.maven</groupId>
-    <artifactId>scala-maven-plugin</artifactId>
-    <version>${scoverage-plugin.version}</version>
-    <executions>
-        <execution>
-            <id>compile</id>
-            <goals>
-                <goal>add-source</goal>
-                <goal>compile</goal>
-            </goals>
-            <configuration>
-        		<jvmArgs>
-            		<jvmArg>-Xms64m</jvmArg>
-            		<jvmArg>-Xmx1024m</jvmArg>
-		        </jvmArgs>
-                <compilerPlugins>
-                    <compilerPlugin>
-                        <groupId>org.scoverage</groupId>
-                        <artifactId>scalac-scoverage-plugin_${scala.short}</artifactId>
-                        <version>${scoverage-plugin.version}</version>
-                    </compilerPlugin>
-                </compilerPlugins>
-                <args>
-                    <arg>-g:vars</arg>
-                    <arg>-P:scoverage:dataDir:${project.build.outputDirectory}</arg>
-                </args>
-            </configuration>
-        </execution>
-        <execution>
-            <id>test</id>
-            <goals>
-                <goal>add-source</goal>
-                <goal>testCompile</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>       
-```
+- **report** goal compiles classes with instrumentation, runs tests and generates html report as part of project's site,
 
-Include the dependencies on the compiler plugin. Versions must match the above.
+- **report-only** goal generates html report as part of project's site using coverage data generated earlier in the build (in most cases by **check** goal),
+
+- **pre-compile** and **post-compile** are internal goals, don't use them,
+
+- **check-only** goal only check coverage, honestly I don't know if it will be usable at all. 
+
+
+##### Prerequisities / limitations
+
+Plugin was tested with two compiler plugins:
+
+- [SBT Compiler Maven Plugin](https://code.google.com/p/sbt-compiler-maven-plugin/) - version **1.0.0-beta5** or later required,
+
+- [Scala Maven Plugin](http://davidb.github.io/scala-maven-plugin/) - [addScalacArgs](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#addScalacArgs) and [analysisCacheFile](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#analysisCacheFile) configuration parameters cannot be set directly, use project properties 'addScalacArgs' and 'analysisCacheFile' instead.
+
+
+##### Scoverage Maven plugin version
+
+This can be set as project property.
 
 ```xml
-<dependency>
-    <groupId>org.scoverage</groupId>
-    <artifactId>scalac-scoverage-plugin_${scala.short}</artifactId>
-    <version>${scoverage-plugin.version}</version>
-</dependency>
+<project>
+    <properties>
+        <scoverage.plugin.version>1.0.0</scoverage.plugin.version>
+    </properties>
+</project>
 ```
 
-Finally, add the plugin to the build.
+
+##### Scala version configuration
+
+Plugin supports Scala 2.10.x and 2.11.x versions by automatically loading and configuring scalac-scoverage-plugin_2.10 or scalac-scoverage-plugin_2.11 Scalac SCoverage Plugin artifact. For this to work Scala version has to be set. It can be done by defining "scalaVersion" plugin configuration parameter or "scala.version" project property. Without this setting, coverage will not be calculated. 
 
 ```xml
-<build>
-  <plugins>
-    <plugin>
-        <groupId>org.scoverage</groupId>
-        <artifactId>scoverage-maven-plugin</artifactId>
-        <version>${maven.plugin.scoverage.version}</version>
-    </plugin>
-  </plugins>
-</build>
+<project>
+    <properties>
+        <scala.version>2.11.4</scala.version>
+    </properties>
+</project>
 ```
 
-Then you can run your build as normal eg mvn clean test, or maven clean install.
-After that you can run mvn scoverage:report to generate the XML / HTML reports which you will find inside ``${project.build.outputDirectory}/coverage-report. ``
-
-Of course you can setup the plugin to run as part of the normal build, without having to invoke mvn scoverage:report, by simply binding the plugin to a phase:
-
+or
 
 ```xml
-<build>
-  <plugins>
-    <plugin>
-        <groupId>org.scoverage</groupId>
-        <artifactId>scoverage-maven-plugin</artifactId>
-        <version>${scoverage-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>install</id>
-            <goals>
-                <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-    </plugin>
-  </plugins>
-</build>
+<project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <scalaVersion>2.11.4</scalaVersion>
+                    <-- other parameters -->
+                </configuration>
+             </plugin>
+        </plugins>
+    </build>
+</project>
 ```
 
-You can see a working maven example in the [samples project](https://github.com/scoverage/scoverage-samples). Clone 
-that project and run `mvn clean test`.
+The first method is better because once the property is defined it's value can be used in other places of the build file. For example in scala-library dependency version every Scala build should declare. 
+
+```xml
+<project>
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+
+##### Adding SCoverage report to site
+
+Just add it to reporting section of your project. 
+
+```xml
+<project>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>
+```
+
+If you want to customize plugin's configuration parameters used by compilation supporting part of the plugin, do it in 'plugins' or 'pluginManagement' section:
+```xml
+<project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <highlighting>true</highlighting>
+                    <!-- example configuration for Play! Framework 2.x project -->
+                    <excludedPackages>views.html.*</excludedPackages> 
+                    <excludedFiles>.*?routes_(routing|reverseRouting)</excludedFiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scoverage) for more information about [highlighting](https://github.com/scoverage/sbt-scoverage#highlighting) and [excludedPackages](https://github.com/scoverage/sbt-scoverage#exclude-classes-and-packages).
+
+There are no configuration parameters for report generating part of the plugin, so no configuration should be added inside 'reporting' section. 
+
+
+##### Checking minimum test coverage level
+
+```xml
+<project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <minimumCoverage>80</minimumCoverage>
+                    <failOnMinimumCoverage>true</failOnMinimumCoverage>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+             </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scoverage#minimum-coverage) for more information. 
+
+
+##### Checking minimum test coverage level AND adding report to site
+
+```xml
+<project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <minimumCoverage>80</minimumCoverage>
+                    <failOnMinimumCoverage>true</failOnMinimumCoverage>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+             </plugin>
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report-only</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>
+```
+
+There are many [example projects](https://github.com/scoverage/scoverage-maven-plugin/tree/scoverage-maven-plugin-1.0.0/test-projects/).
+Go to one of them and run `mvn site`.
 
 ## License
 ```
 This software is licensed under the Apache 2 license, quoted below.
 
-Copyright 2014 Stephen Samuel
+Copyright 2014 Grzegorz Slowikowski
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
