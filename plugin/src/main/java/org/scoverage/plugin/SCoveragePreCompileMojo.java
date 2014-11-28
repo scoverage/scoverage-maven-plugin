@@ -190,7 +190,7 @@ public class SCoveragePreCompileMojo
         long ts = System.currentTimeMillis();
 
         String scalaMainVersion = null;
-        if ( scalaVersion != null)
+        if ( scalaVersion != null )
         {
             if ( scalaVersion.startsWith( "2.10." ) )
             {
@@ -202,7 +202,8 @@ public class SCoveragePreCompileMojo
             }
             else
             {
-                getLog().warn( String.format( "Skipping SCoverage execution - unknown Scala version \"%s\"", scalaVersion ) );
+                getLog().warn( String.format( "Skipping SCoverage execution - unknown Scala version \"%s\"",
+                                              scalaVersion ) );
                 return;
             }
         }
@@ -254,8 +255,7 @@ public class SCoveragePreCompileMojo
 
             if ( !StringUtils.isEmpty( excludedPackages ) )
             {
-				arg = EXCLUDED_PACKAGES_OPTION
-						+ excludedPackages.replace( "(empty)", "<empty>" );
+                arg = EXCLUDED_PACKAGES_OPTION + excludedPackages.replace( "(empty)", "<empty>" );
                 _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
                 addScalacArgs = addScalacArgs + PIPE + arg;
             }
@@ -368,7 +368,9 @@ public class SCoveragePreCompileMojo
             }
         }
 
-        result = getResolvedArtifact( "org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion, resolvedScalacPluginVersion );
+        result =
+            getResolvedArtifact( "org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion,
+                                 resolvedScalacPluginVersion );
         return result;
     }
 
@@ -391,7 +393,9 @@ public class SCoveragePreCompileMojo
             }
         }
 
-        result = getResolvedArtifact( "org.scoverage", "scalac-scoverage-runtime_" + scalaMainVersion, resolvedScalacRuntimeVersion );
+        result =
+            getResolvedArtifact( "org.scoverage", "scalac-scoverage-runtime_" + scalaMainVersion,
+                                 resolvedScalacRuntimeVersion );
         return result;
     }
 

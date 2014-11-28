@@ -27,14 +27,12 @@ import org.apache.maven.doxia.siterenderer.sink.SiteRendererSink;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.MavenReport;
-//import org.apache.maven.reporting.AbstractMavenReport;
 import org.apache.maven.reporting.MavenReportException;
 
 import org.codehaus.doxia.sink.Sink;
@@ -200,7 +198,8 @@ public class SCoverageReportMojo
             Coverage coverage = Serializer.deserialize( coverageFile );
 
             File[] measurementFiles = IOUtils.findMeasurementFiles( dataDir );
-            scala.collection.Set<Object> measurements = IOUtils.invoked( Predef$.MODULE$.wrapRefArray( measurementFiles ) );
+            scala.collection.Set<Object> measurements = IOUtils.invoked( Predef$.MODULE$
+                .wrapRefArray( measurementFiles ) );
             coverage.apply( measurements );
 
             getLog().info( "[scoverage] Generating cobertura XML report..." );
@@ -278,19 +277,14 @@ public class SCoverageReportMojo
         return outputDirectory;
     }
 
-//    /**
-//     * Method to set the directory where the generated reports will be put
-//     *
-//     * @param reportOutputDirectory the directory file to be set
-//     */
     /** {@inheritDoc} */
     @Override
     public void setReportOutputDirectory( File reportOutputDirectory )
     {
-        updateReportOutputDirectory( reportOutputDirectory, destDir );
+        updateReportOutputDirectory( reportOutputDirectory );
     }
 
-    private void updateReportOutputDirectory( File reportOutputDirectory, String destDir )
+    private void updateReportOutputDirectory( File reportOutputDirectory )
     {
         if ( reportOutputDirectory != null && destDir != null
              && !reportOutputDirectory.getAbsolutePath().endsWith( destDir ) )
@@ -305,10 +299,12 @@ public class SCoverageReportMojo
 
     /**
      * Generates SCoverage report.
+     * 
+     * @throws MojoExecutionException if unexpected problem occurs
      */
     @Override
     public void execute()
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
         if ( skip )
         {
