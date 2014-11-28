@@ -22,7 +22,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.scoverage.test-projects.play.singlemodule.zentasks</groupId>
     <artifactId>zentasks-scala-2.10</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>play2</packaging>
 
     <name>SCoverage Maven Test Projects : Play! Framework : SingleModule : Zentasks : Scala 2.10</name>

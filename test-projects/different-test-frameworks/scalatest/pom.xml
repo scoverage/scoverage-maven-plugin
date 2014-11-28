@@ -22,7 +22,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.scoverage.test-projects.different-test-frameworks</groupId>
     <artifactId>scalatest</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>SCoverage Maven Test Projects : Different Test Frameworks : ScalaTest</name>

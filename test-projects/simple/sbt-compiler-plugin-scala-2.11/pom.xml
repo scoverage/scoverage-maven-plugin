@@ -22,7 +22,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.scoverage.test-projects.simple</groupId>
     <artifactId>sbt-compiler-plugin-scala-2.11</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>SCoverage Maven Test Projects : Simple : using SBT Compiler Maven Plugin and Scala 2.11</name>
