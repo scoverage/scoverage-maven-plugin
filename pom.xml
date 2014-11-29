@@ -29,7 +29,6 @@ under the License.
 
     <modules>
         <module>plugin</module>
-        <module>test-projects</module>
     </modules>
 
 </project>
