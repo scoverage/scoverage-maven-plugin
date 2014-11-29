@@ -210,7 +210,7 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
 </project>
 ```
 
-There are many [example projects](https://github.com/scoverage/scoverage-maven-plugin/tree/scoverage-maven-plugin-1.0.0/test-projects/).
+There are many [example projects](https://github.com/scoverage/scoverage-maven-samples/tree/scoverage-maven-samples-1.0.0/).
 Go to one of them and run `mvn site`.
 
 ## License
