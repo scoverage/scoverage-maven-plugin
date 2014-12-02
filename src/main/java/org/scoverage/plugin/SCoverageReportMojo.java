@@ -300,9 +300,9 @@ public class SCoverageReportMojo
     public void execute()
         throws MojoExecutionException
     {
-        if ( skip )
+        if ( !canGenerateReport() )
         {
-            getLog().info( "Skipping javadoc generation" );
+            getLog().info( "Skipping SCoverage report generation" );
             return;
         }
 
