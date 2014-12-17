@@ -92,6 +92,40 @@ The first method is better because once the property is defined it's value can b
 ```
 
 
+##### Scalac SCoverage plugin version configuration
+
+Maven SCoverage plugin uses by default the latest version of the [scalac-scoverage-plugin](https://github.com/scoverage/scalac-scoverage-plugin) available on its release day.
+If newer, better version of [scalac-scoverage-plugin](https://github.com/scoverage/scalac-scoverage-plugin) is available, it can be used instead.
+It can be configured by defining "scalacPluginVersion" plugin configuration parameter or "scoverage.scalacPluginVersion" project property.
+
+```xml
+<project>
+    <properties>
+        <scoverage.scalacPluginVersion>1.0.1</scoverage.scalacPluginVersion>
+    </properties>
+</project>
+```
+
+or
+
+```xml
+<project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <scalacPluginVersion>1.0.1</scalacPluginVersion>
+                    <-- other parameters -->
+                </configuration>
+             </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
 ##### Adding SCoverage report to site
 
 Just add it to reporting section of your project. 
