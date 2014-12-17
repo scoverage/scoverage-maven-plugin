@@ -45,7 +45,7 @@ under the License.
 
     <issueManagement>
         <system>GitHub Issues</system>
-	<url>https://github.com/scoverage/scoverage-maven-plugin/issues</url>
+        <url>https://github.com/scoverage/scoverage-maven-plugin/issues</url>
     </issueManagement>
 
     <developers>
@@ -85,7 +85,7 @@ under the License.
         <maven.version>2.2.1</maven.version>
         <maven-plugin-plugin.version>3.3</maven-plugin-plugin.version>
 
-        <scalac-scoverage-plugin.version>1.0.0</scalac-scoverage-plugin.version>
+        <scalac-scoverage-plugin.version>1.0.1</scalac-scoverage-plugin.version>
     </properties>
 
     <dependencies>
