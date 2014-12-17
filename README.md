@@ -92,7 +92,7 @@ The first method is better because once the property is defined it's value can b
 ```
 
 
-##### Scalac SCoverage plugin version configuration
+##### [Scalac SCoverage plugin](https://github.com/scoverage/scalac-scoverage-plugin) version configuration
 
 Maven SCoverage plugin uses by default the latest version of the [scalac-scoverage-plugin](https://github.com/scoverage/scalac-scoverage-plugin) available on its release day.
 If newer, better version of [scalac-scoverage-plugin](https://github.com/scoverage/scalac-scoverage-plugin) is available, it can be used instead.
