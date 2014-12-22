@@ -76,7 +76,7 @@ public class SCoverageReportMojo
     private boolean skip;
 
     /**
-     * Specifies if the build will fail if there are errors during javadoc execution or not.
+     * Specifies if the build will fail if there are errors during report execution or not.
      */
     @Parameter( property = "scoverage.failOnError", defaultValue = "true", readonly = true )
     private boolean failOnError;
