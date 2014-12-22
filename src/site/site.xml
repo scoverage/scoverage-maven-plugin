@@ -45,4 +45,6 @@ under the License.
         <menu ref="reports"/>
     </body>
 
+    <googleAnalyticsAccountId>${googleAnalyticsAccountId}</googleAnalyticsAccountId>
+
 </project>
