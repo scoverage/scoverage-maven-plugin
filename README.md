@@ -20,7 +20,7 @@ In short:
 
 - **check-only** goal only check coverage, honestly I don't know if it will be usable at all. 
 
-Check [all plugin goals (mojos) documentation](http://scoverage.github.io/scoverage-maven-plugin/1.0.1/plugin-info.html).
+Check [all plugin goals (mojos) documentation](http://scoverage.github.io/scoverage-maven-plugin/1.0.2/plugin-info.html).
 
 
 ##### Prerequisities / limitations
@@ -29,7 +29,7 @@ Plugin is compatible with two Maven Scala compiler plugins:
 
 - [SBT Compiler Maven Plugin](https://code.google.com/p/sbt-compiler-maven-plugin/) - version **1.0.0-beta5** or later required,
 
-- [Scala Maven Plugin](http://davidb.github.io/scala-maven-plugin/) - [addScalacArgs](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#addScalacArgs) and [analysisCacheFile](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#analysisCacheFile) configuration parameters cannot be set directly, use project properties 'addScalacArgs' and 'analysisCacheFile' instead.
+- [Scala Maven Plugin](http://davidb.github.io/scala-maven-plugin/) - version **3.0.0** or later required, [addScalacArgs](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#addScalacArgs) and [analysisCacheFile](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#analysisCacheFile) configuration parameters cannot be set directly, use project properties 'addScalacArgs' and 'analysisCacheFile' instead.
 
 
 ##### Scoverage Maven plugin version
@@ -39,7 +39,7 @@ This can be set as project property.
 ```xml
 <project>
     <properties>
-        <scoverage.plugin.version>1.0.1</scoverage.plugin.version>
+        <scoverage.plugin.version>1.0.2</scoverage.plugin.version>
     </properties>
 </project>
 ```
@@ -101,7 +101,7 @@ It can be configured by defining "scalacPluginVersion" plugin configuration para
 ```xml
 <project>
     <properties>
-        <scoverage.scalacPluginVersion>1.0.1</scoverage.scalacPluginVersion>
+        <scoverage.scalacPluginVersion>1.0.2</scoverage.scalacPluginVersion>
     </properties>
 </project>
 ```
@@ -117,7 +117,7 @@ or
                 <artifactId>scoverage-maven-plugin</artifactId>
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
-                    <scalacPluginVersion>1.0.1</scalacPluginVersion>
+                    <scalacPluginVersion>1.0.2</scalacPluginVersion>
                     <-- other parameters -->
                 </configuration>
              </plugin>
@@ -244,7 +244,7 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
 </project>
 ```
 
-There are many [example projects](https://github.com/scoverage/scoverage-maven-samples/tree/scoverage-maven-samples-1.0.1/).
+There are many [example projects](https://github.com/scoverage/scoverage-maven-samples/tree/scoverage-maven-samples-1.0.2/).
 Go to one of them and run `mvn site`.
 
 ## License
