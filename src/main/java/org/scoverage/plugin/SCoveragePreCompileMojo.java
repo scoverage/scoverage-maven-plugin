@@ -29,6 +29,7 @@ import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
 import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Component;
@@ -199,26 +200,27 @@ public class SCoveragePreCompileMojo
         long ts = System.currentTimeMillis();
 
         String scalaMainVersion = null;
-        if ( scalaVersion != null )
+        String resolvedScalaVersion = resolveScalaVersion();
+        if ( resolvedScalaVersion != null )
         {
-            if ( scalaVersion.startsWith( "2.10." ) )
+            if ( resolvedScalaVersion.startsWith( "2.10." ) )
             {
                 scalaMainVersion = "2.10";
             }
-            else if ( scalaVersion.startsWith( "2.11." ) )
+            else if ( resolvedScalaVersion.startsWith( "2.11." ) )
             {
                 scalaMainVersion = "2.11";
             }
             else
             {
-                getLog().warn( String.format( "Skipping SCoverage execution - unknown Scala version \"%s\"",
-                                              scalaVersion ) );
+                getLog().warn( String.format( "Skipping SCoverage execution - unsupported Scala version \"%s\"",
+                                              resolvedScalaVersion ) );
                 return;
             }
         }
         else
         {
-            getLog().info( "Skipping SCoverage execution - Scala version not set" );
+            getLog().warn( "Skipping SCoverage execution - Scala version not set" );
             return;
         }
 
@@ -318,6 +320,9 @@ public class SCoveragePreCompileMojo
 
     // Private utility methods
 
+    private static final String SCALA_LIBRARY_GROUP_ID = "org.scala-lang";
+    private static final String SCALA_LIBRARY_ARTIFACT_ID = "scala-library";
+
     private static final String DATA_DIR_OPTION = "-P:scoverage:dataDir:";
     private static final String EXCLUDED_PACKAGES_OPTION = "-P:scoverage:excludedPackages:";
     private static final String EXCLUDED_FILES_OPTION = "-P:scoverage:excludedFiles:";
@@ -330,6 +335,26 @@ public class SCoveragePreCompileMojo
     private String quoteArgument( String arg )
     {
         return arg.indexOf( SPACE ) >= 0 ? DOUBLE_QUOTE + arg + DOUBLE_QUOTE : arg;
+    }
+
+    private String resolveScalaVersion()
+    {
+        String result = scalaVersion;
+        if ( result == null )
+        {
+            // check project direct dependencies (transitive dependencies cannot be checked in this Maven lifecycle phase)
+            List<Dependency> dependencies = project.getDependencies();
+            for ( Dependency dependency: dependencies )
+            {
+                if ( SCALA_LIBRARY_GROUP_ID.equals( dependency.getGroupId() )
+                    && SCALA_LIBRARY_ARTIFACT_ID.equals( dependency.getArtifactId() ) )
+                {
+                    result = dependency.getVersion();
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     private void setProperty( Properties projectProperties, String propertyName, String newValue )
