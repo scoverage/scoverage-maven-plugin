@@ -28,7 +28,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.scoverage</groupId>
     <artifactId>scoverage-maven-plugin</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>SCoverage Maven Plugin</name>
@@ -85,7 +85,7 @@ under the License.
         <maven.version>2.2.1</maven.version>
         <maven-plugin-plugin.version>3.3</maven-plugin-plugin.version>
 
-        <scalac-scoverage-plugin.version>1.0.2</scalac-scoverage-plugin.version>
+        <scalac-scoverage-plugin.version>1.0.4</scalac-scoverage-plugin.version>
     </properties>
 
     <dependencies>
