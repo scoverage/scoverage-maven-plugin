@@ -1,5 +1,6 @@
 .settings/
 target/
+.cache
 .classpath
 .project
 pom.xml.tag
