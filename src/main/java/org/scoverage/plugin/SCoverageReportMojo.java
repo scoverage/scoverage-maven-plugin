@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Grzegorz Slowikowski (gslowikowski at gmail dot com)
+ * Copyright 2014-2015 Grzegorz Slowikowski (gslowikowski at gmail dot com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,7 +123,7 @@ public class SCoverageReportMojo
     private String name;
 
     /**
-     * The description of the Javadoc report to be displayed in the Maven Generated Reports page
+     * The description of the Scoverage report to be displayed in the Maven Generated Reports page
      * (i.e. <code>project-reports.html</code>).
      */
     @Parameter( property = "description", readonly = true )
@@ -214,7 +214,7 @@ public class SCoverageReportMojo
             {
                 throw e;
             }
-            getLog().error( "Error while creating javadoc report: " + e.getMessage(), e );
+            getLog().error( "Error while creating scoverage report: " + e.getMessage(), e );
         }
     }
 
