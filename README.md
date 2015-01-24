@@ -20,7 +20,7 @@ In short:
 
 - **check-only** goal only check coverage, honestly I don't know if it will be usable at all. 
 
-Check [all plugin goals (mojos) documentation](http://scoverage.github.io/scoverage-maven-plugin/1.0.2/plugin-info.html).
+Check [all plugin goals (mojos) documentation](http://scoverage.github.io/scoverage-maven-plugin/1.0.4/plugin-info.html).
 
 
 ##### Prerequisities / limitations
@@ -39,7 +39,7 @@ This can be set as project property.
 ```xml
 <project>
     <properties>
-        <scoverage.plugin.version>1.0.2</scoverage.plugin.version>
+        <scoverage.plugin.version>1.0.4</scoverage.plugin.version>
     </properties>
 </project>
 ```
@@ -101,7 +101,7 @@ It can be configured by defining "scalacPluginVersion" plugin configuration para
 ```xml
 <project>
     <properties>
-        <scoverage.scalacPluginVersion>1.0.2</scoverage.scalacPluginVersion>
+        <scoverage.scalacPluginVersion>1.0.4</scoverage.scalacPluginVersion>
     </properties>
 </project>
 ```
@@ -117,7 +117,7 @@ or
                 <artifactId>scoverage-maven-plugin</artifactId>
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
-                    <scalacPluginVersion>1.0.2</scalacPluginVersion>
+                    <scalacPluginVersion>1.0.4</scalacPluginVersion>
                     <-- other parameters -->
                 </configuration>
              </plugin>
@@ -244,7 +244,7 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
 </project>
 ```
 
-There are many [example projects](https://github.com/scoverage/scoverage-maven-samples/tree/scoverage-maven-samples-1.0.2/).
+There are many [example projects](https://github.com/scoverage/scoverage-maven-samples/tree/scoverage-maven-samples-1.0.4/).
 Go to one of them and run `mvn site`.
 
 ## License
