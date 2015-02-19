@@ -158,7 +158,7 @@ public class SCoverageCheckMojo
             }
             else if ( minimumCoverage > coverage.statementCoveragePercent() )
             {
-                getLog().error( String.format( "[scoverage] Coverage is below minimum [%s%% < %f%%]",
+                getLog().error( String.format( "[scoverage] Coverage is below minimum [%s%% < %.2f%%]",
                                                coverage.statementCoverageFormatted(), minimumCoverage ) );
                 if ( failOnMinimumCoverage )
                 {
@@ -167,7 +167,7 @@ public class SCoverageCheckMojo
             }
             else
             {
-                getLog().info( String.format( "[scoverage] Coverage is above minimum [%s%% < %f%%]",
+                getLog().info( String.format( "[scoverage] Coverage is above minimum [%s%% > %.2f%%]",
                                               coverage.statementCoverageFormatted(), minimumCoverage ) );
             }
         }
