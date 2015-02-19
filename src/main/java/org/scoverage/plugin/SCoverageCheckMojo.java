@@ -148,7 +148,7 @@ public class SCoverageCheckMojo
         int statementCount = coverage.statementCount();
         int invokedBranchesCount = coverage.invokedBranchesCount();
         int invokedStatementCount = coverage.invokedStatementCount();
-        getLog().info( String.format( "DEBUG: invokedBranchesCount:%d / branchCount:%d, invokedStatementCount:%d / statementCount:%d",
+        getLog().debug( String.format( "invokedBranchesCount:%d / branchCount:%d, invokedStatementCount:%d / statementCount:%d",
                                       invokedBranchesCount, branchCount, invokedStatementCount, statementCount ) );
         if ( minimumCoverage > 0.0 )
         {
