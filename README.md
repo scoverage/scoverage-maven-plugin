@@ -3,7 +3,7 @@ scoverage-maven-plugin
 
 scoverage-maven-plugin is a plugin for Maven that integrates the scoverage code coverage library. Find out more about [scoverage](https://github.com/scoverage/scalac-scoverage-plugin).
 
-[![Build Status](https://travis-ci.org/scoverage/scoverage-maven-plugin.png)](https://travis-ci.org/scoverage/scoverage-maven-plugin)
+[![Build Status](https://travis-ci.org/scoverage/scoverage-maven-plugin.png)](https://travis-ci.org/scoverage/scoverage-maven-plugin) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.scoverage/scoverage-maven-plugin/badge.png?style=flat)](http://search.maven.org/#search|ga|1|g%3A%22org.scoverage%22%20AND%20a%3A%22scoverage-maven-plugin%22)
 
 
 ## How to use
