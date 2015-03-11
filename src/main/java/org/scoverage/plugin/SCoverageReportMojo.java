@@ -19,6 +19,8 @@ package org.scoverage.plugin;
 
 import java.io.File;
 //import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -41,6 +43,9 @@ import org.codehaus.doxia.sink.Sink;
 import org.codehaus.plexus.util.StringUtils;
 
 import scala.Predef$;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
+
 import scoverage.Coverage;
 import scoverage.IOUtils;
 import scoverage.Serializer;
@@ -162,7 +167,12 @@ public class SCoverageReportMojo
         {
             long ts = System.currentTimeMillis();
 
-            File sourceDir = new File( project.getBuild().getSourceDirectory() );
+            List<String> sourceDirs = project.getExecutionProject().getCompileSourceRoots();
+            List<File> sourceRoots = new ArrayList<File>( sourceDirs.size() );
+            for ( String dir: sourceDirs )
+            {
+                sourceRoots.add( new File( dir ) );
+            }
 
             mkdirs( outputDirectory );
             mkdirs( xmlOutputDirectory );
@@ -196,14 +206,16 @@ public class SCoverageReportMojo
                 .wrapRefArray( measurementFiles ) );
             coverage.apply( measurements );
 
+            Seq<File> sourceRootsAsScalaSeq = JavaConversions.asScalaBuffer( sourceRoots );
+
             getLog().info( "[scoverage] Generating cobertura XML report..." );
-            new CoberturaXmlWriter( project.getBasedir(), xmlOutputDirectory ).write( coverage );
+            new CoberturaXmlWriter( sourceRootsAsScalaSeq, xmlOutputDirectory ).write( coverage );
 
             getLog().info( "[scoverage] Generating scoverage XML report..." );
-            new ScoverageXmlWriter( sourceDir, xmlOutputDirectory, false ).write( coverage );
+            new ScoverageXmlWriter( sourceRootsAsScalaSeq, xmlOutputDirectory, false ).write( coverage );
 
             getLog().info( "[scoverage] Generating scoverage HTML report..." );
-            new ScoverageHtmlWriter( sourceDir, outputDirectory ).write( coverage );
+            new ScoverageHtmlWriter( sourceRootsAsScalaSeq, outputDirectory ).write( coverage );
 
             long te = System.currentTimeMillis();
             getLog().debug( String.format( "Mojo execution time: %d ms", te - ts ) );
