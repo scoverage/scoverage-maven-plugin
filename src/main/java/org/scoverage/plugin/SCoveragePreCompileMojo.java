@@ -194,9 +194,21 @@ public class SCoveragePreCompileMojo
         if ( skip )
         {
             getLog().info( "Skipping Scoverage execution" );
+
+            Properties projectProperties = project.getProperties();
+
+            // for maven-compiler-plugin (compile), sbt-compiler-maven-plugin (compile),
+            setProperty( projectProperties, "maven.main.skip", "true" );
+            // for maven-resources-plugin (testResources), maven-compiler-plugin (testCompile),
+            // sbt-compiler-maven-plugin (testCompile), scala-maven-plugin (testCompile),
+            // maven-surefire-plugin and scalatest-maven-plugin
+            setProperty( projectProperties, "maven.test.skip", "true" );
+            // for scalatest-maven-plugin and specs2-maven-plugin
+            setProperty( projectProperties, "skipTests", "true" );
+
             return;
         }
-        
+
         long ts = System.currentTimeMillis();
 
         String scalaMainVersion = null;
