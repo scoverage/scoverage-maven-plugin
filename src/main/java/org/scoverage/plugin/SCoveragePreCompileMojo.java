@@ -197,8 +197,6 @@ public class SCoveragePreCompileMojo
 
             Properties projectProperties = project.getProperties();
 
-            // for maven-compiler-plugin (compile), sbt-compiler-maven-plugin (compile),
-            setProperty( projectProperties, "maven.main.skip", "true" );
             // for maven-resources-plugin (testResources), maven-compiler-plugin (testCompile),
             // sbt-compiler-maven-plugin (testCompile), scala-maven-plugin (testCompile),
             // maven-surefire-plugin and scalatest-maven-plugin
