@@ -3,7 +3,9 @@ scoverage-maven-plugin
 
 scoverage-maven-plugin is a plugin for Maven that integrates the scoverage code coverage library. Find out more about [scoverage](https://github.com/scoverage/scalac-scoverage-plugin).
 
-[![Build Status](https://travis-ci.org/scoverage/scoverage-maven-plugin.png)](https://travis-ci.org/scoverage/scoverage-maven-plugin) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.scoverage/scoverage-maven-plugin/badge.png?style=flat)](http://search.maven.org/#search|ga|1|g%3A%22org.scoverage%22%20AND%20a%3A%22scoverage-maven-plugin%22)
+[![Build Status](https://travis-ci.org/scoverage/scoverage-maven-plugin.png)](https://travis-ci.org/scoverage/scoverage-maven-plugin)
+[![License](http://img.shields.io/:license-Apache%202-red.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.scoverage/scoverage-maven-plugin/badge.png?style=flat)](http://search.maven.org/#search|ga|1|g%3A%22org.scoverage%22%20AND%20a%3A%22scoverage-maven-plugin%22)
 
 
 ## How to use
@@ -251,7 +253,7 @@ Go to one of them and run `mvn site`.
 ```
 This software is licensed under the Apache 2 license, quoted below.
 
-Copyright 2014 Grzegorz Slowikowski
+Copyright 2014-2015 Grzegorz Slowikowski
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
