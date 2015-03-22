@@ -34,11 +34,12 @@ import scoverage.IOUtils;
 import scoverage.Serializer;
 
 /**
- * Checks if minimum coverage reached in forked {@code scoverage} life cycle.
+ * Checks if minimum code coverage by unit tests reached
+ * in forked {@code scoverage} life cycle.
  * <br/>
  * <br/>
  * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
- * and tests are executed before checking.
+ * and unit tests are executed before checking.
  * <br/>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>

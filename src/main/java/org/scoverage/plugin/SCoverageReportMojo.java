@@ -54,11 +54,11 @@ import scoverage.report.ScoverageHtmlWriter;
 import scoverage.report.ScoverageXmlWriter;
 
 /**
- * Generates SCoverage report in forked {@code scoverage} life cycle.
+ * Generates code coverage by unit tests report in forked {@code scoverage} life cycle.
  * <br/>
  * <br/>
  * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
- * and tests are executed before report generation.
+ * and unit tests are executed before report generation.
  * <br/>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
