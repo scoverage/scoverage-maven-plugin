@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="c133" href="./SCoveragePreCompileMojo.html" title="org.scoverage.plugin.SCoveragePreCompileMojo" alt="" coords="501,113,673,137"/>
+<area shape="rect" id="node1" href="./SCoveragePreCompileMojo.html" title="&lt;TABLE&gt;" alt="" coords="491,101,683,149"/>
+<area shape="rect" id="node5" href="null" title="&lt;TABLE&gt;" alt="" coords="5,204,155,252"/>
+<area shape="rect" id="node8" href="null" title="&lt;TABLE&gt;" alt="" coords="179,197,363,259"/>
+<area shape="rect" id="node10" href="null" title="&lt;TABLE&gt;" alt="" coords="387,197,573,259"/>
+<area shape="rect" id="node12" href="null" title="&lt;TABLE&gt;" alt="" coords="597,197,792,259"/>
+<area shape="rect" id="node15" href="null" title="&lt;TABLE&gt;" alt="" coords="816,197,965,259"/>
+<area shape="rect" id="c139" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="org.apache.maven.plugin.AbstractMojo" alt="" coords="525,11,649,47"/>
+<area shape="rect" id="node2" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="&lt;TABLE&gt;" alt="" coords="515,5,659,53"/>
+</map>
