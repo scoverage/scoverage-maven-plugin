@@ -20,11 +20,11 @@ In short:
 
 - **integration-report** goal (new in 1.0.5-SNAPSHOT) compiles classes with instrumentation, runs unit and integration tests and generates reports,
 
+- **check-only** goal only checks coverage using coverage data generated earlier in the build (e.g. by **report** goal).
+
 - **report-only** goal generates reports using coverage data generated earlier in the build (in most cases by **check** goal),
 
 - **pre-compile** and **post-compile** are internal goals, don't use them,
-
-- **check-only** goal only checks coverage using coverage data generated earlier in the build (e.g. by **report** goal).
 
 Maven generated plugin documentation:
 
