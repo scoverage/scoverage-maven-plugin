@@ -22,8 +22,12 @@ In short:
 
 - **check-only** goal only check coverage, honestly I don't know if it will be usable at all. 
 
-Check [all plugin goals (mojos) documentation](http://scoverage.github.io/scoverage-maven-plugin/1.0.4/plugin-info.html).
+Maven generated plugin documentation:
 
+| Version | Documentation |
+|-----------|---------------------|
+| `1.0.4` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.0.4/plugin-info.html) |
+| `1.0.5-SNAPSHOT` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.0.5-SNAPSHOT/plugin-info.html) |
 
 ##### Prerequisities / limitations
 
