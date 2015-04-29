@@ -23,11 +23,11 @@ import org.apache.maven.plugins.annotations.Mojo;
 
 /**
  * Generates code coverage by unit and integration tests report in forked {@code scoverage} life cycle.
- * <br/>
- * <br/>
+ * <br>
+ * <br>
  * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
  * and unit and integration tests are executed before report generation.
- * <br/>
+ * <br>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.5

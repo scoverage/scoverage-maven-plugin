@@ -27,16 +27,16 @@ import org.apache.maven.project.MavenProject;
 
 /**
  * Restores project original configuration after compilation with SCoverage instrumentation.
- * <br/>
- * <br/>
+ * <br>
+ * <br>
  * Removes changes done in project properties by {@link SCoveragePreCompileMojo} before compilation:
  * <ul>
  * <li>removes added properties</li>
  * <li>restores original values of modified properties</li>
  * </ul> 
- * <br/>
+ * <br>
  * This is internal mojo, executed in forked {@code cobertura} life cycle.
- * <br/>
+ * <br>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -47,7 +47,7 @@ public class SCoveragePostCompileMojo
 {
     /**
      * Allows SCoverage to be skipped.
-     * <br/>
+     * <br>
      * 
      * @since 1.0.0
      */

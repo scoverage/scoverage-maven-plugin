@@ -41,16 +41,16 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Configures project for compilation with SCoverage instrumentation.
- * <br/>
- * <br/>
+ * <br>
+ * <br>
  * Supported compiler plugins:
  * <ul>
  * <li><a href="https://davidb.github.io/scala-maven-plugin/">net.alchim31.maven:scala-maven-plugin</a></li>
  * <li><a href="https://code.google.com/p/sbt-compiler-maven-plugin/">com.google.code.sbt-compiler-maven-plugin:sbt-compiler-maven-plugin</a></li>
  * </ul>
- * <br/>
+ * <br>
  * This is internal mojo, executed in forked {@code cobertura} life cycle.
- * <br/>
+ * <br>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -62,7 +62,7 @@ public class SCoveragePreCompileMojo
 
     /**
      * Allows SCoverage to be skipped.
-     * <br/>
+     * <br>
      * 
      * @since 1.0.0
      */
@@ -84,7 +84,7 @@ public class SCoveragePreCompileMojo
 
     /**
      * Directory where the coverage files should be written.
-     * <br/>
+     * <br>
      *
      * @since 1.0.0
      */
@@ -93,14 +93,14 @@ public class SCoveragePreCompileMojo
 
     /**
      * Semicolon-separated list of regular expressions for packages to exclude, "(empty)" for default package.
-     * <br/>
-     * <br/>
+     * <br>
+     * <br>
      * Example:
      * {@code (empty);Reverse.*;.*AuthService.*;models\.data\..*}
-     * <br/>
-     * <br/>
+     * <br>
+     * <br>
      * See <a href="https://github.com/scoverage/sbt-scoverage#exclude-classes-and-packages">https://github.com/scoverage/sbt-scoverage#exclude-classes-and-packages</a> for additional documentation.
-     * <br/>
+     * <br>
      *
      * @since 1.0.0
      */
@@ -109,7 +109,7 @@ public class SCoveragePreCompileMojo
 
     /**
      * Semicolon separated list of regular expressions for source paths to exclude.
-     * <br/>
+     * <br>
      *
      * @since 1.0.0
      */
@@ -118,7 +118,7 @@ public class SCoveragePreCompileMojo
 
     /**
      * See <a href="https://github.com/scoverage/sbt-scoverage#highlighting">https://github.com/scoverage/sbt-scoverage#highlighting</a>.
-     * <br/>
+     * <br>
      * 
      * @since 1.0.0
      */
@@ -127,7 +127,7 @@ public class SCoveragePreCompileMojo
 
     /**
      * Force <a href="https://github.com/scoverage/scalac-scoverage-plugin">scalac-scoverage-plugin</a> version used.
-     * <br/>
+     * <br>
      *
      * @since 1.0.0
      */

@@ -55,11 +55,11 @@ import scoverage.report.ScoverageXmlWriter;
 
 /**
  * Generates code coverage by unit tests report in forked {@code scoverage} life cycle.
- * <br/>
- * <br/>
+ * <br>
+ * <br>
  * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
  * and unit tests are executed before report generation.
- * <br/>
+ * <br>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -73,7 +73,7 @@ public class SCoverageReportMojo
 
     /**
      * Allows SCoverage to be skipped.
-     * <br/>
+     * <br>
      * 
      * @since 1.0.0
      */
@@ -94,7 +94,7 @@ public class SCoverageReportMojo
 
     /**
      * Directory where the coverage files should be written.
-     * <br/>
+     * <br>
      *
      * @since 1.0.0
      */
@@ -115,7 +115,7 @@ public class SCoverageReportMojo
 
     /**
      * The name of the destination directory.
-     * <br/>
+     * <br>
      */
     @Parameter( property = "destDir", defaultValue = "scoverage", required = true, readonly = true )
     private String destDir;

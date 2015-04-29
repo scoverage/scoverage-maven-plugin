@@ -36,11 +36,11 @@ import scoverage.Serializer;
 /**
  * Checks if minimum code coverage by unit tests reached
  * in forked {@code scoverage} life cycle.
- * <br/>
- * <br/>
+ * <br>
+ * <br>
  * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
  * and unit tests are executed before checking.
- * <br/>
+ * <br>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
@@ -53,7 +53,7 @@ public class SCoverageCheckMojo
 
     /**
      * Allows SCoverage to be skipped.
-     * <br/>
+     * <br>
      * 
      * @since 1.0.0
      */
@@ -62,7 +62,7 @@ public class SCoverageCheckMojo
 
     /**
      * Directory where the coverage files should be written.
-     * <br/>
+     * <br>
      *
      * @since 1.0.0
      */
@@ -71,10 +71,10 @@ public class SCoverageCheckMojo
 
     /**
      * Required minimum coverage.
-     * <br/>
-     * <br/>
+     * <br>
+     * <br>
      * See <a href="https://github.com/scoverage/sbt-scoverage#minimum-coverage">https://github.com/scoverage/sbt-scoverage#minimum-coverage</a> for additional documentation.
-     * <br/>
+     * <br>
      *
      * @since 1.0.0
      */
@@ -83,10 +83,10 @@ public class SCoverageCheckMojo
 
     /**
      * Fail the build if minimum coverage was not reached.
-     * <br/>
-     * <br/>
+     * <br>
+     * <br>
      * See <a href="https://github.com/scoverage/sbt-scoverage#minimum-coverage">https://github.com/scoverage/sbt-scoverage#minimum-coverage</a> for additional documentation.
-     * <br/>
+     * <br>
      * 
      * @since 1.0.0
      */

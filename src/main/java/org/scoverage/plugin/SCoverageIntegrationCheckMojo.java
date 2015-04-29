@@ -24,11 +24,11 @@ import org.apache.maven.plugins.annotations.Mojo;
 /**
  * Checks if minimum code coverage by unit and integration tests reached
  * in forked {@code scoverage} life cycle.
- * <br/>
- * <br/>
+ * <br>
+ * <br>
  * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
  * and unit and integration tests are executed before checking.
- * <br/>
+ * <br>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.5
