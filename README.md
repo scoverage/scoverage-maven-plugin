@@ -18,9 +18,9 @@ In short:
 
 - **report** goal compiles classes with instrumentation, runs unit tests and generates reports,
 
-- **integration-check** goal (new in 1.0.5-SNAPSHOT) compiles classes with instrumentation, runs unit and integration tests and checks coverage,
+- **integration-check** goal (new in 1.1.0-SNAPSHOT) compiles classes with instrumentation, runs unit and integration tests and checks coverage,
 
-- **integration-report** goal (new in 1.0.5-SNAPSHOT) compiles classes with instrumentation, runs unit and integration tests and generates reports,
+- **integration-report** goal (new in 1.1.0-SNAPSHOT) compiles classes with instrumentation, runs unit and integration tests and generates reports,
 
 - **check-only** goal only checks coverage using coverage data generated earlier in the build (e.g. by **report** goal).
 
@@ -33,7 +33,7 @@ Maven generated plugin documentation:
 | Version | Documentation |
 |-----------|---------------------|
 | `1.0.4` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.0.4/plugin-info.html) |
-| `1.0.5-SNAPSHOT` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.0.5-SNAPSHOT/plugin-info.html) |
+| `1.1.0-SNAPSHOT` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.1.0-SNAPSHOT/plugin-info.html) |
 
 ##### Prerequisities / limitations
 
