@@ -28,27 +28,13 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.scoverage</groupId>
     <artifactId>scoverage-maven-plugin</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>SCoverage Maven Plugin</name>
     <description>SCoverage Maven Plugin</description>
     <inceptionYear>2014</inceptionYear>
     <url>https://scoverage.github.io/scoverage-maven-plugin/${project.version}/</url>
-
-    <repositories>
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <scm>
         <connection>scm:git:git://github.com/scoverage/scoverage-maven-plugin.git</connection>
@@ -99,7 +85,7 @@ under the License.
         <maven.version>2.2.1</maven.version>
         <maven-plugin-plugin.version>3.3</maven-plugin-plugin.version>
 
-        <scalac-scoverage-plugin.version>1.0.5-SNAPSHOT</scalac-scoverage-plugin.version>
+        <scalac-scoverage-plugin.version>1.1.0</scalac-scoverage-plugin.version>
     </properties>
 
     <dependencies>
