@@ -190,8 +190,17 @@ public class SCoverageReportMojo
         {
             long ts = System.currentTimeMillis();
 
-            generateReports();
-            
+            // If top-level project is last reactor project it should generate ONLY aggregated report here
+            if ( !project.isExecutionRoot() )
+            {
+                generateReports();
+            }
+
+            // Aggregated report must be generated in last reactor project. It may be top-level
+            // project (this is very rare case) or any other project.
+            // Whatever project it is, it must generate report in top-level project's site directory.
+            // WARNING: Last reactor project cannot have scoverage generation skipped
+            // ('skip' configuration parameter set)!
             if ( aggregate && project == reactorProjects.get( reactorProjects.size() - 1 ) )
             {
                 generateAggregatedReports();
