@@ -10,24 +10,24 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.scoverage.plugin.SCoveragePostCompileMojo
-	c123 [label=<<table title="org.scoverage.plugin.SCoveragePostCompileMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SCoveragePostCompileMojo.html">
+	c122 [label=<<table title="org.scoverage.plugin.SCoveragePostCompileMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SCoveragePostCompileMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoveragePostCompileMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoveragePostCompileMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	//org.scoverage.plugin.SCoveragePostCompileMojo extends org.apache.maven.plugin.AbstractMojo
-	c128:p -> c123:p [dir=back,arrowtail=empty];
+	c127:p -> c122:p [dir=back,arrowtail=empty];
 	// org.scoverage.plugin.SCoveragePostCompileMojo NAVASSOC org.apache.maven.project.MavenProject
-	c123:p -> c129:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	c122:p -> c128:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 	// org.apache.maven.plugin.AbstractMojo
-	c128 [label=<<table title="org.apache.maven.plugin.AbstractMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html">
+	c127 [label=<<table title="org.apache.maven.plugin.AbstractMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> AbstractMojo </font></td></tr>
 <tr><td align="center" balign="center"><font point-size="7.0"> org.apache.maven.plugin </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.apache.maven.project.MavenProject
-	c129 [label=<<table title="org.apache.maven.project.MavenProject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c128 [label=<<table title="org.apache.maven.project.MavenProject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MavenProject </td></tr>
 <tr><td align="center" balign="center"><font point-size="7.0"> org.apache.maven.project </font></td></tr>

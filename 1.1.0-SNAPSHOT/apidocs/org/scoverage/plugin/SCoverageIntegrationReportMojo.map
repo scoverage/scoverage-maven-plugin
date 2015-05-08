@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="c111" href="./SCoverageReportMojo.html" title="org.scoverage.plugin.SCoverageReportMojo" alt="" coords="45,17,187,41"/>
+<area shape="rect" id="c110" href="./SCoverageReportMojo.html" title="org.scoverage.plugin.SCoverageReportMojo" alt="" coords="45,17,187,41"/>
 <area shape="rect" id="node1" href="./SCoverageReportMojo.html" title="&lt;TABLE&gt;" alt="" coords="35,5,197,53"/>
-<area shape="rect" id="c114" href="./SCoverageIntegrationReportMojo.html" title="org.scoverage.plugin.SCoverageIntegrationReportMojo" alt="" coords="15,113,217,137"/>
+<area shape="rect" id="c113" href="./SCoverageIntegrationReportMojo.html" title="org.scoverage.plugin.SCoverageIntegrationReportMojo" alt="" coords="15,113,217,137"/>
 <area shape="rect" id="node2" href="./SCoverageIntegrationReportMojo.html" title="&lt;TABLE&gt;" alt="" coords="5,101,227,149"/>
 </map>

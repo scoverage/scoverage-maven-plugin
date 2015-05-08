@@ -10,40 +10,40 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.scoverage.plugin.SCoverageIntegrationCheckMojo
-	c62 [label=<<table title="org.scoverage.plugin.SCoverageIntegrationCheckMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageIntegrationCheckMojo.html">
+	c61 [label=<<table title="org.scoverage.plugin.SCoverageIntegrationCheckMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageIntegrationCheckMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoverageIntegrationCheckMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoverageIntegrationCheckMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.scoverage.plugin.SCoverageCheckOnlyMojo
-	c63 [label=<<table title="org.scoverage.plugin.SCoverageCheckOnlyMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageCheckOnlyMojo.html">
+	c62 [label=<<table title="org.scoverage.plugin.SCoverageCheckOnlyMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageCheckOnlyMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoverageCheckOnlyMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoverageCheckOnlyMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.scoverage.plugin.SCoverageCheckMojo
-	c64 [label=<<table title="org.scoverage.plugin.SCoverageCheckMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SCoverageCheckMojo.html">
+	c63 [label=<<table title="org.scoverage.plugin.SCoverageCheckMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SCoverageCheckMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoverageCheckMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoverageCheckMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	//org.scoverage.plugin.SCoverageIntegrationCheckMojo extends org.scoverage.plugin.SCoverageCheckMojo
-	c64:p -> c62:p [dir=back,arrowtail=empty];
+	c63:p -> c61:p [dir=back,arrowtail=empty];
 	//org.scoverage.plugin.SCoverageCheckOnlyMojo extends org.scoverage.plugin.SCoverageCheckMojo
-	c64:p -> c63:p [dir=back,arrowtail=empty];
+	c63:p -> c62:p [dir=back,arrowtail=empty];
 	//org.scoverage.plugin.SCoverageCheckMojo extends org.apache.maven.plugin.AbstractMojo
-	c65:p -> c64:p [dir=back,arrowtail=empty];
+	c64:p -> c63:p [dir=back,arrowtail=empty];
 	// org.scoverage.plugin.SCoverageCheckMojo NAVASSOC org.apache.maven.project.MavenProject
-	c64:p -> c90:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	c63:p -> c89:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 	// org.apache.maven.plugin.AbstractMojo
-	c65 [label=<<table title="org.apache.maven.plugin.AbstractMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html">
+	c64 [label=<<table title="org.apache.maven.plugin.AbstractMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> AbstractMojo </font></td></tr>
 <tr><td align="center" balign="center"><font point-size="7.0"> org.apache.maven.plugin </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.apache.maven.project.MavenProject
-	c90 [label=<<table title="org.apache.maven.project.MavenProject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c89 [label=<<table title="org.apache.maven.project.MavenProject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MavenProject </td></tr>
 <tr><td align="center" balign="center"><font point-size="7.0"> org.apache.maven.project </font></td></tr>

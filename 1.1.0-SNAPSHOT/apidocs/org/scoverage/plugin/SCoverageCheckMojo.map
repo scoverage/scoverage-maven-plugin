@@ -1,11 +1,11 @@
 <map id="G" name="G">
-<area shape="rect" id="c62" href="./SCoverageIntegrationCheckMojo.html" title="org.scoverage.plugin.SCoverageIntegrationCheckMojo" alt="" coords="15,209,214,233"/>
+<area shape="rect" id="c61" href="./SCoverageIntegrationCheckMojo.html" title="org.scoverage.plugin.SCoverageIntegrationCheckMojo" alt="" coords="15,209,214,233"/>
 <area shape="rect" id="node1" href="./SCoverageIntegrationCheckMojo.html" title="&lt;TABLE&gt;" alt="" coords="5,197,224,245"/>
-<area shape="rect" id="c63" href="./SCoverageCheckOnlyMojo.html" title="org.scoverage.plugin.SCoverageCheckOnlyMojo" alt="" coords="259,209,424,233"/>
+<area shape="rect" id="c62" href="./SCoverageCheckOnlyMojo.html" title="org.scoverage.plugin.SCoverageCheckOnlyMojo" alt="" coords="259,209,424,233"/>
 <area shape="rect" id="node2" href="./SCoverageCheckOnlyMojo.html" title="&lt;TABLE&gt;" alt="" coords="248,197,435,245"/>
-<area shape="rect" id="c64" href="./SCoverageCheckMojo.html" title="org.scoverage.plugin.SCoverageCheckMojo" alt="" coords="271,113,412,137"/>
+<area shape="rect" id="c63" href="./SCoverageCheckMojo.html" title="org.scoverage.plugin.SCoverageCheckMojo" alt="" coords="271,113,412,137"/>
 <area shape="rect" id="node3" href="./SCoverageCheckMojo.html" title="&lt;TABLE&gt;" alt="" coords="260,101,423,149"/>
 <area shape="rect" id="node9" href="null" title="&lt;TABLE&gt;" alt="" coords="459,197,608,245"/>
-<area shape="rect" id="c65" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="org.apache.maven.plugin.AbstractMojo" alt="" coords="279,11,403,47"/>
+<area shape="rect" id="c64" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="org.apache.maven.plugin.AbstractMojo" alt="" coords="279,11,403,47"/>
 <area shape="rect" id="node6" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="&lt;TABLE&gt;" alt="" coords="269,5,413,53"/>
 </map>
