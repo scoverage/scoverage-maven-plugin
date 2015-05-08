@@ -62,9 +62,6 @@ public class SCoverageCheckMojo
 
     /**
      * Directory where the coverage files should be written.
-     * <br>
-     *
-     * @since 1.0.0
      */
     @Parameter( property = "scoverage.dataDirectory", defaultValue = "${project.build.directory}/scoverage-data", required = true, readonly = true )
     private File dataDirectory;

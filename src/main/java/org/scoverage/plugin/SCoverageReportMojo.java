@@ -114,22 +114,19 @@ public class SCoverageReportMojo
     private List<MavenProject> reactorProjects;
 
     /**
-     * Directory where the coverage files should be written.
-     * <br>
-     *
-     * @since 1.0.0
+     * Destination directory where the coverage data files should be written.
      */
     @Parameter( property = "scoverage.dataDirectory", defaultValue = "${project.build.directory}/scoverage-data", required = true, readonly = true )
     private File dataDirectory;
 
     /**
-     * Specifies the destination directory where SCoverage saves the generated HTML files.
+     * Destination directory for generated HTML report files.
      */
     @Parameter( property = "scoverage.outputDirectory", defaultValue = "${project.reporting.outputDirectory}/scoverage", required = true, readonly = true )
     private File outputDirectory;
 
     /**
-     * Specifies the destination directory where SCoverage saves the generated HTML files.
+     * Destination directory for XML report files.
      */
     @Parameter( property = "scoverage.xmlOutputDirectory", defaultValue = "${project.build.directory}", required = true, readonly = true )
     private File xmlOutputDirectory;
