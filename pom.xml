@@ -467,6 +467,7 @@ under the License.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4</version>
                 <executions>
                     <execution>
                         <id>enforce-maven</id> <!-- don't change this 'id', it overrides one from 'oss-parent' parent -->
