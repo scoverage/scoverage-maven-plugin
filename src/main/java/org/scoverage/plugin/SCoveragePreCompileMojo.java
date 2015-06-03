@@ -314,8 +314,11 @@ public class SCoveragePreCompileMojo
                          "${project.build.directory}/scoverage-analysis/compile" );
             // for maven-surefire-plugin and scalatest-maven-plugin
             setProperty( projectProperties, "maven.test.failure.ignore", "true" );
+
             // for maven-jar-plugin
-            setProperty( projectProperties, "maven.jar.classifier", "scoverage" );
+            // VERY IMPORTANT! Prevents from overwriting regular project artifact file
+            // with instrumented one during "integration-check" or "integration-report" execution.
+            project.getBuild().setFinalName( "scoverage-" + project.getBuild().getFinalName() );
         }
         catch ( ArtifactNotFoundException e )
         {
