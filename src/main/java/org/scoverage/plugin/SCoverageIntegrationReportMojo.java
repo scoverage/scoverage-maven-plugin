@@ -30,7 +30,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  * <br>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
- * @since 1.0.5
+ * @since 1.1.0
  */
 @Mojo( name = "integration-report", threadSafe = false )
 @Execute( lifecycle = "scoverage", phase = LifecyclePhase.VERIFY )
