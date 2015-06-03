@@ -275,16 +275,11 @@ under the License.
                     <artifactId>maven-plugin-plugin</artifactId>
                     <version>${maven-plugin-plugin.version}</version>
                     <configuration>
-                        <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                        <extractors>
+                            <extractor>java-annotations</extractor>
+                        </extractors>
                     </configuration>
                     <executions>
-                        <execution>
-                            <id>mojo-descriptor</id>
-                            <phase>process-classes</phase>
-                            <goals>
-                                <goal>descriptor</goal>
-                            </goals>
-                        </execution>
                         <execution>
                             <id>help-goal</id>
                             <goals>
@@ -481,8 +476,8 @@ under the License.
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>2.2.1</version>
-                                    <message>Maven 2.1.1 or later required.</message>
+                                    <version>3.2.2</version>
+                                    <message>Maven 3.2.2 or later required.</message>
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
