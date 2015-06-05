@@ -18,7 +18,6 @@
 package org.scoverage.plugin;
 
 import java.io.File;
-//import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -39,7 +38,6 @@ import org.apache.maven.reporting.MavenReportException;
 
 import org.codehaus.doxia.sink.Sink;
 
-//import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
 import scala.Predef$;
@@ -249,6 +247,11 @@ public class SCoverageReportMojo
     @Override
     public boolean canGenerateReport()
     {
+        if ( !skip && !"pom".equals( project.getPackaging() ) )
+        {
+            SCoverageForkedLifecycleConfigurator.afterForkedLifecycleExit( project, reactorProjects );
+        }
+
         boolean canGenerateNonAggregatedReport = canGenerateNonAggregatedReport();
         boolean canAttachAggregatedReportToSite = canAttachAggregatedReportToSite();
 

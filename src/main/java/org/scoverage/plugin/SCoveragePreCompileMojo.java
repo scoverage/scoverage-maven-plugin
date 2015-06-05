@@ -37,6 +37,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+
 import org.codehaus.plexus.util.StringUtils;
 
 /**
@@ -234,29 +235,7 @@ public class SCoveragePreCompileMojo
             return;
         }
 
-        File classesDirectory = new File( project.getBuild().getOutputDirectory() );
-        File scoverageClassesDirectory = new File( classesDirectory.getParentFile(), "scoverage-classes" );
-        project.getBuild().setOutputDirectory( scoverageClassesDirectory.getAbsolutePath() );
-        for ( MavenProject reactorProject : reactorProjects )
-        {
-            if ( reactorProject != project ) // TODO - how to include only dependent reactor projects?
-            {
-                classesDirectory = new File( reactorProject.getBuild().getOutputDirectory() );
-                if ( !"scoverage-classes".equals( classesDirectory.getName() ) )
-                {
-                    scoverageClassesDirectory = new File( classesDirectory.getParentFile(), "scoverage-classes" );
-                    if ( scoverageClassesDirectory.isDirectory() )
-                    {
-                        reactorProject.getBuild().setOutputDirectory( scoverageClassesDirectory.getAbsolutePath() );
-                    }
-                    //else
-                    //{
-                        // SCoverage probably skipped for that module
-                        // TODO add info message
-                    //}
-                }
-            }
-        }
+        SCoverageForkedLifecycleConfigurator.afterForkedLifecycleEnter( project, reactorProjects );
 
         try
         {

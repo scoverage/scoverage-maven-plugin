@@ -18,6 +18,7 @@
 package org.scoverage.plugin;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
@@ -97,6 +98,12 @@ public class SCoverageCheckMojo
     private MavenProject project;
 
     /**
+     * All Maven projects in the reactor.
+     */
+    @Parameter( defaultValue = "${reactorProjects}", required = true, readonly = true )
+    private List<MavenProject> reactorProjects;
+
+    /**
      * Checks tests coverage and optionally fails the build if minimum level not reached.
      * 
      * @throws MojoFailureException if coverage is below minimumCoverage and failOnMinimumCoverage option set
@@ -116,8 +123,10 @@ public class SCoverageCheckMojo
             getLog().info( "Skipping Scoverage execution" );
             return;
         }
-        
+
         long ts = System.currentTimeMillis();
+
+        SCoverageForkedLifecycleConfigurator.afterForkedLifecycleExit( project, reactorProjects );
 
         if ( !dataDirectory.exists() || !dataDirectory.isDirectory() )
         {
