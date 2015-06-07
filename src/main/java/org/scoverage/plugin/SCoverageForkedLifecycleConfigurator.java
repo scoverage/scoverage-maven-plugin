@@ -22,6 +22,32 @@ import java.util.List;
 
 import org.apache.maven.project.MavenProject;
 
+/**
+ * Configures project and dependent modules in multi-module project when entering forked {@code scoverage}
+ * life cycle and restores original configuration after leaving it.
+ * <br>
+ * In default life cycle modules use:
+ * <ul>
+ * <li>
+ * {@code ${project.build.directory}/classes} as {@code project.outputDirectory} property value,
+ * </li>
+ * <li>
+ * {@code ${project.build.directory}/${project.finalName}.jar} as {@code project.artifact.file} property value.
+ * </li>
+ * </ul>
+ * <br>
+ * In forked {@code scoverage} life cycle modules use:
+ * <ul>
+ * <li>
+ * {@code ${project.build.directory}/scoverage-classes} as {@code project.outputDirectory} property value,
+ * </li>
+ * <li>
+ * {@code ${project.build.directory}/scoverage-${project.finalName}.jar} as {@code project.artifact.file} property value.
+ * </li>
+ * </ul>
+ * 
+ * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
+ */
 public class SCoverageForkedLifecycleConfigurator
 {
     private final static String PROP_ORIG_OUTPUT_DIRECTORY = "_scoverage.original.outputDirectory";
@@ -30,8 +56,14 @@ public class SCoverageForkedLifecycleConfigurator
     private final static String PROP_FORKED_OUTPUT_DIRECTORY = "_scoverage.forked.outputDirectory";
     private final static String PROP_FORKED_ARTIFACT_FILE = "_scoverage.forked.artifactFile";
 
-    // project - Maven project in "scoverage" forked life cycle
-    static void afterForkedLifecycleEnter( MavenProject project, List<MavenProject> reactorProjects )
+    /**
+     * Configures project and dependent modules in multi-module project when entering forked {@code scoverage}
+     * life cycle.
+     * 
+     * @param project Maven project in {@code scoverage} forked life cycle.
+     * @param reactorProjects all reactor Maven projects.
+     */
+    public static void afterForkedLifecycleEnter( MavenProject project, List<MavenProject> reactorProjects )
     {
         File classesDirectory = new File( project.getBuild().getOutputDirectory() );
         File scoverageClassesDirectory =
@@ -68,9 +100,16 @@ public class SCoverageForkedLifecycleConfigurator
         }
     }
 
-    // project - Maven project
-    // project.getExecutionProject() - Maven project in "scoverage" forked life cycle
-    static void afterForkedLifecycleExit( MavenProject project, List<MavenProject> reactorProjects )
+    /**
+     * Restores original configuration after leaving forked {@code scoverage} life cycle.
+     * <br>
+     * {@code project} is a project in default life cycle, {@code project.getExecutionProject()}
+     * is a project in just finished forked {@code scoverage} life cycle.
+     * 
+     * @param project Maven project in default life cycle.
+     * @param reactorProjects all reactor Maven projects.
+     */
+    public static void afterForkedLifecycleExit( MavenProject project, List<MavenProject> reactorProjects )
     {
         String forkedOutputDirectory = project.getExecutionProject().getBuild().getOutputDirectory();
         project.getProperties().put( PROP_FORKED_OUTPUT_DIRECTORY, forkedOutputDirectory );
