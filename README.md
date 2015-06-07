@@ -14,26 +14,25 @@ scoverage-maven-plugin is a plugin for Maven that integrates the scoverage code 
 
 In short:
 
-- **check** goal compiles classes with instrumentation, runs unit tests and checks coverage,
+- **[check](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/check-mojo.html)** goal compiles classes with instrumentation, runs unit tests and checks coverage,
 
-- **report** goal compiles classes with instrumentation, runs unit tests and generates reports,
+- **[report](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/report-mojo.html)** goal compiles classes with instrumentation, runs unit tests and generates reports,
 
-- **integration-check** goal (new in 1.1.0-SNAPSHOT) compiles classes with instrumentation, runs unit and integration tests and checks coverage,
+- **[integration-check](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/integration-check-mojo.html)** goal compiles classes with instrumentation, runs unit and integration tests and checks coverage,
 
-- **integration-report** goal (new in 1.1.0-SNAPSHOT) compiles classes with instrumentation, runs unit and integration tests and generates reports,
+- **[integration-report](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/integration-report-mojo.html)** goal compiles classes with instrumentation, runs unit and integration tests and generates reports,
 
-- **check-only** goal only checks coverage using coverage data generated earlier in the build (e.g. by **report** goal).
+- **[check-only](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/check-only-mojo.html)** goal only checks coverage using coverage data generated earlier in the build (e.g. by **report** goal).
 
-- **report-only** goal generates reports using coverage data generated earlier in the build (in most cases by **check** goal),
+- **[report-only](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/report-only-mojo.html)** goal generates reports using coverage data generated earlier in the build (in most cases by **check** goal),
 
-- **pre-compile** and **post-compile** are internal goals, don't use them,
+- **[pre-compile](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/pre-compile-mojo.html)** and **[post-compile](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/post-compile-mojo.html)** are internal goals, they configure Maven build in forked `scoverage` life cycle; don't use them.
 
 Maven generated plugin documentation:
 
 | Version | Documentation |
 |-----------|---------------------|
-| `1.0.4` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.0.4/plugin-info.html) |
-| `1.1.0-SNAPSHOT` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.1.0-SNAPSHOT/plugin-info.html) |
+| `1.1.0` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/plugin-info.html) |
 
 ##### Prerequisities / limitations
 
@@ -51,7 +50,7 @@ This can be set as project property.
 ```xml
 <project>
     <properties>
-        <scoverage.plugin.version>1.0.4</scoverage.plugin.version>
+        <scoverage.plugin.version>1.1.0</scoverage.plugin.version>
     </properties>
 </project>
 ```
@@ -59,12 +58,12 @@ This can be set as project property.
 
 ##### Scala version configuration
 
-Plugin supports Scala 2.10.x and 2.11.x versions by automatically loading and configuring scalac-scoverage-plugin_2.10 or scalac-scoverage-plugin_2.11 Scalac SCoverage Plugin artifact. For this to work Scala version has to be set. It can be done by defining "scalaVersion" plugin configuration parameter or "scala.version" project property. Without this setting, coverage will not be calculated. 
+Plugin supports Scala 2.10.x and 2.11.x versions by automatically loading and configuring scalac-scoverage-plugin_2.10 or scalac-scoverage-plugin_2.11 Scalac SCoverage Plugin artifact. For this to work Scala version has to be set. It can be done by defining `scalaVersion` plugin configuration parameter or `scala.version` project property. Without this setting, coverage will not be calculated. 
 
 ```xml
 <project>
     <properties>
-        <scala.version>2.11.4</scala.version>
+        <scala.version>2.11.6</scala.version>
     </properties>
 </project>
 ```
@@ -80,7 +79,7 @@ or
                 <artifactId>scoverage-maven-plugin</artifactId>
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
-                    <scalaVersion>2.11.4</scalaVersion>
+                    <scalaVersion>2.11.6</scalaVersion>
                     <-- other parameters -->
                 </configuration>
              </plugin>
@@ -89,7 +88,7 @@ or
 </project>
 ```
 
-The first method is better because once the property is defined it's value can be used in other places of the build file. For example in scala-library dependency version every Scala build should declare. 
+The first method is better because once the property is defined it's value can be used in other places of the build file. For example in `scala-library` dependency version every Scala build should declare. 
 
 ```xml
 <project>
@@ -103,17 +102,16 @@ The first method is better because once the property is defined it's value can b
 </project>
 ```
 
-
 ##### Scalac SCoverage plugin version configuration
 
 Maven SCoverage plugin uses by default the latest version of the [scalac-scoverage-plugin](https://github.com/scoverage/scalac-scoverage-plugin) available on its release day.
 If newer, better version of [scalac-scoverage-plugin](https://github.com/scoverage/scalac-scoverage-plugin) is available, it can be used instead.
-It can be configured by defining "scalacPluginVersion" plugin configuration parameter or "scoverage.scalacPluginVersion" project property.
+It can be configured by defining `scalacPluginVersion` plugin configuration parameter or `scoverage.scalacPluginVersion` project property.
 
 ```xml
 <project>
     <properties>
-        <scoverage.scalacPluginVersion>1.0.4</scoverage.scalacPluginVersion>
+        <scoverage.scalacPluginVersion>1.1.0</scoverage.scalacPluginVersion>
     </properties>
 </project>
 ```
@@ -129,7 +127,7 @@ or
                 <artifactId>scoverage-maven-plugin</artifactId>
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
-                    <scalacPluginVersion>1.0.4</scalacPluginVersion>
+                    <scalacPluginVersion>1.1.0</scalacPluginVersion>
                     <-- other parameters -->
                 </configuration>
              </plugin>
@@ -138,9 +136,46 @@ or
 </project>
 ```
 
-##### Adding SCoverage report to site
+##### Integration tests coverage check and reports
 
-Just add it to reporting section of your project. 
+`integration-check` and `integration-report` mojos are similar to `check` and `report` mojos, but they execute forked `scoverage` life cycle up to `verify` phase (integration tests are usually executed in `integration-test` phase).
+
+##### Aggregated reports for multi-module projects
+
+There is no separate mojo for aggregated reports, there is `aggregate` parameter.
+To additionally genenerate aggregated SCoverage report for root module, when generating regular reports, set `aggregate` parameter value to `true`.
+It works only in multimodule projects.
+
+It can be configured by defining `aggregate` plugin configuration parameter or `scoverage.aggregate` project property.
+
+```xml
+<project>
+    <properties>
+        <scoverage.aggregate>true</scoverage.aggregate>
+    </properties>
+</project>
+```
+
+in `build/plugins` or `build/pluginManagement` section when running reports directly from console (e.g. `mvn scoverage:report`)
+
+```xml
+<project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+             </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+or in `reporting/plugins` section when adding report to Maven generated site
 
 ```xml
 <project>
@@ -150,11 +185,52 @@ Just add it to reporting section of your project.
                 <groupId>org.scoverage</groupId>
                 <artifactId>scoverage-maven-plugin</artifactId>
                 <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+             </plugin>
+        </plugins>
+    </reporting>
+</project>
+```
+
+##### Adding SCoverage report to site
+
+Add plugin to reporting section of your project and configure it to generate one of reporting mojos.
+By default Maven executes all plugin's reporting mojos, but in case of SCoverage plugin this does not make sense, every executed report will overwrite the previous one.
+
+```xml
+<project>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                            <!-- or <report>integration-report</report> -->
+                            <!-- or <report>report-only</report> -->
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
         </plugins>
     </reporting>
 </project>
 ```
+
+Which reporting mojo should be selected:
+
+| Reporting mojo       | When                                          |
+|----------------------|-----------------------------------------------|
+| [report](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/report-mojo.html) | When not using integration tests (most cases) |
+| [integration-report](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/integration-report-mojo.html) | When using integration tests                  |
+| [report-only](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/report-only-mojo.html) | When coverage data was already generated (usually by [check](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/check-mojo.html) or [integration-check](http://scoverage.github.io/scoverage-maven-plugin/1.1.0/integration-check-mojo.html) mojo) |
+
+##### Customizing code instrumentation
 
 If you want to customize plugin's configuration parameters used by compilation supporting part of the plugin, do it in 'plugins' or 'pluginManagement' section:
 ```xml
@@ -179,8 +255,6 @@ If you want to customize plugin's configuration parameters used by compilation s
 
 Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scoverage) for more information about [highlighting](https://github.com/scoverage/sbt-scoverage#highlighting) and [excludedPackages](https://github.com/scoverage/sbt-scoverage#exclude-classes-and-packages).
 
-There are no configuration parameters for report generating part of the plugin, so no configuration should be added inside 'reporting' section. 
-
 
 ##### Checking minimum test coverage level
 
@@ -199,7 +273,7 @@ There are no configuration parameters for report generating part of the plugin, 
                 <executions>
                     <execution>
                         <goals>
-                            <goal>check</goal>
+                            <goal>check</goal> <!-- or integration-check -->
                         </goals>
                     </execution>
                 </executions>
@@ -229,7 +303,7 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
                 <executions>
                     <execution>
                         <goals>
-                            <goal>check</goal>
+                            <goal>check</goal> <!-- or integration-check -->
                         </goals>
                     </execution>
                 </executions>
@@ -256,7 +330,7 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
 </project>
 ```
 
-There are many [example projects](https://github.com/scoverage/scoverage-maven-samples/tree/scoverage-maven-samples-1.0.4/).
+There are many [example projects](https://github.com/scoverage/scoverage-maven-samples/tree/scoverage-maven-samples-1.1.0/).
 Go to one of them and run `mvn site`.
 
 ## License
