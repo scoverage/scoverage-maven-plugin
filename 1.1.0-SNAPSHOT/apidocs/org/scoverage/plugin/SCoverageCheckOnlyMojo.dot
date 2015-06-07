@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.scoverage.plugin.SCoverageCheckOnlyMojo
-	c97 [label=<<table title="org.scoverage.plugin.SCoverageCheckOnlyMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SCoverageCheckOnlyMojo.html">
+	c102 [label=<<table title="org.scoverage.plugin.SCoverageCheckOnlyMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SCoverageCheckOnlyMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoverageCheckOnlyMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoverageCheckOnlyMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.scoverage.plugin.SCoverageCheckMojo
-	c98 [label=<<table title="org.scoverage.plugin.SCoverageCheckMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageCheckMojo.html">
+	c103 [label=<<table title="org.scoverage.plugin.SCoverageCheckMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageCheckMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoverageCheckMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoverageCheckMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	//org.scoverage.plugin.SCoverageCheckOnlyMojo extends org.scoverage.plugin.SCoverageCheckMojo
-	c98:p -> c97:p [dir=back,arrowtail=empty];
+	c103:p -> c102:p [dir=back,arrowtail=empty];
 }
 

@@ -10,49 +10,49 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.scoverage.plugin.HelpMojo
-	c17 [label=<<table title="org.scoverage.plugin.HelpMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HelpMojo.html">
+	c18 [label=<<table title="org.scoverage.plugin.HelpMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HelpMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> HelpMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HelpMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	//org.scoverage.plugin.HelpMojo extends org.apache.maven.plugin.AbstractMojo
-	c50:p -> c17:p [dir=back,arrowtail=empty];
-	// org.scoverage.plugin.HelpMojo DEPEND org.w3c.dom.Element
-	c17:p -> c51:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	c53:p -> c18:p [dir=back,arrowtail=empty];
 	// org.scoverage.plugin.HelpMojo DEPEND org.w3c.dom.Node
-	c17:p -> c53:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	c18:p -> c55:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 	// org.scoverage.plugin.HelpMojo DEPEND org.w3c.dom.Document
-	c17:p -> c54:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
-	// org.apache.maven.plugin.AbstractMojo
-	c50 [label=<<table title="org.apache.maven.plugin.AbstractMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="arial italic"> AbstractMojo </font></td></tr>
-<tr><td align="center" balign="center"><font point-size="7.0"> org.apache.maven.plugin </font></td></tr>
-		</table></td></tr>
-		</table>>, URL="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
+	c18:p -> c56:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	// org.scoverage.plugin.HelpMojo DEPEND org.w3c.dom.Element
+	c18:p -> c57:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 	// org.w3c.dom.Element
-	c51 [label=<<table title="org.w3c.dom.Element" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/6/docs/api/org/w3c/dom/Element.html">
+	c57 [label=<<table title="org.w3c.dom.Element" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Element.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Element </td></tr>
 <tr><td align="center" balign="center"><font point-size="7.0"> org.w3c.dom </font></td></tr>
 		</table></td></tr>
-		</table>>, URL="http://docs.oracle.com/javase/6/docs/api/org/w3c/dom/Element.html", fontname="arial", fontcolor="black", fontsize=9.0];
-	// org.w3c.dom.Node
-	c53 [label=<<table title="org.w3c.dom.Node" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/6/docs/api/org/w3c/dom/Node.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> Node </td></tr>
-<tr><td align="center" balign="center"><font point-size="7.0"> org.w3c.dom </font></td></tr>
-		</table></td></tr>
-		</table>>, URL="http://docs.oracle.com/javase/6/docs/api/org/w3c/dom/Node.html", fontname="arial", fontcolor="black", fontsize=9.0];
+		</table>>, URL="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Element.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.w3c.dom.Document
-	c54 [label=<<table title="org.w3c.dom.Document" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/6/docs/api/org/w3c/dom/Document.html">
+	c56 [label=<<table title="org.w3c.dom.Document" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Document.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Document </td></tr>
 <tr><td align="center" balign="center"><font point-size="7.0"> org.w3c.dom </font></td></tr>
 		</table></td></tr>
-		</table>>, URL="http://docs.oracle.com/javase/6/docs/api/org/w3c/dom/Document.html", fontname="arial", fontcolor="black", fontsize=9.0];
+		</table>>, URL="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Document.html", fontname="arial", fontcolor="black", fontsize=9.0];
+	// org.w3c.dom.Node
+	c55 [label=<<table title="org.w3c.dom.Node" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Node.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> Node </td></tr>
+<tr><td align="center" balign="center"><font point-size="7.0"> org.w3c.dom </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Node.html", fontname="arial", fontcolor="black", fontsize=9.0];
+	// org.apache.maven.plugin.AbstractMojo
+	c53 [label=<<table title="org.apache.maven.plugin.AbstractMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="arial italic"> AbstractMojo </font></td></tr>
+<tr><td align="center" balign="center"><font point-size="7.0"> org.apache.maven.plugin </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 }
 
