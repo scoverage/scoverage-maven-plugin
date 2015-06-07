@@ -245,6 +245,7 @@ under the License.
                         <links>
                             <link>http://docs.oracle.com/javase/1.6.0/docs/api/</link>
                             <link>http://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
+                            <link>http://maven.apache.org/ref/${maven.version}/maven-project/apidocs/</link>
                             <link>http://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
                             <link>http://maven.apache.org/doxia/doxia/apidocs/</link>
                         </links>
@@ -537,6 +538,7 @@ under the License.
                             <links>
                                 <link>http://docs.oracle.com/javase/1.6.0/docs/api/</link>
                                 <link>http://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
+                                <link>http://maven.apache.org/ref/${maven.version}/maven-project/apidocs/</link>
                                 <link>http://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
                                 <link>http://maven.apache.org/doxia/doxia/apidocs/</link>
                             </links>
@@ -646,6 +648,7 @@ under the License.
                             <links>
                                 <link>http://docs.oracle.com/javase/1.6.0/docs/api/</link>
                                 <link>http://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
+                                <link>http://maven.apache.org/ref/${maven.version}/maven-project/apidocs/</link>
                                 <link>http://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
                                 <link>http://maven.apache.org/doxia/doxia/apidocs/</link>
                             </links>
