@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="c102" href="./SCoverageCheckOnlyMojo.html" title="org.scoverage.plugin.SCoverageCheckOnlyMojo" alt="" coords="16,113,181,137"/>
+<area shape="rect" id="node1" href="./SCoverageCheckOnlyMojo.html" title="&lt;TABLE&gt;" alt="" coords="5,101,192,149"/>
+<area shape="rect" id="c103" href="./SCoverageCheckMojo.html" title="org.scoverage.plugin.SCoverageCheckMojo" alt="" coords="28,17,169,41"/>
+<area shape="rect" id="node2" href="./SCoverageCheckMojo.html" title="&lt;TABLE&gt;" alt="" coords="17,5,180,53"/>
+</map>
