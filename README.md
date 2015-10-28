@@ -275,6 +275,7 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
                         <goals>
                             <goal>check</goal> <!-- or integration-check -->
                         </goals>
+                        <phase>prepare-package</phase> <!-- or any other phase -->
                     </execution>
                 </executions>
              </plugin>
@@ -305,6 +306,7 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
                         <goals>
                             <goal>check</goal> <!-- or integration-check -->
                         </goals>
+                        <phase>prepare-package</phase> <!-- or any other phase -->
                     </execution>
                 </executions>
              </plugin>
