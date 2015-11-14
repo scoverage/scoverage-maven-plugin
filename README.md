@@ -63,7 +63,7 @@ Plugin supports Scala 2.10.x and 2.11.x versions by automatically loading and co
 ```xml
 <project>
     <properties>
-        <scala.version>2.11.6</scala.version>
+        <scala.version>2.11.7</scala.version>
     </properties>
 </project>
 ```
@@ -79,7 +79,7 @@ or
                 <artifactId>scoverage-maven-plugin</artifactId>
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
-                    <scalaVersion>2.11.6</scalaVersion>
+                    <scalaVersion>2.11.7</scalaVersion>
                     <-- other parameters -->
                 </configuration>
              </plugin>
