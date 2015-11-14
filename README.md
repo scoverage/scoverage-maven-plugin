@@ -38,7 +38,7 @@ Maven generated plugin documentation:
 
 Plugin is compatible with two Maven Scala compiler plugins:
 
-- [SBT Compiler Maven Plugin](https://code.google.com/p/sbt-compiler-maven-plugin/) - version **1.0.0-beta5** or later required,
+- [SBT Compiler Maven Plugin](https://github.com/sbt-compiler-maven-plugin/sbt-compiler-maven-plugin/) - version **1.0.0-beta5** or later required,
 
 - [Scala Maven Plugin](http://davidb.github.io/scala-maven-plugin/) - version **3.0.0** or later required, [addScalacArgs](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#addScalacArgs) and [analysisCacheFile](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#analysisCacheFile) configuration parameters cannot be set directly, use project properties 'addScalacArgs' and 'analysisCacheFile' instead.
 
