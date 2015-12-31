@@ -43,6 +43,11 @@ under the License.
         <tag>HEAD</tag>
     </scm>
 
+    <ciManagement>
+        <system>Travis CI</system>
+        <url>https://travis-ci.org/scoverage/scoverage-maven-plugin</url>
+    </ciManagement>
+
     <issueManagement>
         <system>GitHub Issues</system>
         <url>https://github.com/scoverage/scoverage-maven-plugin/issues</url>

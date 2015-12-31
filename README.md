@@ -5,7 +5,7 @@ scoverage-maven-plugin is a plugin for Maven that integrates the scoverage code 
 
 [![Join the chat at https://gitter.im/scoverage/scoverage-maven-plugin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scoverage/scoverage-maven-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Build Status](https://travis-ci.org/scoverage/scoverage-maven-plugin.png)](https://travis-ci.org/scoverage/scoverage-maven-plugin)
+[![Build Status](https://travis-ci.org/scoverage/scoverage-maven-plugin.png?branch=master)](https://travis-ci.org/scoverage/scoverage-maven-plugin)
 [![License](http://img.shields.io/:license-Apache%202-red.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.scoverage/scoverage-maven-plugin/badge.png?style=flat)](http://search.maven.org/#search|ga|1|g%3A%22org.scoverage%22%20AND%20a%3A%22scoverage-maven-plugin%22)
 
