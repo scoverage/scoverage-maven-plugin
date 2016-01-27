@@ -49,7 +49,7 @@ under the License.
     </ciManagement>
 
     <issueManagement>
-        <system>GitHub Issues</system>
+        <system>GitHub</system>
         <url>https://github.com/scoverage/scoverage-maven-plugin/issues</url>
     </issueManagement>
 
