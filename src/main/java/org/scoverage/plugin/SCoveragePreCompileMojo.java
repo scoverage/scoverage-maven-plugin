@@ -440,6 +440,7 @@ public class SCoveragePreCompileMojo
 
         //if ( project.getDependencyArtifacts() != null )//TODO - remove "if"?
         //{
+            @SuppressWarnings("unchecked")
             Set<Artifact> set = new LinkedHashSet<Artifact>( project.getDependencyArtifacts() );
             set.add( providedArtifact );
             project.setDependencyArtifacts( set );
