@@ -40,6 +40,7 @@ import org.codehaus.doxia.sink.Sink;
 
 import org.codehaus.plexus.util.StringUtils;
 
+import scala.Option;
 import scala.Predef$;
 import scala.collection.Iterator;
 import scala.collection.JavaConversions;
@@ -92,6 +93,15 @@ public class SCoverageReportMojo
      */
     @Parameter( property = "scoverage.aggregate", defaultValue = "false" )
     private boolean aggregate;
+
+    /**
+     * The file encoding to use when reading Scala sources.
+     * <br>
+     * 
+     * @since 1.2.0
+     */
+    @Parameter( property = "encoding", defaultValue = "${project.build.sourceEncoding}" )
+    private String encoding;
 
     /**
      * Specifies if the build will fail if there are errors during report execution or not.
@@ -405,7 +415,7 @@ public class SCoverageReportMojo
         new ScoverageXmlWriter( sourceRootsAsScalaSeq, xmlOutputDirectory, false ).write( coverage );
 
         getLog().info( "[scoverage] Generating scoverage HTML report..." );
-        new ScoverageHtmlWriter( sourceRootsAsScalaSeq, outputDirectory ).write( coverage );
+        new ScoverageHtmlWriter( sourceRootsAsScalaSeq, outputDirectory, Option.<String>apply(encoding) ).write( coverage );
     }
 
     private void generateAggregatedReports()
