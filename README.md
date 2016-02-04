@@ -30,9 +30,10 @@ In short:
 
 Maven generated plugin documentation:
 
-| Version | Documentation |
-|-----------|---------------------|
-| `1.1.1` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/plugin-info.html) |
+| Version          | Documentation                                                                                    |
+|------------------|--------------------------------------------------------------------------------------------------|
+| `1.1.1`          | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/plugin-info.html)          |
+| `1.2.0-SNAPSHOT` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.2.0-SNAPSHOT/plugin-info.html) |
 
 ##### Prerequisities / limitations
 
