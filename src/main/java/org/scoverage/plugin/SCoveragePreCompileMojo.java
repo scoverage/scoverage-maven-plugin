@@ -337,6 +337,7 @@ public class SCoveragePreCompileMojo
         if ( result == null )
         {
             // check project direct dependencies (transitive dependencies cannot be checked in this Maven lifecycle phase)
+            @SuppressWarnings("unchecked")
             List<Dependency> dependencies = project.getDependencies();
             for ( Dependency dependency: dependencies )
             {

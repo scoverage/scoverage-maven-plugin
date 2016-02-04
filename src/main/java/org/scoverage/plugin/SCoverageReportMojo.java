@@ -36,8 +36,6 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.MavenReport;
 import org.apache.maven.reporting.MavenReportException;
 
-import org.codehaus.doxia.sink.Sink;
-
 import org.codehaus.plexus.util.StringUtils;
 
 import scala.Option;
@@ -186,7 +184,8 @@ public class SCoverageReportMojo
 
     /** {@inheritDoc} */
     @Override
-    public void generate( Sink sink, Locale locale )
+    @SuppressWarnings("deprecation")
+    public void generate( org.codehaus.doxia.sink.Sink sink, Locale locale )
         throws MavenReportException
     {
         boolean canGenerateNonAggregatedReport = canGenerateNonAggregatedReport();
@@ -388,6 +387,7 @@ public class SCoverageReportMojo
     private void generateReports()
         throws MavenReportException /*, RuntimeException*/
     {
+        @SuppressWarnings("unchecked")
         List<String> sourceDirs = project.getExecutionProject().getCompileSourceRoots();
         List<File> sourceRoots = new ArrayList<File>( sourceDirs.size() );
         for ( String dir: sourceDirs )
