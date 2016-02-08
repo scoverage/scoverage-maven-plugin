@@ -255,7 +255,7 @@
 <a class="jxr_linenumber" name="L247" href="#L247">247</a>                 <strong class="jxr_keyword">return</strong>; <em class="jxr_comment">// scoverage plugin will not be configured</em>
 <a class="jxr_linenumber" name="L248" href="#L248">248</a>             }
 <a class="jxr_linenumber" name="L249" href="#L249">249</a> 
-<a class="jxr_linenumber" name="L250" href="#L250">250</a>             addScoverageDependenciesToTestClasspath( runtimeArtifact );
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>             addScoverageDependenciesToClasspath( runtimeArtifact );
 <a class="jxr_linenumber" name="L251" href="#L251">251</a> 
 <a class="jxr_linenumber" name="L252" href="#L252">252</a>             String arg = DATA_DIR_OPTION + dataDirectory.getAbsolutePath();
 <a class="jxr_linenumber" name="L253" href="#L253">253</a>             String _scalacOptions = quoteArgument( arg );
@@ -345,7 +345,7 @@
 <a class="jxr_linenumber" name="L337" href="#L337">337</a>         <strong class="jxr_keyword">if</strong> ( result == <strong class="jxr_keyword">null</strong> )
 <a class="jxr_linenumber" name="L338" href="#L338">338</a>         {
 <a class="jxr_linenumber" name="L339" href="#L339">339</a>             <em class="jxr_comment">// check project direct dependencies (transitive dependencies cannot be checked in this Maven lifecycle phase)</em>
-<a class="jxr_linenumber" name="L340" href="#L340">340</a>             @SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>             @SuppressWarnings( <span class="jxr_string">"unchecked"</span> )
 <a class="jxr_linenumber" name="L341" href="#L341">341</a>             List&lt;Dependency&gt; dependencies = project.getDependencies();
 <a class="jxr_linenumber" name="L342" href="#L342">342</a>             <strong class="jxr_keyword">for</strong> ( Dependency dependency: dependencies )
 <a class="jxr_linenumber" name="L343" href="#L343">343</a>             {
@@ -441,42 +441,24 @@
 <a class="jxr_linenumber" name="L433" href="#L433">433</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L434" href="#L434">434</a> <em class="jxr_javadoccomment">     * @throws MojoExecutionException</em>
 <a class="jxr_linenumber" name="L435" href="#L435">435</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L436" href="#L436">436</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> addScoverageDependenciesToTestClasspath( Artifact scalaScoveragePluginArtifact )
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> addScoverageDependenciesToClasspath( Artifact scalaScoveragePluginArtifact )
 <a class="jxr_linenumber" name="L437" href="#L437">437</a>         <strong class="jxr_keyword">throws</strong> MojoExecutionException
 <a class="jxr_linenumber" name="L438" href="#L438">438</a>     {
-<a class="jxr_linenumber" name="L439" href="#L439">439</a>         Artifact providedArtifact = artifactScopeToProvided( scalaScoveragePluginArtifact );
-<a class="jxr_linenumber" name="L440" href="#L440">440</a> 
-<a class="jxr_linenumber" name="L441" href="#L441">441</a>         <em class="jxr_comment">//if ( project.getDependencyArtifacts() != null )//TODO - remove "if"?</em>
-<a class="jxr_linenumber" name="L442" href="#L442">442</a>         <em class="jxr_comment">//{</em>
-<a class="jxr_linenumber" name="L443" href="#L443">443</a>             @SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
-<a class="jxr_linenumber" name="L444" href="#L444">444</a>             Set&lt;Artifact&gt; set = <strong class="jxr_keyword">new</strong> LinkedHashSet&lt;Artifact&gt;( project.getDependencyArtifacts() );
-<a class="jxr_linenumber" name="L445" href="#L445">445</a>             set.add( providedArtifact );
-<a class="jxr_linenumber" name="L446" href="#L446">446</a>             project.setDependencyArtifacts( set );
-<a class="jxr_linenumber" name="L447" href="#L447">447</a>         <em class="jxr_comment">//}</em>
-<a class="jxr_linenumber" name="L448" href="#L448">448</a>     }
-<a class="jxr_linenumber" name="L449" href="#L449">449</a> 
-<a class="jxr_linenumber" name="L450" href="#L450">450</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L451" href="#L451">451</a> <em class="jxr_javadoccomment">     * Use provided instead of just test, so it's available on both compile and test classpath (MCOBERTURA-26)</em>
-<a class="jxr_linenumber" name="L452" href="#L452">452</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L453" href="#L453">453</a> <em class="jxr_javadoccomment">     * @param artifact</em>
-<a class="jxr_linenumber" name="L454" href="#L454">454</a> <em class="jxr_javadoccomment">     * @return re-scoped artifact</em>
-<a class="jxr_linenumber" name="L455" href="#L455">455</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L456" href="#L456">456</a>     <strong class="jxr_keyword">private</strong> Artifact artifactScopeToProvided( Artifact artifact )
-<a class="jxr_linenumber" name="L457" href="#L457">457</a>     {
-<a class="jxr_linenumber" name="L458" href="#L458">458</a>         <strong class="jxr_keyword">return</strong> factory.createArtifact( artifact.getGroupId(), artifact.getArtifactId(), artifact.getVersion(),
-<a class="jxr_linenumber" name="L459" href="#L459">459</a>                                        Artifact.SCOPE_PROVIDED, artifact.getType() );
-<a class="jxr_linenumber" name="L460" href="#L460">460</a>     }
-<a class="jxr_linenumber" name="L461" href="#L461">461</a> 
-<a class="jxr_linenumber" name="L462" href="#L462">462</a> 
-<a class="jxr_linenumber" name="L463" href="#L463">463</a>     <strong class="jxr_keyword">private</strong> Artifact getResolvedArtifact( String groupId, String artifactId, String version )
-<a class="jxr_linenumber" name="L464" href="#L464">464</a>         <strong class="jxr_keyword">throws</strong> ArtifactNotFoundException, ArtifactResolutionException
-<a class="jxr_linenumber" name="L465" href="#L465">465</a>     {
-<a class="jxr_linenumber" name="L466" href="#L466">466</a>         Artifact artifact = factory.createArtifact( groupId, artifactId, version, Artifact.SCOPE_RUNTIME, <span class="jxr_string">"jar"</span> );
-<a class="jxr_linenumber" name="L467" href="#L467">467</a>         resolver.resolve( artifact, remoteRepos, localRepo );
-<a class="jxr_linenumber" name="L468" href="#L468">468</a>         <strong class="jxr_keyword">return</strong> artifact;
-<a class="jxr_linenumber" name="L469" href="#L469">469</a>     }
-<a class="jxr_linenumber" name="L470" href="#L470">470</a> 
-<a class="jxr_linenumber" name="L471" href="#L471">471</a> }
+<a class="jxr_linenumber" name="L439" href="#L439">439</a>         @SuppressWarnings( <span class="jxr_string">"unchecked"</span> )
+<a class="jxr_linenumber" name="L440" href="#L440">440</a>         Set&lt;Artifact&gt; set = <strong class="jxr_keyword">new</strong> LinkedHashSet&lt;Artifact&gt;( project.getDependencyArtifacts() );
+<a class="jxr_linenumber" name="L441" href="#L441">441</a>         set.add( scalaScoveragePluginArtifact );
+<a class="jxr_linenumber" name="L442" href="#L442">442</a>         project.setDependencyArtifacts( set );
+<a class="jxr_linenumber" name="L443" href="#L443">443</a>     }
+<a class="jxr_linenumber" name="L444" href="#L444">444</a> 
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>     <strong class="jxr_keyword">private</strong> Artifact getResolvedArtifact( String groupId, String artifactId, String version )
+<a class="jxr_linenumber" name="L446" href="#L446">446</a>         <strong class="jxr_keyword">throws</strong> ArtifactNotFoundException, ArtifactResolutionException
+<a class="jxr_linenumber" name="L447" href="#L447">447</a>     {
+<a class="jxr_linenumber" name="L448" href="#L448">448</a>         Artifact artifact = factory.createArtifact( groupId, artifactId, version, Artifact.SCOPE_COMPILE, <span class="jxr_string">"jar"</span> );
+<a class="jxr_linenumber" name="L449" href="#L449">449</a>         resolver.resolve( artifact, remoteRepos, localRepo );
+<a class="jxr_linenumber" name="L450" href="#L450">450</a>         <strong class="jxr_keyword">return</strong> artifact;
+<a class="jxr_linenumber" name="L451" href="#L451">451</a>     }
+<a class="jxr_linenumber" name="L452" href="#L452">452</a> 
+<a class="jxr_linenumber" name="L453" href="#L453">453</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2014&#x2013;2016. All rights reserved.</div>

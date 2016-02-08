@@ -39,32 +39,38 @@ digraph G {
 <tr><td align="center" balign="center"> SCoveragePostCompileMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoveragePostCompileMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
+	// org.scoverage.plugin.SCoveragePackageMojo
+	c5 [label=<<table title="org.scoverage.plugin.SCoveragePackageMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoveragePackageMojo.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> SCoveragePackageMojo </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SCoveragePackageMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.scoverage.plugin.SCoverageIntegrationReportMojo
-	c5 [label=<<table title="org.scoverage.plugin.SCoverageIntegrationReportMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageIntegrationReportMojo.html">
+	c6 [label=<<table title="org.scoverage.plugin.SCoverageIntegrationReportMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageIntegrationReportMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoverageIntegrationReportMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoverageIntegrationReportMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.scoverage.plugin.SCoverageIntegrationCheckMojo
-	c6 [label=<<table title="org.scoverage.plugin.SCoverageIntegrationCheckMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageIntegrationCheckMojo.html">
+	c7 [label=<<table title="org.scoverage.plugin.SCoverageIntegrationCheckMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageIntegrationCheckMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoverageIntegrationCheckMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoverageIntegrationCheckMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.scoverage.plugin.SCoverageForkedLifecycleConfigurator
-	c7 [label=<<table title="org.scoverage.plugin.SCoverageForkedLifecycleConfigurator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageForkedLifecycleConfigurator.html">
+	c8 [label=<<table title="org.scoverage.plugin.SCoverageForkedLifecycleConfigurator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageForkedLifecycleConfigurator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoverageForkedLifecycleConfigurator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoverageForkedLifecycleConfigurator.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.scoverage.plugin.SCoverageCheckOnlyMojo
-	c8 [label=<<table title="org.scoverage.plugin.SCoverageCheckOnlyMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageCheckOnlyMojo.html">
+	c9 [label=<<table title="org.scoverage.plugin.SCoverageCheckOnlyMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageCheckOnlyMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoverageCheckOnlyMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoverageCheckOnlyMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.scoverage.plugin.SCoverageCheckMojo
-	c9 [label=<<table title="org.scoverage.plugin.SCoverageCheckMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageCheckMojo.html">
+	c10 [label=<<table title="org.scoverage.plugin.SCoverageCheckMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SCoverageCheckMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoverageCheckMojo </td></tr>
 		</table></td></tr>
@@ -72,10 +78,10 @@ digraph G {
 	//org.scoverage.plugin.SCoverageReportOnlyMojo extends org.scoverage.plugin.SCoverageReportMojo
 	c2:p -> c1:p [dir=back,arrowtail=empty];
 	//org.scoverage.plugin.SCoverageIntegrationReportMojo extends org.scoverage.plugin.SCoverageReportMojo
-	c2:p -> c5:p [dir=back,arrowtail=empty];
+	c2:p -> c6:p [dir=back,arrowtail=empty];
 	//org.scoverage.plugin.SCoverageIntegrationCheckMojo extends org.scoverage.plugin.SCoverageCheckMojo
-	c9:p -> c6:p [dir=back,arrowtail=empty];
+	c10:p -> c7:p [dir=back,arrowtail=empty];
 	//org.scoverage.plugin.SCoverageCheckOnlyMojo extends org.scoverage.plugin.SCoverageCheckMojo
-	c9:p -> c8:p [dir=back,arrowtail=empty];
+	c10:p -> c9:p [dir=back,arrowtail=empty];
 }
 
