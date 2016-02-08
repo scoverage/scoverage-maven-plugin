@@ -247,7 +247,7 @@ public class SCoveragePreCompileMojo
                 return; // scoverage plugin will not be configured
             }
 
-            addScoverageDependenciesToTestClasspath( runtimeArtifact );
+            addScoverageDependenciesToClasspath( runtimeArtifact );
 
             String arg = DATA_DIR_OPTION + dataDirectory.getAbsolutePath();
             String _scalacOptions = quoteArgument( arg );
@@ -337,7 +337,7 @@ public class SCoveragePreCompileMojo
         if ( result == null )
         {
             // check project direct dependencies (transitive dependencies cannot be checked in this Maven lifecycle phase)
-            @SuppressWarnings("unchecked")
+            @SuppressWarnings( "unchecked" )
             List<Dependency> dependencies = project.getDependencies();
             for ( Dependency dependency: dependencies )
             {
@@ -433,16 +433,13 @@ public class SCoveragePreCompileMojo
      *
      * @throws MojoExecutionException
      */
-    private void addScoverageDependenciesToTestClasspath( Artifact scalaScoveragePluginArtifact )
+    private void addScoverageDependenciesToClasspath( Artifact scalaScoveragePluginArtifact )
         throws MojoExecutionException
     {
-        //if ( project.getDependencyArtifacts() != null )//TODO - remove "if"?
-        //{
-            @SuppressWarnings("unchecked")
-            Set<Artifact> set = new LinkedHashSet<Artifact>( project.getDependencyArtifacts() );
-            set.add( scalaScoveragePluginArtifact );
-            project.setDependencyArtifacts( set );
-        //}
+        @SuppressWarnings( "unchecked" )
+        Set<Artifact> set = new LinkedHashSet<Artifact>( project.getDependencyArtifacts() );
+        set.add( scalaScoveragePluginArtifact );
+        project.setDependencyArtifacts( set );
     }
 
     private Artifact getResolvedArtifact( String groupId, String artifactId, String version )
