@@ -29,6 +29,7 @@ import org.apache.maven.project.MavenProject;
 /**
  * Creates artifact file containing SCoverage instrumented classes.
  * <br>
+ * <br>
  * This file's name has {@code scoverage-} prefix to avoid overwriting original
  * (not instrumented) file.
  * 
