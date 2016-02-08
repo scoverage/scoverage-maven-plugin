@@ -436,34 +436,19 @@ public class SCoveragePreCompileMojo
     private void addScoverageDependenciesToTestClasspath( Artifact scalaScoveragePluginArtifact )
         throws MojoExecutionException
     {
-        Artifact providedArtifact = artifactScopeToProvided( scalaScoveragePluginArtifact );
-
         //if ( project.getDependencyArtifacts() != null )//TODO - remove "if"?
         //{
             @SuppressWarnings("unchecked")
             Set<Artifact> set = new LinkedHashSet<Artifact>( project.getDependencyArtifacts() );
-            set.add( providedArtifact );
+            set.add( scalaScoveragePluginArtifact );
             project.setDependencyArtifacts( set );
         //}
     }
 
-    /**
-     * Use provided instead of just test, so it's available on both compile and test classpath (MCOBERTURA-26)
-     *
-     * @param artifact
-     * @return re-scoped artifact
-     */
-    private Artifact artifactScopeToProvided( Artifact artifact )
-    {
-        return factory.createArtifact( artifact.getGroupId(), artifact.getArtifactId(), artifact.getVersion(),
-                                       Artifact.SCOPE_PROVIDED, artifact.getType() );
-    }
-
-
     private Artifact getResolvedArtifact( String groupId, String artifactId, String version )
         throws ArtifactNotFoundException, ArtifactResolutionException
     {
-        Artifact artifact = factory.createArtifact( groupId, artifactId, version, Artifact.SCOPE_RUNTIME, "jar" );
+        Artifact artifact = factory.createArtifact( groupId, artifactId, version, Artifact.SCOPE_COMPILE, "jar" );
         resolver.resolve( artifact, remoteRepos, localRepo );
         return artifact;
     }
