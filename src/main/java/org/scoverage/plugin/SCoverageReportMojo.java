@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.SAXException;
 
 import org.apache.maven.doxia.module.xhtml.decoration.render.RenderingContext;
 import org.apache.maven.doxia.siterenderer.sink.SiteRendererSink;
@@ -421,6 +425,23 @@ public class SCoverageReportMojo
     private void generateAggregatedReports()
         throws MavenReportException
     {
+        SAXParser saxParser = null;
+        try
+        {
+            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            saxParserFactory.setFeature( "http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false );
+            saxParserFactory.setFeature( "http://apache.org/xml/features/nonvalidating/load-external-dtd", false );
+            saxParser = saxParserFactory.newSAXParser();
+        }
+        catch ( ParserConfigurationException e )
+        {
+            throw new MavenReportException( "Cannot configure SAXParser", e );
+        }
+        catch ( SAXException e )
+        {
+            throw new MavenReportException( "Cannot configure SAXParser", e );
+        }
+
         List<File> scoverageXmlFiles = new ArrayList<File>();
         List<File> sourceRoots = new ArrayList<File>();
         MavenProject topLevelModule = null;
@@ -441,7 +462,7 @@ public class SCoverageReportMojo
                     File coberturaXmlFile = new File( moduleXmlOutputDirectory, "cobertura.xml" );
                     if ( coberturaXmlFile.isFile() )
                     {
-                        Elem xml = (Elem) XML$.MODULE$.loadFile( coberturaXmlFile );
+                        Elem xml = (Elem) XML$.MODULE$.withSAXParser(saxParser).loadFile( coberturaXmlFile );
                         Node sources = xml.$bslash( "sources" ).head();
                         NodeSeq sourceSeq = sources.$bslash( "source" );
                         Iterator<Node> it = sourceSeq.iterator();
