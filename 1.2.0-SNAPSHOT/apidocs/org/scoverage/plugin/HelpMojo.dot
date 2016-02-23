@@ -17,14 +17,14 @@ digraph G {
 		</table>>, URL="./HelpMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	//org.scoverage.plugin.HelpMojo extends org.apache.maven.plugin.AbstractMojo
 	c56:p -> c19:p [dir=back,arrowtail=empty];
-	// org.scoverage.plugin.HelpMojo DEPEND org.w3c.dom.Element
-	c19:p -> c57:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 	// org.scoverage.plugin.HelpMojo DEPEND org.w3c.dom.Document
-	c19:p -> c58:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	c19:p -> c57:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 	// org.scoverage.plugin.HelpMojo DEPEND org.w3c.dom.Node
+	c19:p -> c59:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	// org.scoverage.plugin.HelpMojo DEPEND org.w3c.dom.Element
 	c19:p -> c60:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 	// org.w3c.dom.Element
-	c57 [label=<<table title="org.w3c.dom.Element" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Element.html">
+	c60 [label=<<table title="org.w3c.dom.Element" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Element.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Element </td></tr>
@@ -32,7 +32,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Element.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.w3c.dom.Document
-	c58 [label=<<table title="org.w3c.dom.Document" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Document.html">
+	c57 [label=<<table title="org.w3c.dom.Document" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Document.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Document </td></tr>
@@ -40,7 +40,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Document.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.w3c.dom.Node
-	c60 [label=<<table title="org.w3c.dom.Node" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Node.html">
+	c59 [label=<<table title="org.w3c.dom.Node" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://docs.oracle.com/javase/1.6.0/docs/api/org/w3c/dom/Node.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Node </td></tr>

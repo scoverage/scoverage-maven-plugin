@@ -39,10 +39,10 @@ digraph G {
 	c198:p -> c209:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 	// org.scoverage.plugin.SCoverageReportMojo NAVASSOC org.apache.maven.project.MavenProject
 	c198:p -> c209:p [taillabel="", label="", headlabel="*", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
-	// org.scoverage.plugin.SCoverageReportMojo DEPEND org.apache.maven.project.MavenProject
-	c198:p -> c209:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 	// org.scoverage.plugin.SCoverageReportMojo DEPEND org.codehaus.doxia.sink.Sink
 	c198:p -> c210:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	// org.scoverage.plugin.SCoverageReportMojo DEPEND org.apache.maven.project.MavenProject
+	c198:p -> c209:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 	// org.apache.maven.reporting.MavenReport
 	c208 [label=<<table title="org.apache.maven.reporting.MavenReport" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://maven.apache.org/ref/2.2.1/maven-reporting/maven-reporting-api/apidocs/org/apache/maven/reporting/MavenReport.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
