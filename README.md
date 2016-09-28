@@ -13,7 +13,7 @@ scoverage-maven-plugin is a plugin for Maven that integrates the scoverage code 
 
 ## How to use
 
-In short:
+mostly used mojos:
 
 - **[check](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/check-mojo.html)** goal compiles classes with instrumentation, runs unit tests and checks coverage,
 
@@ -23,13 +23,23 @@ In short:
 
 - **[integration-report](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/integration-report-mojo.html)** goal compiles classes with instrumentation, runs unit and integration tests and generates reports,
 
-- **[check-only](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/check-only-mojo.html)** goal only checks coverage using coverage data generated earlier in the build (e.g. by **report** goal).
+additional, sometimes useful, mojos:
 
-- **[report-only](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/report-only-mojo.html)** goal generates reports using coverage data generated earlier in the build (in most cases by **check** goal),
+- **[test](http://scoverage.github.io/scoverage-maven-plugin/1.2.0-SNAPSHOT/test-mojo.html)** goal compiles classes with instrumentation and runs unit tests,
+
+- **[integration-test](http://scoverage.github.io/scoverage-maven-plugin/1.2.0-SNAPSHOT/integration-test-mojo.html)** goal compiles classes with instrumentation and runs unit and integration tests,
+
+- **[check-only](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/check-only-mojo.html)** goal only checks coverage using coverage data generated earlier in the build (by **test**, **report**, **integration-test** or **integration-report** goal).
+
+- **[report-only](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/report-only-mojo.html)** goal generates reports using coverage data generated earlier in the build (by **test**, **check**, **integration-test** or **integration-check** goal),
 
 - **[package](http://scoverage.github.io/scoverage-maven-plugin/1.2.0-SNAPSHOT/package-mojo.html)** goal generates artifact file containing instrumented classes (e.g. for testing outside of the Maven build),
 
+internal mojos (don't use it, they're used internally by the plugin):
+
 - **[pre-compile](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/pre-compile-mojo.html)** and **[post-compile](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/post-compile-mojo.html)** are internal goals, they configure Maven build in forked `scoverage` life cycle; don't use them.
+
+- **[post-compile](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/post-compile-mojo.html)** and **[post-compile](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/post-compile-mojo.html)** are internal goals, they configure Maven build in forked `scoverage` life cycle; don't use them.
 
 Maven generated plugin documentation:
 
