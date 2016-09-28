@@ -35,11 +35,9 @@ additional, sometimes useful, mojos:
 
 - **[package](http://scoverage.github.io/scoverage-maven-plugin/1.2.0-SNAPSHOT/package-mojo.html)** goal generates artifact file containing instrumented classes (e.g. for testing outside of the Maven build),
 
-internal mojos (don't use it, they're used internally by the plugin):
+internal mojos:
 
 - **[pre-compile](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/pre-compile-mojo.html)** and **[post-compile](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/post-compile-mojo.html)** are internal goals, they configure Maven build in forked `scoverage` life cycle; don't use them.
-
-- **[post-compile](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/post-compile-mojo.html)** and **[post-compile](http://scoverage.github.io/scoverage-maven-plugin/1.1.1/post-compile-mojo.html)** are internal goals, they configure Maven build in forked `scoverage` life cycle; don't use them.
 
 Maven generated plugin documentation:
 
