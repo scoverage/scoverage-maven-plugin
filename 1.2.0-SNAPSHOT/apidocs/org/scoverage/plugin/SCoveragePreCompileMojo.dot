@@ -10,31 +10,31 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.scoverage.plugin.SCoveragePreCompileMojo
-	c173 [label=<<table title="org.scoverage.plugin.SCoveragePreCompileMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SCoveragePreCompileMojo.html">
+	c208 [label=<<table title="org.scoverage.plugin.SCoveragePreCompileMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SCoveragePreCompileMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SCoveragePreCompileMojo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SCoveragePreCompileMojo.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	//org.scoverage.plugin.SCoveragePreCompileMojo extends org.apache.maven.plugin.AbstractMojo
-	c181:p -> c173:p [dir=back,arrowtail=empty];
+	c217:p -> c208:p [dir=back,arrowtail=empty];
 	// org.scoverage.plugin.SCoveragePreCompileMojo NAVASSOC org.apache.maven.project.MavenProject
-	c173:p -> c182:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	c208:p -> c218:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 	// org.scoverage.plugin.SCoveragePreCompileMojo NAVASSOC org.apache.maven.project.MavenProject
-	c173:p -> c182:p [taillabel="", label="", headlabel="*", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	c208:p -> c218:p [taillabel="", label="", headlabel="*", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 	// org.scoverage.plugin.SCoveragePreCompileMojo NAVASSOC org.apache.maven.artifact.factory.ArtifactFactory
-	c173:p -> c184:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	c208:p -> c220:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 	// org.scoverage.plugin.SCoveragePreCompileMojo NAVASSOC org.apache.maven.artifact.resolver.ArtifactResolver
-	c173:p -> c186:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	c208:p -> c222:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 	// org.scoverage.plugin.SCoveragePreCompileMojo NAVASSOC org.apache.maven.artifact.repository.ArtifactRepository
-	c173:p -> c189:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	c208:p -> c225:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 	// org.scoverage.plugin.SCoveragePreCompileMojo NAVASSOC org.apache.maven.artifact.repository.ArtifactRepository
-	c173:p -> c189:p [taillabel="", label="", headlabel="*", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	c208:p -> c225:p [taillabel="", label="", headlabel="*", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 	// org.scoverage.plugin.SCoveragePreCompileMojo NAVASSOC org.apache.maven.artifact.Artifact
-	c173:p -> c195:p [taillabel="", label="", headlabel="*", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	c208:p -> c231:p [taillabel="", label="", headlabel="*", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 	// org.scoverage.plugin.SCoveragePreCompileMojo DEPEND org.apache.maven.artifact.Artifact
-	c173:p -> c195:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	c208:p -> c231:p [taillabel="", label="", headlabel="", fontname="arial", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 	// org.apache.maven.artifact.resolver.ArtifactResolver
-	c186 [label=<<table title="org.apache.maven.artifact.resolver.ArtifactResolver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c222 [label=<<table title="org.apache.maven.artifact.resolver.ArtifactResolver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ArtifactResolver </td></tr>
@@ -42,14 +42,14 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="null", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.apache.maven.project.MavenProject
-	c182 [label=<<table title="org.apache.maven.project.MavenProject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://maven.apache.org/ref/2.2.1/maven-project/apidocs/org/apache/maven/project/MavenProject.html">
+	c218 [label=<<table title="org.apache.maven.project.MavenProject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://maven.apache.org/ref/2.2.1/maven-project/apidocs/org/apache/maven/project/MavenProject.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MavenProject </td></tr>
 <tr><td align="center" balign="center"><font point-size="7.0"> org.apache.maven.project </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="http://maven.apache.org/ref/2.2.1/maven-project/apidocs/org/apache/maven/project/MavenProject.html", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.apache.maven.artifact.factory.ArtifactFactory
-	c184 [label=<<table title="org.apache.maven.artifact.factory.ArtifactFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c220 [label=<<table title="org.apache.maven.artifact.factory.ArtifactFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ArtifactFactory </td></tr>
@@ -57,7 +57,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="null", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.apache.maven.artifact.repository.ArtifactRepository
-	c189 [label=<<table title="org.apache.maven.artifact.repository.ArtifactRepository" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c225 [label=<<table title="org.apache.maven.artifact.repository.ArtifactRepository" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ArtifactRepository </td></tr>
@@ -65,7 +65,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="null", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.apache.maven.artifact.Artifact
-	c195 [label=<<table title="org.apache.maven.artifact.Artifact" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c231 [label=<<table title="org.apache.maven.artifact.Artifact" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Artifact </td></tr>
@@ -73,7 +73,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="null", fontname="arial", fontcolor="black", fontsize=9.0];
 	// org.apache.maven.plugin.AbstractMojo
-	c181 [label=<<table title="org.apache.maven.plugin.AbstractMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html">
+	c217 [label=<<table title="org.apache.maven.plugin.AbstractMojo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> AbstractMojo </font></td></tr>
 <tr><td align="center" balign="center"><font point-size="7.0"> org.apache.maven.plugin </font></td></tr>

@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="c149" href="./SCoveragePackageMojo.html" title="org.scoverage.plugin.SCoveragePackageMojo" alt="" coords="15,113,169,137"/>
+<area shape="rect" id="c180" href="./SCoveragePackageMojo.html" title="org.scoverage.plugin.SCoveragePackageMojo" alt="" coords="15,113,169,137"/>
 <area shape="rect" id="node1" href="./SCoveragePackageMojo.html" title="&lt;TABLE&gt;" alt="" coords="5,101,179,149"/>
-<area shape="rect" id="c156" href="http://maven.apache.org/ref/2.2.1/maven-project/apidocs/org/apache/maven/project/MavenProject.html" title="org.apache.maven.project.MavenProject" alt="" coords="28,203,156,239"/>
+<area shape="rect" id="c188" href="http://maven.apache.org/ref/2.2.1/maven-project/apidocs/org/apache/maven/project/MavenProject.html" title="org.apache.maven.project.MavenProject" alt="" coords="28,203,156,239"/>
 <area shape="rect" id="node5" href="http://maven.apache.org/ref/2.2.1/maven-project/apidocs/org/apache/maven/project/MavenProject.html" title="&lt;TABLE&gt;" alt="" coords="17,197,167,245"/>
-<area shape="rect" id="c155" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="org.apache.maven.plugin.AbstractMojo" alt="" coords="30,11,154,47"/>
+<area shape="rect" id="c187" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="org.apache.maven.plugin.AbstractMojo" alt="" coords="30,11,154,47"/>
 <area shape="rect" id="node2" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="&lt;TABLE&gt;" alt="" coords="20,5,164,53"/>
 </map>
