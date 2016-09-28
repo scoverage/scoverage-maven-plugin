@@ -80,7 +80,7 @@ under the License.
     </licenses>
 
     <prerequisites>
-        <maven>3.0</maven> <!-- because this plugin is affected by: http://jira.codehaus.org/browse/MNG-4814 and http://jira.codehaus.org/browse/MSITE-495 -->
+        <maven>3.0</maven> <!-- because this plugin is affected by: https://issues.apache.org/jira/browse/MNG-4814 and https://issues.apache.org/jira/browse/MSITE-495 -->
     </prerequisites>
 
     <properties>
@@ -246,6 +246,7 @@ under the License.
                     <version>2.10.3</version>
                     <configuration>
                         <source>1.6</source>
+                        <detectJavaApiLink>false</detectJavaApiLink>
                         <subpackages>org.scoverage.plugin</subpackages>
                         <links>
                             <link>http://docs.oracle.com/javase/1.6.0/docs/api/</link>
@@ -255,6 +256,19 @@ under the License.
                             <link>http://maven.apache.org/doxia/doxia/apidocs/</link>
                         </links>
                         <notimestamp>true</notimestamp>
+                        <!-- graphviz -->
+                        <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+                        <docletArtifact>
+                            <groupId>org.umlgraph</groupId>
+                            <artifactId>umlgraph</artifactId>
+                            <version>5.6.6</version>
+                        </docletArtifact>
+                        <additionalparam>
+                            -inferrel -inferdep -quiet -hide (java|javax)\..*
+                            -collpackages java\.util\..* -qualify
+                            -postfixpackage -nodefontsize 9
+                            -nodefontpackagesize 7
+                        </additionalparam>
                     </configuration>
                 </plugin>
 
@@ -262,6 +276,11 @@ under the License.
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jxr-plugin</artifactId>
                     <version>2.5</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>org/scoverage/plugin/HelpMojo.java</exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
 
                 <plugin>
@@ -370,12 +389,23 @@ under the License.
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>clirr-maven-plugin</artifactId>
                     <version>2.7</version>
+                    <configuration>
+                        <minSeverity>info</minSeverity>
+                        <textOutputFile>${project.build.directory}/clirr.txt</textOutputFile>
+                        <xmlOutputFile>${project.build.directory}/clirr.xml</xmlOutputFile>
+                    </configuration>
                 </plugin>
 
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>cobertura-maven-plugin</artifactId>
                     <version>2.7</version>
+                    <configuration>
+                        <formats>
+                            <format>html</format>
+                            <format>xml</format>
+                        </formats>
+                    </configuration>
                 </plugin>
 
                 <plugin>
@@ -385,7 +415,11 @@ under the License.
                     <configuration>
                         <effort>High</effort>
                         <excludeFilterFile>${basedir}/findbugs-exclude.xml</excludeFilterFile>
+                        <findbugsXmlOutput>true</findbugsXmlOutput>
+                        <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+                        <includeTests>true</includeTests>
                         <threshold>Low</threshold>
+                        <xmlOutput>true</xmlOutput>
                     </configuration>
                 </plugin>
 
@@ -496,8 +530,9 @@ under the License.
                             </rules>
                         </configuration>
                     </execution>
+
                     <execution>
-                        <id>enforce-java6</id>
+                        <id>enforce-java</id>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
@@ -526,7 +561,6 @@ under the License.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.8.1</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -562,54 +596,10 @@ under the License.
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.10.3</version>
-                        <configuration>
-                            <source>1.6</source>
-                            <subpackages>org.scoverage.plugin</subpackages>
-                            <links>
-                                <link>http://docs.oracle.com/javase/1.6.0/docs/api/</link>
-                                <link>http://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
-                                <link>http://maven.apache.org/ref/${maven.version}/maven-project/apidocs/</link>
-                                <link>http://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
-                                <link>http://maven.apache.org/doxia/doxia/apidocs/</link>
-                            </links>
-                            <notimestamp>true</notimestamp>
-                            <!-- graphviz -->
-                            <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-                            <docletArtifact>
-                                <groupId>org.umlgraph</groupId>
-                                <artifactId>umlgraph</artifactId>
-                                <version>5.6.6</version>
-                            </docletArtifact>
-                            <additionalparam>
-                                -inferrel -inferdep -quiet -hide (java|javax)\..*
-                                -collpackages java\.util\..* -qualify
-                                -postfixpackage -nodefontsize 9
-                                -nodefontpackagesize 7
-                            </additionalparam>
-                        </configuration>
                         <reportSets>
                             <reportSet>
                                 <reports>
                                     <report>javadoc</report> <!-- skip: aggregate, test-javadoc and test-aggregate reports -->
-                                </reports>
-                            </reportSet>
-                        </reportSets>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jxr-plugin</artifactId>
-                        <version>2.5</version>
-                        <configuration>
-                            <excludes>
-                                <exclude>org/scoverage/plugin/HelpMojo.java</exclude>
-                            </excludes>
-                        </configuration>
-                        <reportSets>
-                            <reportSet>
-                                <reports>
-                                    <report>jxr</report> <!-- skip: aggregate, test-jxr and test-aggregate reports -->
                                 </reports>
                             </reportSet>
                         </reportSets>
@@ -632,17 +622,6 @@ under the License.
                                 <showWarnings>true</showWarnings>
                             </configuration>
                         </plugin>
-
-                        <plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>findbugs-maven-plugin</artifactId>
-                            <configuration>
-                                <findbugsXmlOutput>true</findbugsXmlOutput>
-                                <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                                <includeTests>true</includeTests>
-                                <xmlOutput>true</xmlOutput>
-                            </configuration>
-                        </plugin>
                     </plugins>
                 </pluginManagement>
             </build>
@@ -652,13 +631,6 @@ under the License.
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-checkstyle-plugin</artifactId>
-                        <version>2.17</version>
-                        <configuration>
-                            <configLocation>config/maven_checks.xml</configLocation>
-                            <excludes>org/scoverage/plugin/HelpMojo.java</excludes>
-                            <headerLocation>src/conf/checkstyle-header.txt</headerLocation>
-                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                        </configuration>
                         <reportSets>
                             <reportSet>
                                 <id>html</id>
@@ -672,19 +644,6 @@ under the License.
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.10.3</version>
-                        <configuration>
-                            <source>1.6</source>
-                            <subpackages>org.scoverage.plugin</subpackages>
-                            <links>
-                                <link>http://docs.oracle.com/javase/1.6.0/docs/api/</link>
-                                <link>http://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
-                                <link>http://maven.apache.org/ref/${maven.version}/maven-project/apidocs/</link>
-                                <link>http://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
-                                <link>http://maven.apache.org/doxia/doxia/apidocs/</link>
-                            </links>
-                            <notimestamp>true</notimestamp>
-                        </configuration>
                         <reportSets>
                             <reportSet>
                                 <reports>
@@ -697,12 +656,6 @@ under the License.
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jxr-plugin</artifactId>
-                        <version>2.5</version>
-                        <configuration>
-                            <excludes>
-                                <exclude>org/scoverage/plugin/HelpMojo.java</exclude>
-                            </excludes>
-                        </configuration>
                         <reportSets>
                             <reportSet>
                                 <reports>
@@ -713,30 +666,13 @@ under the License.
                     </plugin>
 
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                        <configuration>
-                            <excludeFilterFile>${basedir}/findbugs-exclude.xml</excludeFilterFile>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-pmd-plugin</artifactId>
-                        <version>3.6</version>
-                        <configuration>
-                            <excludes>
-                                <exclude>org/scoverage/plugin/HelpMojo.java</exclude>
-                            </excludes>
-                            <targetJdk>1.6</targetJdk>
-                            <includeTests>true</includeTests>
-                        </configuration>
                     </plugin>
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-report-plugin</artifactId>
-                        <version>2.19.1</version>
                         <reportSets>
                             <reportSet>
                                 <reports>
@@ -749,28 +685,15 @@ under the License.
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>clirr-maven-plugin</artifactId>
-                        <version>2.7</version>
-                        <configuration>
-                            <minSeverity>info</minSeverity>
-                            <textOutputFile>${project.build.directory}/clirr.txt</textOutputFile>
-                            <xmlOutputFile>${project.build.directory}/clirr.xml</xmlOutputFile>
-                        </configuration>
                     </plugin>
 
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>cobertura-maven-plugin</artifactId>
-                        <version>2.7</version>
-                        <configuration>
-                            <formats>
-                                <format>html</format>
-                                <format>xml</format>
-                            </formats>
-                        </configuration>
                         <reportSets>
                             <reportSet>
                                 <reports>
-                                    <report>cobertura</report>
+                                    <report>cobertura</report> <!-- skip: cobertura-integration-test report -->
                                 </reports>
                             </reportSet>
                         </reportSets>
@@ -779,87 +702,21 @@ under the License.
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>3.0.3</version>
-                        <configuration>
-                            <effort>High</effort>
-                            <findbugsXmlOutput>true</findbugsXmlOutput>
-                            <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                            <includeTests>true</includeTests>
-                            <threshold>Low</threshold>
-                            <xmlOutput>true</xmlOutput>
-                        </configuration>
                     </plugin>
 
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>javancss-maven-plugin</artifactId>
-                        <version>2.1</version>
                     </plugin>
 
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>taglist-maven-plugin</artifactId>
-                        <version>2.4</version>
                     </plugin>
 
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>versions-maven-plugin</artifactId>
-                        <version>2.2</version>
-                    </plugin>
-                </plugins>
-            </reporting>
-        </profile>
-
-        <profile>
-            <id>graphviz</id>
-
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <version>2.10.3</version>
-                            <configuration>
-                                <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-                                <docletArtifact>
-                                    <groupId>org.umlgraph</groupId>
-                                    <artifactId>umlgraph</artifactId>
-                                    <version>5.6.6</version>
-                                </docletArtifact>
-                                <additionalparam>
-                                    -inferrel -inferdep -quiet -hide (java|javax)\..*
-                                    -collpackages java\.util\..* -qualify
-                                    -postfixpackage -nodefontsize 9
-                                    -nodefontpackagesize 7
-                                </additionalparam>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-
-            <reporting>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.10.3</version>
-                        <configuration>
-                            <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-                            <docletArtifact>
-                                <groupId>org.umlgraph</groupId>
-                                <artifactId>umlgraph</artifactId>
-                                <version>5.6.6</version>
-                            </docletArtifact>
-                            <additionalparam>
-                                -inferrel -inferdep -quiet -hide (java|javax)\..*
-                                -collpackages java\.util\..* -qualify
-                                -postfixpackage -nodefontsize 9
-                                -nodefontpackagesize 7
-                            </additionalparam>
-                        </configuration>
                     </plugin>
                 </plugins>
             </reporting>
@@ -903,11 +760,13 @@ under the License.
                         <artifactId>maven-source-plugin</artifactId>
                         <version>2.4</version>
                     </plugin>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>2.10.3</version>
                     </plugin>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
