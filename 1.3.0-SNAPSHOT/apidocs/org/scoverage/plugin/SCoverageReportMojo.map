@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="c234" href="./SCoverageReportOnlyMojo.html" title="org.scoverage.plugin.SCoverageReportOnlyMojo" alt="" coords="15,229,182,253"/>
+<area shape="rect" id="node1" href="./SCoverageReportOnlyMojo.html" title="&lt;TABLE&gt;" alt="" coords="5,217,192,265"/>
+<area shape="rect" id="c235" href="./SCoverageReportMojo.html" title="org.scoverage.plugin.SCoverageReportMojo" alt="" coords="465,127,607,151"/>
+<area shape="rect" id="node2" href="./SCoverageReportMojo.html" title="&lt;TABLE&gt;" alt="" coords="455,115,617,163"/>
+<area shape="rect" id="c240" href="./SCoverageIntegrationReportMojo.html" title="org.scoverage.plugin.SCoverageIntegrationReportMojo" alt="" coords="226,229,427,253"/>
+<area shape="rect" id="node3" href="./SCoverageIntegrationReportMojo.html" title="&lt;TABLE&gt;" alt="" coords="216,217,437,265"/>
+<area shape="rect" id="c247" href="http://maven.apache.org/ref/2.2.1/maven-project/apidocs/org/apache/maven/project/MavenProject.html" title="org.apache.maven.project.MavenProject" alt="" coords="472,223,600,259"/>
+<area shape="rect" id="node11" href="http://maven.apache.org/ref/2.2.1/maven-project/apidocs/org/apache/maven/project/MavenProject.html" title="&lt;TABLE&gt;" alt="" coords="461,217,611,265"/>
+<area shape="rect" id="c248" href="http://maven.apache.org/doxia/doxia/apidocs/org/codehaus/doxia/sink/Sink.html" title="org.codehaus.doxia.sink.Sink" alt="" coords="645,216,765,267"/>
+<area shape="rect" id="node14" href="http://maven.apache.org/doxia/doxia/apidocs/org/codehaus/doxia/sink/Sink.html" title="&lt;TABLE&gt;" alt="" coords="635,211,776,272"/>
+<area shape="rect" id="c245" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="org.apache.maven.plugin.AbstractMojo" alt="" coords="387,18,511,54"/>
+<area shape="rect" id="node5" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="&lt;TABLE&gt;" alt="" coords="377,12,521,60"/>
+<area shape="rect" id="c246" href="http://maven.apache.org/ref/2.2.1/maven-reporting/maven-reporting-api/apidocs/org/apache/maven/reporting/MavenReport.html" title="org.apache.maven.reporting.MavenReport" alt="" coords="556,11,692,61"/>
+<area shape="rect" id="node7" href="http://maven.apache.org/ref/2.2.1/maven-reporting/maven-reporting-api/apidocs/org/apache/maven/reporting/MavenReport.html" title="&lt;TABLE&gt;" alt="" coords="545,5,703,67"/>
+</map>
