@@ -75,7 +75,8 @@ public class SCoveragePreCompileMojo
      * <ul>
      * <li>if specified, and starts with {@code 2.10.} - <b>{@code scalac-scoverage-plugin_2.10}</b> will be used</li>
      * <li>if specified, and starts with {@code 2.11.} - <b>{@code scalac-scoverage-plugin_2.11}</b> will be used</li>
-     * <li>if specified, but does not start with {@code 2.10.} or with {@code 2.11.} or is not specified - plugin execution will be skipped</li>
+     * <li>if specified, and starts with {@code 2.12.} - <b>{@code scalac-scoverage-plugin_2.12}</b> will be used</li>
+     * <li>if specified, but does not start with {@code 2.10.}, {@code 2.11.} or {@code 2.12.} or is not specified - plugin execution will be skipped</li>
      * </ul>
      * 
      * @since 1.0.0
@@ -221,6 +222,11 @@ public class SCoveragePreCompileMojo
             else if ( resolvedScalaVersion.startsWith( "2.11." ) )
             {
                 scalaMainVersion = "2.11";
+            }
+            else if ( resolvedScalaVersion.startsWith( "2.12." ) )
+            {
+                scalaMainVersion = "2.12.0-RC2";
+                //TMP scalaMainVersion = "2.12";
             }
             else
             {

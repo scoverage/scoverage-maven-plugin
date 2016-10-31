@@ -90,7 +90,8 @@ under the License.
         <maven.version>2.2.1</maven.version>
         <maven-plugin-plugin.version>3.5</maven-plugin-plugin.version>
 
-        <scalac-scoverage-plugin.version>1.2.0</scalac-scoverage-plugin.version>
+        <scalac-scoverage-plugin.version>1.3.0-RC2</scalac-scoverage-plugin.version>
+        <!--TMP <scalac-scoverage-plugin.version>1.3.0</scalac-scoverage-plugin.version>-->
     </properties>
 
     <dependencies>
