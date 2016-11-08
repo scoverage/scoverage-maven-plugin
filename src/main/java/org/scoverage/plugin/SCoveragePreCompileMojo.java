@@ -225,8 +225,7 @@ public class SCoveragePreCompileMojo
             }
             else if ( resolvedScalaVersion.startsWith( "2.12." ) )
             {
-                scalaMainVersion = "2.12.0-RC2";
-                //TMP scalaMainVersion = "2.12";
+                scalaMainVersion = "2.12";
             }
             else
             {
