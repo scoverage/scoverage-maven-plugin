@@ -47,7 +47,7 @@ import org.codehaus.plexus.util.StringUtils;
  * Supported compiler plugins:
  * <ul>
  * <li><a href="https://davidb.github.io/scala-maven-plugin/">net.alchim31.maven:scala-maven-plugin</a></li>
- * <li><a href="https://code.google.com/p/sbt-compiler-maven-plugin/">com.google.code.sbt-compiler-maven-plugin:sbt-compiler-maven-plugin</a></li>
+ * <li><a href="https://sbt-compiler-maven-plugin.github.io/sbt-compiler-maven-plugin/">com.google.code.sbt-compiler-maven-plugin:sbt-compiler-maven-plugin</a></li>
  * </ul>
  * <br>
  * This is internal mojo, executed in forked {@code cobertura} life cycle.
