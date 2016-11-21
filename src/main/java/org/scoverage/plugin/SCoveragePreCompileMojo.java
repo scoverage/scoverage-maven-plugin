@@ -73,10 +73,10 @@ public class SCoveragePreCompileMojo
     /**
      * Scala version used for compiler plugin artifact resolution.
      * <ul>
-     * <li>if specified, and starts with {@code 2.10.} - <b>{@code scalac-scoverage-plugin_2.10}</b> will be used</li>
-     * <li>if specified, and starts with {@code 2.11.} - <b>{@code scalac-scoverage-plugin_2.11}</b> will be used</li>
-     * <li>if specified, and starts with {@code 2.12.} - <b>{@code scalac-scoverage-plugin_2.12}</b> will be used</li>
-     * <li>if specified, but does not start with {@code 2.10.}, {@code 2.11.} or {@code 2.12.} or is not specified - plugin execution will be skipped</li>
+     * <li>if specified, and equals {@code 2.10} or starts with {@code 2.10.} - <b>{@code scalac-scoverage-plugin_2.10}</b> will be used</li>
+     * <li>if specified, and equals {@code 2.11} or starts with {@code 2.11.} - <b>{@code scalac-scoverage-plugin_2.11}</b> will be used</li>
+     * <li>if specified, and equals {@code 2.12} or starts with {@code 2.12.} - <b>{@code scalac-scoverage-plugin_2.12}</b> will be used</li>
+     * <li>if specified, but does not meet any of the above conditions or if not specified - plugin execution will be skipped</li>
      * </ul>
      * 
      * @since 1.0.0
@@ -211,21 +211,21 @@ public class SCoveragePreCompileMojo
 
         long ts = System.currentTimeMillis();
 
-        String scalaMainVersion = null;
+        String scalaBinaryVersion = null;
         String resolvedScalaVersion = resolveScalaVersion();
         if ( resolvedScalaVersion != null )
         {
-            if ( resolvedScalaVersion.startsWith( "2.10." ) )
+            if ( "2.10".equals( resolvedScalaVersion ) || resolvedScalaVersion.startsWith( "2.10." ) )
             {
-                scalaMainVersion = "2.10";
+                scalaBinaryVersion = "2.10";
             }
-            else if ( resolvedScalaVersion.startsWith( "2.11." ) )
+            else if ( "2.11".equals( resolvedScalaVersion ) || resolvedScalaVersion.startsWith( "2.11." ) )
             {
-                scalaMainVersion = "2.11";
+                scalaBinaryVersion = "2.11";
             }
-            else if ( resolvedScalaVersion.startsWith( "2.12." ) )
+            else if ( "2.12".equals( resolvedScalaVersion ) || resolvedScalaVersion.startsWith( "2.12." ) )
             {
-                scalaMainVersion = "2.12";
+                scalaBinaryVersion = "2.12";
             }
             else
             {
@@ -244,8 +244,8 @@ public class SCoveragePreCompileMojo
 
         try
         {
-            Artifact pluginArtifact = getScalaScoveragePluginArtifact( scalaMainVersion );
-            Artifact runtimeArtifact = getScalaScoverageRuntimeArtifact( scalaMainVersion );
+            Artifact pluginArtifact = getScalaScoveragePluginArtifact( scalaBinaryVersion );
+            Artifact runtimeArtifact = getScalaScoverageRuntimeArtifact( scalaBinaryVersion );
 
             if ( pluginArtifact == null )
             {
