@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="c263" href="./SCoverageTestMojo.html" title="org.scoverage.plugin.SCoverageTestMojo" alt="" coords="15,113,145,137"/>
-<area shape="rect" id="node1" href="./SCoverageTestMojo.html" title="&lt;TABLE&gt;" alt="" coords="5,101,155,149"/>
-<area shape="rect" id="c275" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="org.apache.maven.plugin.AbstractMojo" alt="" coords="18,11,142,47"/>
-<area shape="rect" id="node2" href="http://maven.apache.org/ref/2.2.1/maven-plugin-api/apidocs/org/apache/maven/plugin/AbstractMojo.html" title="&lt;TABLE&gt;" alt="" coords="8,5,152,53"/>
-</map>
