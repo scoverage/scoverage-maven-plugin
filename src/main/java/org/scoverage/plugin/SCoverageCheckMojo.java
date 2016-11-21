@@ -137,12 +137,12 @@ public class SCoverageCheckMojo
         File coverageFile = Serializer.coverageFile( dataDirectory );
         if ( !coverageFile.exists() )
         {
-            getLog().info( "Scoverage data file does not exist. Skipping report generation" );
+            getLog().info( "Scoverage data file does not exist. Skipping check" );
             return;
         }
         if ( !coverageFile.isFile() )
         {
-            getLog().info( "Scoverage data file is a directory, not a file. Skipping report generation" );
+            getLog().info( "Scoverage data file is a directory, not a file. Skipping check" );
             return;
         }
 
@@ -155,18 +155,22 @@ public class SCoverageCheckMojo
         int statementCount = coverage.statementCount();
         int invokedBranchesCount = coverage.invokedBranchesCount();
         int invokedStatementCount = coverage.invokedStatementCount();
+
+        getLog().info( String.format( "Statement coverage.: %s%%", coverage.statementCoverageFormatted() ) );
+        getLog().info( String.format( "Branch coverage....: %s%%", coverage.branchCoverageFormatted() ) );
         getLog().debug( String.format( "invokedBranchesCount:%d / branchCount:%d, invokedStatementCount:%d / statementCount:%d",
                                       invokedBranchesCount, branchCount, invokedStatementCount, statementCount ) );
         if ( minimumCoverage > 0.0 )
         {
+            String minimumCoverageFormatted = scoverage.DoubleFormat.twoFractionDigits( minimumCoverage );
             if ( is100( minimumCoverage ) && is100( coverage.statementCoveragePercent() ) )
             {
-                getLog().info( "[scoverage] 100% Coverage !" );
+                getLog().info( "100% Coverage !" );
             }
-            else if ( minimumCoverage > coverage.statementCoveragePercent() )
+            else if ( coverage.statementCoveragePercent() < minimumCoverage )
             {
-                getLog().error( String.format( "[scoverage] Coverage is below minimum [%s%% < %.2f%%]",
-                                               coverage.statementCoverageFormatted(), minimumCoverage ) );
+                getLog().error( String.format( "Coverage is below minimum [%s%% < %s%%]",
+                                               coverage.statementCoverageFormatted(), minimumCoverageFormatted ) );
                 if ( failOnMinimumCoverage )
                 {
                     throw new MojoFailureException( "Coverage minimum was not reached" );
@@ -174,12 +178,10 @@ public class SCoverageCheckMojo
             }
             else
             {
-                getLog().info( String.format( "[scoverage] Coverage is above minimum [%s%% > %.2f%%]",
-                                              coverage.statementCoverageFormatted(), minimumCoverage ) );
+                getLog().info( String.format( "Coverage is above minimum [%s%% >= %s%%]",
+                                              coverage.statementCoverageFormatted(), minimumCoverageFormatted ) );
             }
         }
-        getLog().info( String.format( "[scoverage] All done. Coverage was [%s%%]",
-                                      coverage.statementCoverageFormatted() ) );
 
         long te = System.currentTimeMillis();
         getLog().debug( String.format( "Mojo execution time: %d ms", te - ts ) );

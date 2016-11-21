@@ -52,6 +52,7 @@ import scala.xml.Node;
 import scala.xml.NodeSeq;
 import scala.xml.XML$;
 
+import scoverage.Constants;
 import scoverage.Coverage;
 import scoverage.IOUtils;
 import scoverage.Serializer;
@@ -403,23 +404,19 @@ public class SCoverageReportMojo
         mkdirs( xmlOutputDirectory );
 
         File coverageFile = Serializer.coverageFile( dataDirectory );
+        getLog().info( String.format( "Reading scoverage instrumentation [%s]...", coverageFile.getAbsolutePath() ) );
         Coverage coverage = Serializer.deserialize( coverageFile );
 
+        getLog().info( String.format( "Reading scoverage measurements [%s*]...",
+                                      new File( dataDirectory, Constants.MeasurementsPrefix() ).getAbsolutePath() ) );
         File[] measurementFiles = IOUtils.findMeasurementFiles( dataDirectory );
         scala.collection.Set<Object> measurements = IOUtils.invoked( Predef$.MODULE$
             .wrapRefArray( measurementFiles ) );
         coverage.apply( measurements );
 
-        Seq<File> sourceRootsAsScalaSeq = JavaConversions.asScalaBuffer( sourceRoots );
-
-        getLog().info( "[scoverage] Generating cobertura XML report..." );
-        new CoberturaXmlWriter( sourceRootsAsScalaSeq, xmlOutputDirectory ).write( coverage );
-
-        getLog().info( "[scoverage] Generating scoverage XML report..." );
-        new ScoverageXmlWriter( sourceRootsAsScalaSeq, xmlOutputDirectory, false ).write( coverage );
-
-        getLog().info( "[scoverage] Generating scoverage HTML report..." );
-        new ScoverageHtmlWriter( sourceRootsAsScalaSeq, outputDirectory, Option.<String>apply( encoding ) ).write( coverage );
+        getLog().info( "Generating coverage reports..." );
+        writeReports( coverage, sourceRoots, xmlOutputDirectory, xmlOutputDirectory, outputDirectory );
+        getLog().info( "Coverage reports completed." );
     }
 
     private void generateAggregatedReports()
@@ -462,7 +459,7 @@ public class SCoverageReportMojo
                     File coberturaXmlFile = new File( moduleXmlOutputDirectory, "cobertura.xml" );
                     if ( coberturaXmlFile.isFile() )
                     {
-                        Elem xml = (Elem) XML$.MODULE$.withSAXParser(saxParser).loadFile( coberturaXmlFile );
+                        Elem xml = ( Elem ) XML$.MODULE$.withSAXParser( saxParser ).loadFile( coberturaXmlFile );
                         Node sources = xml.$bslash( "sources" ).head();
                         NodeSeq sourceSeq = sources.$bslash( "source" );
                         Iterator<Node> it = sourceSeq.iterator();
@@ -480,25 +477,60 @@ public class SCoverageReportMojo
             }
         }
 
+        /* Empty report must be generated or top-level site will contain invalid link to non-existent Scoverage report
+        if ( scoverageXmlFiles.isEmpty() )
+        {
+            getLog().info( "No subproject data to aggregate, skipping SCoverage report generation" );
+            return;
+        }*/
+
+        if ( getLog().isDebugEnabled() && scoverageXmlFiles.size() > 0 )
+        {
+            getLog().debug( String.format( "Found %d subproject report files:", scoverageXmlFiles.size() ) );
+            for ( File file: scoverageXmlFiles )
+            {
+                getLog().debug( String.format( "- %s", file.getAbsolutePath() ) );
+            }
+        }
+        else
+        {
+            getLog().info( String.format( "Found %d subproject report files.", scoverageXmlFiles.size() ) );
+        }
+
         File topLevelModuleOutputDirectory = rebase( outputDirectory, topLevelModule );
         File topLevelModuleXmlOutputDirectory = rebase( xmlOutputDirectory, topLevelModule );
 
         mkdirs( topLevelModuleOutputDirectory );
         mkdirs( topLevelModuleXmlOutputDirectory );
 
-        Seq<File> sourceRootsAsScalaSeq = JavaConversions.asScalaBuffer( sourceRoots );
-
         Coverage coverage =
             CoverageAggregator.aggregatedCoverage( JavaConversions.asScalaBuffer( scoverageXmlFiles ).toSeq() );
 
-        getLog().info( "[scoverage] Generating aggregated cobertura XML report..." );
-        new CoberturaXmlWriter( sourceRootsAsScalaSeq, topLevelModuleXmlOutputDirectory ).write( coverage );
+        getLog().info( "Generating coverage aggregated reports..." );
+        writeReports( coverage, sourceRoots, topLevelModuleXmlOutputDirectory, topLevelModuleXmlOutputDirectory,
+                      topLevelModuleOutputDirectory );
+        getLog().info( "Coverage aggregated reports completed." );
+    }
 
-        getLog().info( "[scoverage] Generating aggregated scoverage XML report..." );
-        new ScoverageXmlWriter( sourceRootsAsScalaSeq, topLevelModuleXmlOutputDirectory, false ).write( coverage );
+    private void writeReports( Coverage coverage, List<File> sourceRoots, File coberturaXmlOutputDirectory,
+                               File scoverageXmlOutputDirectory, File scoverageHtmlOutputDirectory )
+    {
+        Seq<File> sourceRootsAsScalaSeq = JavaConversions.asScalaBuffer( sourceRoots );
 
-        getLog().info( "[scoverage] Generating aggregated scoverage HTML report..." );
-        new ScoverageHtmlWriter( sourceRootsAsScalaSeq, topLevelModuleOutputDirectory, Option.<String>apply( encoding ) ).write( coverage );
+        new CoberturaXmlWriter( sourceRootsAsScalaSeq, coberturaXmlOutputDirectory ).write( coverage );
+        getLog().info( String.format( "Written Cobertura XML report [%s]",
+                                      new File( coberturaXmlOutputDirectory, "cobertura.xml" ).getAbsolutePath() ) );
+
+        new ScoverageXmlWriter( sourceRootsAsScalaSeq, scoverageXmlOutputDirectory, false ).write( coverage );
+        getLog().info( String.format( "Written XML coverage report [%s]",
+                                      new File( scoverageXmlOutputDirectory, "scoverage.xml" ).getAbsolutePath() ) );
+
+        new ScoverageHtmlWriter( sourceRootsAsScalaSeq, scoverageHtmlOutputDirectory, Option.<String>apply( encoding ) ).write( coverage );
+        getLog().info( String.format( "Written HTML coverage report [%s]",
+                                      new File( scoverageHtmlOutputDirectory, "index.html" ).getAbsolutePath() ) );
+
+        getLog().info( String.format( "Statement coverage.: %s%%", coverage.statementCoverageFormatted() ) );
+        getLog().info( String.format( "Branch coverage....: %s%%", coverage.branchCoverageFormatted() ) );
     }
 
     private void mkdirs( File directory )
