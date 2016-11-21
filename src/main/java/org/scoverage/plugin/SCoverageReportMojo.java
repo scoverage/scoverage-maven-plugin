@@ -498,7 +498,7 @@ public class SCoverageReportMojo
         new ScoverageXmlWriter( sourceRootsAsScalaSeq, topLevelModuleXmlOutputDirectory, false ).write( coverage );
 
         getLog().info( "[scoverage] Generating aggregated scoverage HTML report..." );
-        new ScoverageHtmlWriter( sourceRootsAsScalaSeq, topLevelModuleOutputDirectory ).write( coverage );
+        new ScoverageHtmlWriter( sourceRootsAsScalaSeq, topLevelModuleOutputDirectory, Option.<String>apply( encoding ) ).write( coverage );
     }
 
     private void mkdirs( File directory )
