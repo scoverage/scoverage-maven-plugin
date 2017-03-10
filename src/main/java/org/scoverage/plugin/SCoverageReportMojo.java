@@ -25,6 +25,8 @@ import java.util.ResourceBundle;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import org.apache.maven.plugin.MojoFailureException;
 import org.xml.sax.SAXException;
 
 import org.apache.maven.doxia.module.xhtml.decoration.render.RenderingContext;
@@ -162,6 +164,30 @@ public class SCoverageReportMojo
      */
     @Parameter( property = "description", readonly = true )
     private String description;
+
+    /**
+     * Required minimum coverage.
+     * <br>
+     * <br>
+     * See <a href="https://github.com/scoverage/sbt-scoverage#minimum-coverage">https://github.com/scoverage/sbt-scoverage#minimum-coverage</a> for additional documentation.
+     * <br>
+     *
+     * @since 1.0.0
+     */
+    @Parameter( property = "scoverage.minimumCoverage", defaultValue = "0" )
+    private Double minimumCoverage;
+
+    /**
+     * Fail the build if minimum coverage was not reached.
+     * <br>
+     * <br>
+     * See <a href="https://github.com/scoverage/sbt-scoverage#minimum-coverage">https://github.com/scoverage/sbt-scoverage#minimum-coverage</a> for additional documentation.
+     * <br>
+     *
+     * @since 1.0.0
+     */
+    @Parameter( property = "scoverage.failOnMinimumCoverage", defaultValue = "false" )
+    private boolean failOnMinimumCoverage;
 
     /** {@inheritDoc} */
     @Override
@@ -509,7 +535,36 @@ public class SCoverageReportMojo
         getLog().info( "Generating coverage aggregated reports..." );
         writeReports( coverage, sourceRoots, topLevelModuleXmlOutputDirectory, topLevelModuleXmlOutputDirectory,
                       topLevelModuleOutputDirectory );
+        if ( minimumCoverage > 0.0 )
+        {
+            String minimumCoverageFormatted = scoverage.DoubleFormat.twoFractionDigits( minimumCoverage );
+            if ( is100( minimumCoverage ) && is100( coverage.statementCoveragePercent() ) )
+            {
+                getLog().info( "100% Coverage !" );
+            }
+            else if ( coverage.statementCoveragePercent() < minimumCoverage )
+            {
+                getLog().error( String.format( "Coverage is below minimum [%s%% < %s%%]",
+                        coverage.statementCoverageFormatted(), minimumCoverageFormatted ) );
+                if ( failOnMinimumCoverage )
+                {
+                    throw new MavenReportException( "Coverage minimum was not reached" );
+                }
+            }
+            else
+            {
+                getLog().info( String.format( "Coverage is above minimum [%s%% >= %s%%]",
+                        coverage.statementCoverageFormatted(), minimumCoverageFormatted ) );
+            }
+        }
         getLog().info( "Coverage aggregated reports completed." );
+    }
+
+    // Private utility methods
+
+    private boolean is100( Double d )
+    {
+        return Math.abs( 100 - d ) <= 0.00001d;
     }
 
     private void writeReports( Coverage coverage, List<File> sourceRoots, File coberturaXmlOutputDirectory,
