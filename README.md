@@ -91,7 +91,7 @@ or
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
                     <scalaVersion>2.11.8</scalaVersion>
-                    <-- other parameters -->
+                    <!-- other parameters -->
                 </configuration>
              </plugin>
         </plugins>
@@ -139,7 +139,7 @@ or
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
                     <scalacPluginVersion>1.3.0</scalacPluginVersion>
-                    <-- other parameters -->
+                    <!-- other parameters -->
                 </configuration>
              </plugin>
         </plugins>
