@@ -8,6 +8,6 @@ install:
   - java -XX:+PrintFlagsFinal -version
   - mvn --version
 
-script: mvn verify --update-snapshots --settings .travis.settings.xml -e
+script: mvn verify animal-sniffer:check --update-snapshots --settings .travis.settings.xml -e
 
 jdk: oraclejdk8
