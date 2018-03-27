@@ -40,7 +40,7 @@ public class SCoverageIntegrationTestMojo
 {
 
     /**
-     * Executes {@code vefiry} phase in forked {@code scoverage} life cycle.
+     * Executes {@code verify} phase in forked {@code scoverage} life cycle.
      */
     @Override
     public void execute()
