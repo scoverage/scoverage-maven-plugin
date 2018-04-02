@@ -98,6 +98,7 @@ public class SCoveragePreCompileMojo
      * <br>
      * <br>
      * Example:
+     * <br>
      * {@code (empty);Reverse.*;.*AuthService.*;models\.data\..*}
      * <br>
      * <br>
@@ -110,7 +111,7 @@ public class SCoveragePreCompileMojo
     private String excludedPackages;
 
     /**
-     * Semicolon separated list of regular expressions for source paths to exclude.
+     * Semicolon-separated list of regular expressions for source paths to exclude.
      * <br>
      *
      * @since 1.0.0
