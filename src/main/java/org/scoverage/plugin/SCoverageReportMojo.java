@@ -17,15 +17,16 @@
 
 package org.scoverage.plugin;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import org.xml.sax.SAXException;
 
 import org.apache.maven.doxia.module.xhtml.decoration.render.RenderingContext;
 import org.apache.maven.doxia.siterenderer.sink.SiteRendererSink;
@@ -43,14 +44,8 @@ import org.apache.maven.reporting.MavenReportException;
 import org.codehaus.plexus.util.StringUtils;
 
 import scala.Option;
-import scala.Predef$;
-import scala.collection.Iterator;
-import scala.collection.JavaConversions;
+import scala.collection.JavaConverters;
 import scala.collection.Seq;
-import scala.xml.Elem;
-import scala.xml.Node;
-import scala.xml.NodeSeq;
-import scala.xml.XML$;
 
 import scoverage.Constants;
 import scoverage.Coverage;
@@ -89,13 +84,25 @@ public class SCoverageReportMojo
     private boolean skip;
 
     /**
-     * Aggregate SCoverage reports.
+     * In multi-module project additionally generate aggregated SCoverage report.
      * <br>
      * 
      * @since 1.1.0
      */
     @Parameter( property = "scoverage.aggregate", defaultValue = "false" )
     private boolean aggregate;
+
+    /**
+     * In multi-module project generate only aggregated SCoverage report.
+     * <br>
+     * <br>
+     * Scoverage reports for individual modules will not be generated.
+     * <br>
+     *
+     * @since 1.4.0
+     */
+    @Parameter( property = "scoverage.aggregateOnly", defaultValue = "false" )
+    private boolean aggregateOnly;
 
     /**
      * The file encoding to use when reading Scala sources.
@@ -297,6 +304,10 @@ public class SCoverageReportMojo
         {
             return false;
         }
+        if ( aggregateOnly && reactorProjects.size() > 1 )
+        {
+            return false;
+        }
         File coverageFile = Serializer.coverageFile( dataDirectory );
         if ( !coverageFile.exists() || !coverageFile.isFile() )
         {
@@ -307,12 +318,13 @@ public class SCoverageReportMojo
 
     private boolean canGenerateAggregatedReport()
     {
-        return aggregate && reactorProjects.size() > 1 && project == reactorProjects.get( reactorProjects.size() - 1 );
+        return ( aggregate || aggregateOnly ) && reactorProjects.size() > 1
+                && project == reactorProjects.get( reactorProjects.size() - 1 );
     }
 
     private boolean canAttachAggregatedReportToSite()
     {
-        return aggregate && reactorProjects.size() > 1 && project.isExecutionRoot();
+        return ( aggregate || aggregateOnly ) && reactorProjects.size() > 1 && project.isExecutionRoot();
     }
 
     /** {@inheritDoc} */
@@ -409,9 +421,8 @@ public class SCoverageReportMojo
 
         getLog().info( String.format( "Reading scoverage measurements [%s*]...",
                                       new File( dataDirectory, Constants.MeasurementsPrefix() ).getAbsolutePath() ) );
-        File[] measurementFiles = IOUtils.findMeasurementFiles( dataDirectory );
-        scala.collection.Set<Object> measurements = IOUtils.invoked( Predef$.MODULE$
-            .wrapRefArray( measurementFiles ) );
+        List<File> measurementFiles = Arrays.asList( IOUtils.findMeasurementFiles( dataDirectory ) );
+        scala.collection.Set<Object> measurements = IOUtils.invoked( JavaConverters.asScalaBuffer( measurementFiles ) );
         coverage.apply( measurements );
 
         getLog().info( "Generating coverage reports..." );
@@ -422,24 +433,7 @@ public class SCoverageReportMojo
     private void generateAggregatedReports()
         throws MavenReportException
     {
-        SAXParser saxParser = null;
-        try
-        {
-            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-            saxParserFactory.setFeature( "http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false );
-            saxParserFactory.setFeature( "http://apache.org/xml/features/nonvalidating/load-external-dtd", false );
-            saxParser = saxParserFactory.newSAXParser();
-        }
-        catch ( ParserConfigurationException e )
-        {
-            throw new MavenReportException( "Cannot configure SAXParser", e );
-        }
-        catch ( SAXException e )
-        {
-            throw new MavenReportException( "Cannot configure SAXParser", e );
-        }
-
-        List<File> scoverageXmlFiles = new ArrayList<File>();
+        List<File> scoverageDataDirs = new ArrayList<File>();
         List<File> sourceRoots = new ArrayList<File>();
         MavenProject topLevelModule = null;
         for ( MavenProject module : reactorProjects )
@@ -450,27 +444,28 @@ public class SCoverageReportMojo
             }
             else if ( !module.getPackaging().equals( "pom" ) )
             {
-                File moduleXmlOutputDirectory = rebase( xmlOutputDirectory, module );
-                File scoverageXmlFile = new File( moduleXmlOutputDirectory, "scoverage.xml" );
-                if ( scoverageXmlFile.isFile() )
+                File scoverageDataDir = rebase( dataDirectory, module );
+                if ( scoverageDataDir.isDirectory() )
                 {
-                    scoverageXmlFiles.add( scoverageXmlFile );
+                    scoverageDataDirs.add( scoverageDataDir );
 
-                    File coberturaXmlFile = new File( moduleXmlOutputDirectory, "cobertura.xml" );
-                    if ( coberturaXmlFile.isFile() )
+                    File sourceRootsFile = new File( scoverageDataDir, "source.roots" );
+                    if ( sourceRootsFile.isFile() )
                     {
-                        Elem xml = ( Elem ) XML$.MODULE$.withSAXParser( saxParser ).loadFile( coberturaXmlFile );
-                        Node sources = xml.$bslash( "sources" ).head();
-                        NodeSeq sourceSeq = sources.$bslash( "source" );
-                        Iterator<Node> it = sourceSeq.iterator();
-                        while ( it.hasNext() )
+                        try
                         {
-                            Node source = it.next();
-                            String path = source.text().trim();
-                            if ( !"--source".equals( path ) )
+                            BufferedReader r = new BufferedReader( new InputStreamReader(
+                                    new FileInputStream( sourceRootsFile ), "UTF-8" ) );
+                            String path = r.readLine();
+                            while ( path != null )
                             {
                                 sourceRoots.add( new File( path ) );
+                                path = r.readLine();
                             }
+                        }
+                        catch ( IOException e )
+                        {
+                            throw new MavenReportException( "...", e );
                         }
                     }
                 }
@@ -478,23 +473,25 @@ public class SCoverageReportMojo
         }
 
         /* Empty report must be generated or top-level site will contain invalid link to non-existent Scoverage report
-        if ( scoverageXmlFiles.isEmpty() )
+        if ( scoverageDataDirs.isEmpty() )
         {
             getLog().info( "No subproject data to aggregate, skipping SCoverage report generation" );
             return;
         }*/
 
-        if ( getLog().isDebugEnabled() && scoverageXmlFiles.size() > 0 )
+        if ( getLog().isDebugEnabled() && scoverageDataDirs.size() > 0 )
         {
-            getLog().debug( String.format( "Found %d subproject report files:", scoverageXmlFiles.size() ) );
-            for ( File file: scoverageXmlFiles )
+            getLog().debug( String.format( "Found %d subproject subproject scoverage data directories:",
+                    scoverageDataDirs.size() ) );
+            for ( File dataDir: scoverageDataDirs )
             {
-                getLog().debug( String.format( "- %s", file.getAbsolutePath() ) );
+                getLog().debug( String.format( "- %s", dataDir.getAbsolutePath() ) );
             }
         }
         else
         {
-            getLog().info( String.format( "Found %d subproject report files.", scoverageXmlFiles.size() ) );
+            getLog().info( String.format( "Found %d subproject scoverage data directories.",
+                    scoverageDataDirs.size() ) );
         }
 
         File topLevelModuleOutputDirectory = rebase( outputDirectory, topLevelModule );
@@ -504,7 +501,7 @@ public class SCoverageReportMojo
         mkdirs( topLevelModuleXmlOutputDirectory );
 
         Coverage coverage =
-            CoverageAggregator.aggregatedCoverage( JavaConversions.asScalaBuffer( scoverageXmlFiles ).toSeq() );
+            CoverageAggregator.aggregatedCoverage( JavaConverters.asScalaBuffer( scoverageDataDirs ).toSeq() );
 
         getLog().info( "Generating coverage aggregated reports..." );
         writeReports( coverage, sourceRoots, topLevelModuleXmlOutputDirectory, topLevelModuleXmlOutputDirectory,
@@ -515,7 +512,7 @@ public class SCoverageReportMojo
     private void writeReports( Coverage coverage, List<File> sourceRoots, File coberturaXmlOutputDirectory,
                                File scoverageXmlOutputDirectory, File scoverageHtmlOutputDirectory )
     {
-        Seq<File> sourceRootsAsScalaSeq = JavaConversions.asScalaBuffer( sourceRoots );
+        Seq<File> sourceRootsAsScalaSeq = JavaConverters.asScalaBuffer( sourceRoots );
 
         new CoberturaXmlWriter( sourceRootsAsScalaSeq, coberturaXmlOutputDirectory ).write( coverage );
         getLog().info( String.format( "Written Cobertura XML report [%s]",

@@ -90,13 +90,13 @@ under the License.
         <maven.version>2.2.1</maven.version>
         <maven-plugin-plugin.version>3.5</maven-plugin-plugin.version>
 
-        <scalac-scoverage-plugin.version>1.3.0</scalac-scoverage-plugin.version>
+        <scalac-scoverage-plugin.version>1.4.0-SNAPSHOT</scalac-scoverage-plugin.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.scoverage</groupId>
-            <artifactId>scalac-scoverage-plugin_2.10</artifactId>
+            <artifactId>scalac-scoverage-plugin_2.12</artifactId>
             <version>${scalac-scoverage-plugin.version}</version>
         </dependency>
 
