@@ -35,7 +35,7 @@ import org.apache.maven.project.MavenProject;
  * <li>restores original values of modified properties</li>
  * </ul> 
  * <br>
- * This is internal mojo, executed in forked {@code cobertura} life cycle.
+ * This is internal mojo, executed in forked {@code scoverage} life cycle.
  * <br>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>

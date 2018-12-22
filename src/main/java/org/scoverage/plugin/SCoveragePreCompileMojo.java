@@ -54,7 +54,7 @@ import org.codehaus.plexus.util.StringUtils;
  * <li><a href="https://sbt-compiler-maven-plugin.github.io/sbt-compiler-maven-plugin/">com.google.code.sbt-compiler-maven-plugin:sbt-compiler-maven-plugin</a></li>
  * </ul>
  * <br>
- * This is internal mojo, executed in forked {@code cobertura} life cycle.
+ * This is internal mojo, executed in forked {@code scoverage} life cycle.
  * <br>
  * 
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
