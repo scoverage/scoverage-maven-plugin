@@ -17,7 +17,11 @@
 
 package org.scoverage.plugin;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Properties;
@@ -304,12 +308,18 @@ public class SCoveragePreCompileMojo
             // VERY IMPORTANT! Prevents from overwriting regular project artifact file
             // with instrumented one during "integration-check" or "integration-report" execution.
             project.getBuild().setFinalName( "scoverage-" + project.getBuild().getFinalName() );
+
+            saveSourceRootsToFile();
         }
         catch ( ArtifactNotFoundException e )
         {
             throw new MojoExecutionException( "SCoverage preparation failed", e );
         }
         catch ( ArtifactResolutionException e )
+        {
+            throw new MojoExecutionException( "SCoverage preparation failed", e );
+        }
+        catch ( IOException e )
         {
             throw new MojoExecutionException( "SCoverage preparation failed", e );
         }
@@ -391,9 +401,9 @@ public class SCoveragePreCompileMojo
             for ( Artifact artifact : pluginArtifacts )
             {
                 if ( "org.scoverage".equals( artifact.getGroupId() )
-                    && "scalac-scoverage-plugin_2.10".equals( artifact.getArtifactId() ) )
+                    && "scalac-scoverage-plugin_2.12".equals( artifact.getArtifactId() ) )
                 {
-                    if ( "2.10".equals( scalaMainVersion ) )
+                    if ( "2.12".equals( scalaMainVersion ) )
                     {
                         return artifact; // shortcut, use the same artifact plugin uses
                     }
@@ -420,7 +430,7 @@ public class SCoveragePreCompileMojo
             for ( Artifact artifact : pluginArtifacts )
             {
                 if ( "org.scoverage".equals( artifact.getGroupId() )
-                    && "scalac-scoverage-plugin_2.10".equals( artifact.getArtifactId() ) )
+                    && "scalac-scoverage-plugin_2.12".equals( artifact.getArtifactId() ) )
                 {
                     resolvedScalacRuntimeVersion = artifact.getVersion();
                     break;
@@ -454,6 +464,34 @@ public class SCoveragePreCompileMojo
         Artifact artifact = factory.createArtifact( groupId, artifactId, version, Artifact.SCOPE_COMPILE, "jar" );
         resolver.resolve( artifact, remoteRepos, localRepo );
         return artifact;
+    }
+
+    private void saveSourceRootsToFile() throws IOException
+    {
+        List<String> sourceRoots = project.getCompileSourceRoots();
+        if ( !sourceRoots.isEmpty() )
+        {
+            if ( !dataDirectory.exists() && !dataDirectory.mkdirs() )
+            {
+                throw new IOException( String.format( "Cannot create \"%s\" directory ",
+                        dataDirectory.getAbsolutePath() ) );
+            }
+            File sourceRootsFile = new File( dataDirectory, "source.roots" );
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter( new FileOutputStream( sourceRootsFile ), "UTF-8" ) );
+            try
+            {
+                for ( String sourceRoot: sourceRoots )
+                {
+                    writer.write( sourceRoot );
+                    writer.newLine();
+                }
+            }
+            finally
+            {
+                writer.close();
+            }
+        }
     }
 
 }

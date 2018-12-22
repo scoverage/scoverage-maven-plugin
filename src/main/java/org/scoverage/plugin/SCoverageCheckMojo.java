@@ -18,6 +18,7 @@
 package org.scoverage.plugin;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -28,7 +29,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-import scala.Predef$;
+import scala.collection.JavaConverters;
 
 import scoverage.Coverage;
 import scoverage.IOUtils;
@@ -147,8 +148,8 @@ public class SCoverageCheckMojo
         }
 
         Coverage coverage = Serializer.deserialize( coverageFile );
-        File[] measurementFiles = IOUtils.findMeasurementFiles( dataDirectory );
-        scala.collection.Set<Object> measurements = IOUtils.invoked( Predef$.MODULE$.wrapRefArray( measurementFiles ) );
+        List<File> measurementFiles = Arrays.asList( IOUtils.findMeasurementFiles( dataDirectory ) );
+        scala.collection.Set<Object> measurements = IOUtils.invoked( JavaConverters.asScalaBuffer( measurementFiles ) );
         coverage.apply( measurements );
 
         int branchCount = coverage.branchCount();
