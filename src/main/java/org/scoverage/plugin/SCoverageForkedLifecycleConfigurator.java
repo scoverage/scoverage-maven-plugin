@@ -19,6 +19,7 @@ package org.scoverage.plugin;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.maven.project.MavenProject;
 
@@ -62,8 +63,10 @@ public class SCoverageForkedLifecycleConfigurator
      * 
      * @param project Maven project in {@code scoverage} forked life cycle.
      * @param reactorProjects all reactor Maven projects.
+     * @param additionalProjectPropertiesMap additional project properties to set.
      */
-    public static void afterForkedLifecycleEnter( MavenProject project, List<MavenProject> reactorProjects )
+    public static void afterForkedLifecycleEnter( MavenProject project, List<MavenProject> reactorProjects,
+                                                  Map<String, String> additionalProjectPropertiesMap )
     {
         File classesDirectory = new File( project.getBuild().getOutputDirectory() );
         File scoverageClassesDirectory =
@@ -71,6 +74,14 @@ public class SCoverageForkedLifecycleConfigurator
 
         project.getArtifact().setFile( null );
         project.getBuild().setOutputDirectory( scoverageClassesDirectory.getAbsolutePath() );
+
+        if ( additionalProjectPropertiesMap != null )
+        {
+            for ( Map.Entry<String, String> entry: additionalProjectPropertiesMap.entrySet() )
+            {
+                project.getProperties().put( entry.getKey(), entry.getValue() );
+            }
+        }
 
         for ( MavenProject reactorProject : reactorProjects )
         {
