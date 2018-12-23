@@ -456,11 +456,18 @@ public class SCoverageReportMojo
                         {
                             BufferedReader r = new BufferedReader( new InputStreamReader(
                                     new FileInputStream( sourceRootsFile ), "UTF-8" ) );
-                            String path = r.readLine();
-                            while ( path != null )
+                            try
                             {
-                                sourceRoots.add( new File( path ) );
-                                path = r.readLine();
+                                String path = r.readLine();
+                                while ( path != null )
+                                {
+                                    sourceRoots.add( new File( path ) );
+                                    path = r.readLine();
+                                }
+                            }
+                            finally
+                            {
+                                r.close();
                             }
                         }
                         catch ( IOException e )
