@@ -22,8 +22,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -142,6 +144,20 @@ public class SCoveragePreCompileMojo
     private String scalacPluginVersion;
 
     /**
+     * Semicolon-separated list of project properties set in forked {@code scoverage} life cycle.
+     * <br>
+     * <br>
+     * Example:
+     * <br>
+     * {@code prop1=val1;prop2=val2;prop3=val3}
+     * <br>
+     *
+     * @since 1.4.0
+     */
+    @Parameter( property = "scoverage.additionalForkedProjectProperties", defaultValue = "" )
+    private String additionalForkedProjectProperties;
+
+    /**
      * Maven project to interact with.
      */
     @Parameter( defaultValue = "${project}", readonly = true, required = true )
@@ -245,7 +261,30 @@ public class SCoveragePreCompileMojo
             return;
         }
 
-        SCoverageForkedLifecycleConfigurator.afterForkedLifecycleEnter( project, reactorProjects );
+        Map<String, String> additionalProjectPropertiesMap = null;
+        if ( additionalForkedProjectProperties != null && !additionalForkedProjectProperties.isEmpty() )
+        {
+            String[] props = additionalForkedProjectProperties.split( ";" );
+            additionalProjectPropertiesMap = new HashMap<String, String>( props.length );
+            for ( String propVal: props )
+            {
+                String[] tmp = propVal.split( "=", 2 );
+                if ( tmp.length == 2 )
+                {
+                    String propName = tmp[ 0 ].trim();
+                    String propValue = tmp[ 1 ].trim();
+                    additionalProjectPropertiesMap.put( propName, propValue );
+                }
+                else
+                {
+                    getLog().warn( String.format( "Skipping invalid additional forked project property \"%s\", must be in \"key=value\" format",
+                            propVal ) );
+
+                }
+            }
+        }
+
+        SCoverageForkedLifecycleConfigurator.afterForkedLifecycleEnter( project, reactorProjects, additionalProjectPropertiesMap );
 
         try
         {
