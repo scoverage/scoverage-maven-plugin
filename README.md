@@ -286,7 +286,6 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
                         <goals>
                             <goal>check</goal> <!-- or integration-check -->
                         </goals>
-                        <phase>prepare-package</phase> <!-- or any other phase -->
                     </execution>
                 </executions>
              </plugin>
@@ -294,6 +293,8 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
     </build>
 </project>
 ```
+
+Run `mvn scoverage:check` to perform the check. See below if you want to use `mvn verify` to perform the check.
 
 Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scoverage#minimum-coverage) for more information. 
 
@@ -317,7 +318,6 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
                         <goals>
                             <goal>check</goal> <!-- or integration-check -->
                         </goals>
-                        <phase>prepare-package</phase> <!-- or any other phase -->
                     </execution>
                 </executions>
              </plugin>
@@ -342,6 +342,59 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
     </reporting>
 </project>
 ```
+
+Run `mvn scoverage:check` to perform the check and `mvn scoverage:report` to generate the report.
+
+
+##### Checking minimum test coverage level automatically
+
+If you want `mvn verify` and `mvn install` to check the coverage level, you have change your POM so that SCoverage takes over running all the tests.
+
+The reason for this is that SCoverage instruments classes during compilation and writes them to disk. We don't want to accidentally deploy these instrumented classes, so SCoverage keeps them separate. This causes the tests to be run twice: once with the original classes and once through SCoverage with the instrumented ones. To make sure the tests run only once, you have to configure your pom like this:
+
+```xml
+<properties>
+    <skipTests>true</skipTests> <!-- disable surefire tests -->
+</properties>
+
+...
+
+<project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <minimumCoverage>80</minimumCoverage>
+                    <failOnMinimumCoverage>true</failOnMinimumCoverage>
+
+                    <!-- enable surefire tests in SCoverage -->
+                    <additionalForkedProjectProperties>skipTests=false</additionalForkedProjectProperties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal> <!-- or integration-check -->
+                        </goals>
+                        <phase>prepare-package</phase> <!-- or any other phase -->
+                    </execution>
+                </executions>
+             </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+Run `mvn clean verify` or `mvn clean install` to run the tests with coverage and all other static analysis you have configured.
+
+If you want to set multiple properties from within `<additionalForkedProjectProperties>`, for instance because you want to disable other plugins from running twice, you can separate them with a semicolon:
+
+`<additionalForkedProjectProperties>skipTests=false;skip.scalafmt=false</additionalForkedProjectProperties>`
+
+
+## Examples
 
 There are many [example projects](https://github.com/scoverage/scoverage-maven-samples/tree/scoverage-maven-samples-1.3.0/).
 Go to one of them and run `mvn site`.
