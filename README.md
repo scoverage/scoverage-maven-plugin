@@ -350,7 +350,7 @@ Run `mvn scoverage:check` to perform the check and `mvn scoverage:report` to gen
 
 If you want `mvn verify` and `mvn install` to check the coverage level, you have change your POM so that SCoverage takes over running all the tests.
 
-The reason for this is that SCoverage instruments classes during compilation and writes them to disk. We don't want to accidentally deploy these instrumented classes, so SCoverage keeps them separate. This causes the tests to be run twice: once with the original classes and once through SCoverage with the instrumented ones. To make sure the tests run only once, you have to configure your pom like this:
+The reason for this is that SCoverage instruments classes during compilation and writes them to disk. We don't want to accidentally deploy these instrumented classes, so SCoverage keeps them separate. SCoverage does this by forking the current Maven build and running it again, while performing instrumentation. In a normal setup this causes the tests to be run twice: once in the outer run with the original classes and once in the SCoverage-forked run with the instrumented classes. To make sure the tests run only once, you have to configure your pom to turn off testing in the outer run and tell SCoverage to run all tests in the fork. This example shows the required configuration:
 
 ```xml
 <properties>
