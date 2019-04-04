@@ -353,13 +353,11 @@ If you want `mvn verify` and `mvn install` to check the coverage level, you have
 The reason for this is that SCoverage instruments classes during compilation and writes them to disk. We don't want to accidentally deploy these instrumented classes, so SCoverage keeps them separate. SCoverage does this by forking the current Maven build and running it again, while performing instrumentation. In a normal setup this causes the tests to be run twice: once in the outer run with the original classes and once in the SCoverage-forked run with the instrumented classes. To make sure the tests run only once, you have to configure your pom to turn off testing in the outer run and tell SCoverage to run all tests in the fork. This example shows the required configuration:
 
 ```xml
-<properties>
-    <skipTests>true</skipTests> <!-- disable surefire tests -->
-</properties>
-
-...
-
 <project>
+    <properties>
+        <skipTests>true</skipTests> <!-- disable surefire and failsafe tests -->
+    </properties>
+...
     <build>
         <plugins>
             <plugin>
@@ -370,7 +368,7 @@ The reason for this is that SCoverage instruments classes during compilation and
                     <minimumCoverage>80</minimumCoverage>
                     <failOnMinimumCoverage>true</failOnMinimumCoverage>
 
-                    <!-- enable surefire tests in SCoverage -->
+                    <!-- enable surefire and failsafe tests in SCoverage -->
                     <additionalForkedProjectProperties>skipTests=false</additionalForkedProjectProperties>
                 </configuration>
                 <executions>
