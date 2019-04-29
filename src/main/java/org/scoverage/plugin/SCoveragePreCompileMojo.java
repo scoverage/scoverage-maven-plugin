@@ -82,7 +82,7 @@ public class SCoveragePreCompileMojo
      * <li>if specified, and equals {@code 2.10} or starts with {@code 2.10.} - <b>{@code scalac-scoverage-plugin_2.10}</b> will be used</li>
      * <li>if specified, and equals {@code 2.11} or starts with {@code 2.11.} - <b>{@code scalac-scoverage-plugin_2.11}</b> will be used</li>
      * <li>if specified, and equals {@code 2.12} or starts with {@code 2.12.} - <b>{@code scalac-scoverage-plugin_2.12}</b> will be used</li>
-     * <li>if specified, and equals {@code 2.13.0-M5} - <b>{@code scalac-scoverage-plugin_2.13.0-M5}</b> will be used</li>
+     * <li>if specified, and equals {@code 2.13.0-RC1} - <b>{@code scalac-scoverage-plugin_2.13.0-RC1}</b> will be used</li>
      * <li>if specified, but does not meet any of the above conditions or if not specified - plugin execution will be skipped</li>
      * </ul>
      * 
@@ -249,9 +249,9 @@ public class SCoveragePreCompileMojo
             {
                 scalaBinaryVersion = "2.12";
             }
-            else if ( "2.13.0-M5".equals( resolvedScalaVersion ) )
+            else if ( "2.13.0-RC1".equals( resolvedScalaVersion ) )
             {
-                scalaBinaryVersion = "2.13.0-M5";
+                scalaBinaryVersion = "2.13.0-RC1";
             }
             else
             {
