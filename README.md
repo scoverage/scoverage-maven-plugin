@@ -44,6 +44,7 @@ Maven generated plugin documentation:
 | Version          | Documentation                                                                                    |
 |------------------|--------------------------------------------------------------------------------------------------|
 | `1.3.0`          | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.3.0/plugin-info.html)          |
+| `1.4.0-RC1`      | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.4.0-RC1/plugin-info.html)      |
 
 ##### Prerequisities / limitations
 
@@ -154,7 +155,8 @@ or
 ##### Aggregated reports for multi-module projects
 
 There is no separate mojo for aggregated reports, there is `aggregate` parameter.
-To additionally genenerate aggregated SCoverage report for root module, when generating regular reports, set `aggregate` parameter value to `true`.
+To additionally generate aggregated SCoverage report for root module, when generating regular reports,
+set `aggregate` parameter value to `true`.
 It works only in multimodule projects.
 
 It can be configured by defining `aggregate` plugin configuration parameter or `scoverage.aggregate` project property.
@@ -205,10 +207,64 @@ or in `reporting/plugins` section when adding report to Maven generated site
 </project>
 ```
 
+Since version `1.4.0-M5` it's possible to generate aggregated report only, without generating reports for indivisual modules. For large projects it can decrease build time significantly.
+
+To generate only aggregated SCoverage report, set `aggregateOnly` parameter value to `true`. It works only in multimodule projects.
+
+It can be configured by defining `aggregateOnly` plugin configuration parameter or `scoverage.aggregateOnly` project property.
+
+```xml
+<project>
+    <properties>
+        <scoverage.aggregateOnly>true</scoverage.aggregateOnly>
+    </properties>
+</project>
+```
+
+in `build/plugins` or `build/pluginManagement` section when running reports directly from console (e.g. `mvn scoverage:report`)
+
+```xml
+<project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <aggregateOnly>true</aggregateOnly>
+                </configuration>
+             </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+or in `reporting/plugins` section when adding report to Maven generated site
+
+```xml
+<project>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <aggregateOnly>true</aggregateOnly>
+                </configuration>
+             </plugin>
+        </plugins>
+    </reporting>
+</project>
+```
+
 ##### Adding SCoverage report to site
 
 Add plugin to reporting section of your project and configure it to generate one of reporting mojos.
-By default Maven executes all plugin's reporting mojos, but in case of SCoverage plugin this does not make sense, every executed report will overwrite the previous one.
+By default Maven executes all plugin's reporting mojos, but SCoverage plugin has three such mojos
+and it does not make sense, to execute them all because every executed report will overwrite the previous one.
+Configure one of them depending on your case.
 
 ```xml
 <project>
@@ -348,9 +404,18 @@ Run `mvn scoverage:check` to perform the check and `mvn scoverage:report` to gen
 
 ##### Checking minimum test coverage level automatically
 
-If you want `mvn verify` and `mvn install` to check the coverage level, you have change your POM so that SCoverage takes over running all the tests.
+If you want `mvn verify` and `mvn install` to check the coverage level, you have to change your POM
+so that SCoverage takes over running all the tests.
 
-The reason for this is that SCoverage instruments classes during compilation and writes them to disk. We don't want to accidentally deploy these instrumented classes, so SCoverage keeps them separate. SCoverage does this by forking the current Maven build and running it again, while performing instrumentation. In a normal setup this causes the tests to be run twice: once in the outer run with the original classes and once in the SCoverage-forked run with the instrumented classes. To make sure the tests run only once, you have to configure your pom to turn off testing in the outer run and tell SCoverage to run all tests in the fork. This example shows the required configuration:
+The reason for this is that SCoverage instruments classes during compilation and writes them to disk.
+We don't want to accidentally deploy these instrumented classes, so SCoverage keeps them separate.
+SCoverage does this by forking the current Maven build and running it again, while performing instrumentation.
+In a normal setup this causes the tests to be run twice: once in the outer run with the original classes
+and once in the SCoverage-forked run with the instrumented classes.
+
+Since version `1.4.0-M5` it's possible to make the tests run only once. You have to configure your pom to turn off testing in the outer run and tell SCoverage to run all tests in the forked run.
+
+This example shows the required configuration:
 
 ```xml
 <project>
