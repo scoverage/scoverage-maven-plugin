@@ -132,7 +132,7 @@ public class SCoveragePreCompileMojo
      * 
      * @since 1.0.0
      */
-    @Parameter( property = "scoverage.highlighting", defaultValue = "false" )
+    @Parameter( property = "scoverage.highlighting", defaultValue = "true" )
     private boolean highlighting;
 
     /**
