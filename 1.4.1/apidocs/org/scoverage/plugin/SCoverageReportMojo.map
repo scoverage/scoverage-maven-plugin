@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./SCoverageReportOnlyMojo.html" title="org.scoverage.plugin.SCoverageReportOnlyMojo" alt="" coords="16,214,191,239"/>
+<area shape="rect" id="node1" href="./SCoverageReportOnlyMojo.html" title="&lt;TABLE&gt;" alt="" coords="5,203,201,251"/>
+<area shape="rect" id="node2_1" href="./SCoverageReportMojo.html" title="org.scoverage.plugin.SCoverageReportMojo" alt="" coords="148,118,296,143"/>
+<area shape="rect" id="node2" href="./SCoverageReportMojo.html" title="&lt;TABLE&gt;" alt="" coords="137,107,307,155"/>
+<area shape="rect" id="node3_2" href="./SCoverageIntegrationReportMojo.html" title="org.scoverage.plugin.SCoverageIntegrationReportMojo" alt="" coords="237,214,445,239"/>
+<area shape="rect" id="node3" href="./SCoverageIntegrationReportMojo.html" title="&lt;TABLE&gt;" alt="" coords="226,203,455,251"/>
+<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/apache/maven/plugin/AbstractMojo.html" title="org.apache.maven.plugin.AbstractMojo" alt="" coords="103,19,199,45"/>
+<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/org/apache/maven/plugin/AbstractMojo.html" title="&lt;TABLE&gt;" alt="" coords="93,8,210,56"/>
+<area shape="rect" id="node5_4" href="http://java.sun.com/j2se/1.4.2/docs/api/org/apache/maven/reporting/MavenReport.html" title="org.apache.maven.reporting.MavenReport" alt="" coords="245,11,340,53"/>
+<area shape="rect" id="node5" href="http://java.sun.com/j2se/1.4.2/docs/api/org/apache/maven/reporting/MavenReport.html" title="&lt;TABLE&gt;" alt="" coords="235,5,351,59"/>
+</map>

@@ -1,0 +1,28 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./HelpMojo.html" title="org.scoverage.plugin.HelpMojo" alt="" coords="16,17,89,42"/>
+<area shape="rect" id="node1" href="./HelpMojo.html" title="&lt;TABLE&gt;" alt="" coords="5,5,100,53"/>
+<area shape="rect" id="node2_1" href="./SCoverageTestMojo.html" title="org.scoverage.plugin.SCoverageTestMojo" alt="" coords="135,17,269,42"/>
+<area shape="rect" id="node2" href="./SCoverageTestMojo.html" title="&lt;TABLE&gt;" alt="" coords="124,5,280,53"/>
+<area shape="rect" id="node3_2" href="./SCoverageReportOnlyMojo.html" title="org.scoverage.plugin.SCoverageReportOnlyMojo" alt="" coords="183,113,357,138"/>
+<area shape="rect" id="node3" href="./SCoverageReportOnlyMojo.html" title="&lt;TABLE&gt;" alt="" coords="172,101,368,149"/>
+<area shape="rect" id="node4_3" href="./SCoverageReportMojo.html" title="org.scoverage.plugin.SCoverageReportMojo" alt="" coords="315,17,463,42"/>
+<area shape="rect" id="node4" href="./SCoverageReportMojo.html" title="&lt;TABLE&gt;" alt="" coords="304,5,473,53"/>
+<area shape="rect" id="node9_4" href="./SCoverageIntegrationReportMojo.html" title="org.scoverage.plugin.SCoverageIntegrationReportMojo" alt="" coords="403,113,611,138"/>
+<area shape="rect" id="node9" href="./SCoverageIntegrationReportMojo.html" title="&lt;TABLE&gt;" alt="" coords="393,101,622,149"/>
+<area shape="rect" id="node5_5" href="./SCoveragePreCompileMojo.html" title="org.scoverage.plugin.SCoveragePreCompileMojo" alt="" coords="509,17,685,42"/>
+<area shape="rect" id="node5" href="./SCoveragePreCompileMojo.html" title="&lt;TABLE&gt;" alt="" coords="498,5,695,53"/>
+<area shape="rect" id="node6_6" href="./SCoveragePostCompileMojo.html" title="org.scoverage.plugin.SCoveragePostCompileMojo" alt="" coords="730,17,914,42"/>
+<area shape="rect" id="node6" href="./SCoveragePostCompileMojo.html" title="&lt;TABLE&gt;" alt="" coords="719,5,925,53"/>
+<area shape="rect" id="node7_7" href="./SCoveragePackageMojo.html" title="org.scoverage.plugin.SCoveragePackageMojo" alt="" coords="959,17,1119,42"/>
+<area shape="rect" id="node7" href="./SCoveragePackageMojo.html" title="&lt;TABLE&gt;" alt="" coords="949,5,1130,53"/>
+<area shape="rect" id="node8_8" href="./SCoverageIntegrationTestMojo.html" title="org.scoverage.plugin.SCoverageIntegrationTestMojo" alt="" coords="1165,17,1359,42"/>
+<area shape="rect" id="node8" href="./SCoverageIntegrationTestMojo.html" title="&lt;TABLE&gt;" alt="" coords="1154,5,1370,53"/>
+<area shape="rect" id="node10_9" href="./SCoverageIntegrationCheckMojo.html" title="org.scoverage.plugin.SCoverageIntegrationCheckMojo" alt="" coords="1256,113,1463,138"/>
+<area shape="rect" id="node10" href="./SCoverageIntegrationCheckMojo.html" title="&lt;TABLE&gt;" alt="" coords="1245,101,1473,149"/>
+<area shape="rect" id="node11_10" href="./SCoverageForkedLifecycleConfigurator.html" title="org.scoverage.plugin.SCoverageForkedLifecycleConfigurator" alt="" coords="1597,17,1839,42"/>
+<area shape="rect" id="node11" href="./SCoverageForkedLifecycleConfigurator.html" title="&lt;TABLE&gt;" alt="" coords="1587,5,1849,53"/>
+<area shape="rect" id="node12_11" href="./SCoverageCheckOnlyMojo.html" title="org.scoverage.plugin.SCoverageCheckOnlyMojo" alt="" coords="1509,113,1682,138"/>
+<area shape="rect" id="node12" href="./SCoverageCheckOnlyMojo.html" title="&lt;TABLE&gt;" alt="" coords="1498,101,1693,149"/>
+<area shape="rect" id="node13_12" href="./SCoverageCheckMojo.html" title="org.scoverage.plugin.SCoverageCheckMojo" alt="" coords="1405,17,1551,42"/>
+<area shape="rect" id="node13" href="./SCoverageCheckMojo.html" title="&lt;TABLE&gt;" alt="" coords="1394,5,1562,53"/>
+</map>
