@@ -206,7 +206,7 @@ or in `reporting/plugins` section when adding report to Maven generated site
 </project>
 ```
 
-Since version `1.4.0-M5` it's possible to generate aggregated report only, without generating reports for indivisual modules. For large projects it can decrease build time significantly.
+Since version `1.4.0-M5` it's possible to generate aggregated report only, without generating reports for individual modules. For large projects it can decrease build time significantly.
 
 To generate only aggregated SCoverage report, set `aggregateOnly` parameter value to `true`. It works only in multimodule projects.
 
