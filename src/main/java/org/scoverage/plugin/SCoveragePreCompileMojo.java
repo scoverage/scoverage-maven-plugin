@@ -58,11 +58,11 @@ import org.codehaus.plexus.util.StringUtils;
  * <br>
  * This is internal mojo, executed in forked {@code scoverage} life cycle.
  * <br>
- * 
+ *
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
  */
-@Mojo( name = "pre-compile", defaultPhase = LifecyclePhase.GENERATE_RESOURCES ) 
+@Mojo( name = "pre-compile", defaultPhase = LifecyclePhase.GENERATE_RESOURCES )
 public class SCoveragePreCompileMojo
     extends AbstractMojo
 {
@@ -70,7 +70,7 @@ public class SCoveragePreCompileMojo
     /**
      * Allows SCoverage to be skipped.
      * <br>
-     * 
+     *
      * @since 1.0.0
      */
     @Parameter( property = "scoverage.skip", defaultValue = "false" )
@@ -85,7 +85,7 @@ public class SCoveragePreCompileMojo
      * <li>if specified, and equals {@code 2.13} or starts with {@code 2.13.} - <b>{@code scalac-scoverage-plugin_2.13}</b> will be used</li>
      * <li>if specified, but does not meet any of the above conditions or if not specified - plugin execution will be skipped</li>
      * </ul>
-     * 
+     *
      * @since 1.0.0
      */
     @Parameter( property = "scala.version" )
@@ -129,7 +129,7 @@ public class SCoveragePreCompileMojo
     /**
      * See <a href="https://github.com/scoverage/sbt-scoverage#highlighting">https://github.com/scoverage/sbt-scoverage#highlighting</a>.
      * <br>
-     * 
+     *
      * @since 1.0.0
      */
     @Parameter( property = "scoverage.highlighting", defaultValue = "true" )
@@ -202,7 +202,7 @@ public class SCoveragePreCompileMojo
 
     /**
      * Configures project for compilation with SCoverage instrumentation.
-     * 
+     *
      * @throws MojoExecutionException if unexpected problem occurs
      */
     @Override
@@ -293,7 +293,7 @@ public class SCoveragePreCompileMojo
 
         try
         {
-            Artifact pluginArtifact = getScalaScoveragePluginArtifact( scalaBinaryVersion );
+            Artifact pluginArtifact = getScalaScoveragePluginArtifact( scalaBinaryVersion, resolvedScalaVersion );
             Artifact runtimeArtifact = getScalaScoverageRuntimeArtifact( scalaBinaryVersion );
 
             if ( pluginArtifact == null )
@@ -434,7 +434,7 @@ public class SCoveragePreCompileMojo
         }
     }
 
-    private Artifact getScalaScoveragePluginArtifact( String scalaMainVersion )
+    private Artifact getScalaScoveragePluginArtifact( String scalaMainVersion, String resolvedScalaVersion )
         throws ArtifactNotFoundException, ArtifactResolutionException
     {
         Artifact result = null;
@@ -457,9 +457,20 @@ public class SCoveragePreCompileMojo
             }
         }
 
-        result =
-            getResolvedArtifact( "org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion,
-                                 resolvedScalacPluginVersion );
+        try
+        {
+            // Look for plugin artifact matching the scala version (full form like 2.12.14)
+            // If not found then look for artifact based on major version like 2.12
+            result =
+                    getResolvedArtifact( "org.scoverage", "scalac-scoverage-plugin_" + resolvedScalaVersion,
+                            resolvedScalacPluginVersion );
+        } catch (ArtifactNotFoundException e)
+        {
+            result =
+                    getResolvedArtifact( "org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion,
+                            resolvedScalacPluginVersion );
+        }
+
         return result;
     }
 
