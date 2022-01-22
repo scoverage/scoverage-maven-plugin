@@ -29,6 +29,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
+import scala.Tuple2;
 import scala.collection.JavaConverters;
 
 import scoverage.Coverage;
@@ -149,7 +150,8 @@ public class SCoverageCheckMojo
 
         Coverage coverage = Serializer.deserialize( coverageFile );
         List<File> measurementFiles = Arrays.asList( IOUtils.findMeasurementFiles( dataDirectory ) );
-        scala.collection.Set<Object> measurements = IOUtils.invoked( JavaConverters.asScalaBuffer( measurementFiles ) );
+        scala.collection.Set<Tuple2<Object, String>> measurements =
+                IOUtils.invoked( JavaConverters.asScalaBuffer( measurementFiles ) );
         coverage.apply( measurements );
 
         int branchCount = coverage.branchCount();

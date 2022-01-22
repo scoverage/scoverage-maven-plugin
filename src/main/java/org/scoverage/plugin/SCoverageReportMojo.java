@@ -44,6 +44,7 @@ import org.apache.maven.reporting.MavenReportException;
 import org.codehaus.plexus.util.StringUtils;
 
 import scala.Option;
+import scala.Tuple2;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
 
@@ -422,7 +423,8 @@ public class SCoverageReportMojo
         getLog().info( String.format( "Reading scoverage measurements [%s*]...",
                                       new File( dataDirectory, Constants.MeasurementsPrefix() ).getAbsolutePath() ) );
         List<File> measurementFiles = Arrays.asList( IOUtils.findMeasurementFiles( dataDirectory ) );
-        scala.collection.Set<Object> measurements = IOUtils.invoked( JavaConverters.asScalaBuffer( measurementFiles ) );
+        scala.collection.Set<Tuple2<Object, String>> measurements =
+                IOUtils.invoked( JavaConverters.asScalaBuffer( measurementFiles ) );
         coverage.apply( measurements );
 
         getLog().info( "Generating coverage reports..." );
