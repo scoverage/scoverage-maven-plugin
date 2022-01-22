@@ -77,14 +77,7 @@ public class SCoveragePreCompileMojo
     private boolean skip;
 
     /**
-     * Scala version used for compiler plugin artifact resolution.
-     * <ul>
-     * <li>if specified, and equals {@code 2.10} or starts with {@code 2.10.} - <b>{@code scalac-scoverage-plugin_2.10}</b> will be used</li>
-     * <li>if specified, and equals {@code 2.11} or starts with {@code 2.11.} - <b>{@code scalac-scoverage-plugin_2.11}</b> will be used</li>
-     * <li>if specified, and equals {@code 2.12} or starts with {@code 2.12.} - <b>{@code scalac-scoverage-plugin_2.12}</b> will be used</li>
-     * <li>if specified, and equals {@code 2.13} or starts with {@code 2.13.} - <b>{@code scalac-scoverage-plugin_2.13}</b> will be used</li>
-     * <li>if specified, but does not meet any of the above conditions or if not specified - plugin execution will be skipped</li>
-     * </ul>
+     * Scala version used for scalac compiler plugin artifact resolution.
      *
      * @since 1.0.0
      */
@@ -293,7 +286,7 @@ public class SCoveragePreCompileMojo
 
         try
         {
-            Artifact pluginArtifact = getScalaScoveragePluginArtifact( scalaBinaryVersion, resolvedScalaVersion );
+            Artifact pluginArtifact = getScalaScoveragePluginArtifact( resolvedScalaVersion, scalaBinaryVersion );
             Artifact runtimeArtifact = getScalaScoverageRuntimeArtifact( scalaBinaryVersion );
 
             if ( pluginArtifact == null )
@@ -434,23 +427,17 @@ public class SCoveragePreCompileMojo
         }
     }
 
-    private Artifact getScalaScoveragePluginArtifact( String scalaMainVersion, String resolvedScalaVersion )
+    private Artifact getScalaScoveragePluginArtifact( String resolvedScalaVersion, String scalaMainVersion )
         throws ArtifactNotFoundException, ArtifactResolutionException
     {
-        Artifact result = null;
-
         String resolvedScalacPluginVersion = scalacPluginVersion;
         if ( resolvedScalacPluginVersion == null || "".equals( resolvedScalacPluginVersion ) )
         {
             for ( Artifact artifact : pluginArtifacts )
             {
                 if ( "org.scoverage".equals( artifact.getGroupId() )
-                    && "scalac-scoverage-plugin_2.12".equals( artifact.getArtifactId() ) )
+                    && artifact.getArtifactId().startsWith( "scalac-scoverage-plugin_" ) )
                 {
-                    if ( "2.12".equals( scalaMainVersion ) )
-                    {
-                        return artifact; // shortcut, use the same artifact plugin uses
-                    }
                     resolvedScalacPluginVersion = artifact.getVersion();
                     break;
                 }
@@ -459,33 +446,29 @@ public class SCoveragePreCompileMojo
 
         try
         {
-            // Look for plugin artifact matching the scala version (full form like 2.12.14)
-            // If not found then look for artifact based on major version like 2.12
-            result =
-                    getResolvedArtifact( "org.scoverage", "scalac-scoverage-plugin_" + resolvedScalaVersion,
-                            resolvedScalacPluginVersion );
-        } catch (ArtifactNotFoundException e)
-        {
-            result =
-                    getResolvedArtifact( "org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion,
-                            resolvedScalacPluginVersion );
+            return getResolvedArtifact(
+                    "org.scoverage", "scalac-scoverage-plugin_" + resolvedScalaVersion,
+                    resolvedScalacPluginVersion );
         }
-
-        return result;
+        catch ( ArtifactNotFoundException | ArtifactResolutionException e )
+        {
+            // for scalac-scoverage-plugin versions up to 1.4.1
+            return getResolvedArtifact(
+                    "org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion,
+                    resolvedScalacPluginVersion );
+        }
     }
 
     private Artifact getScalaScoverageRuntimeArtifact( String scalaMainVersion )
         throws ArtifactNotFoundException, ArtifactResolutionException
     {
-        Artifact result = null;
-
         String resolvedScalacRuntimeVersion = scalacPluginVersion;
         if ( resolvedScalacRuntimeVersion == null || "".equals( resolvedScalacRuntimeVersion ) )
         {
             for ( Artifact artifact : pluginArtifacts )
             {
                 if ( "org.scoverage".equals( artifact.getGroupId() )
-                    && "scalac-scoverage-plugin_2.12".equals( artifact.getArtifactId() ) )
+                    && artifact.getArtifactId().startsWith( "scalac-scoverage-plugin_" ) )
                 {
                     resolvedScalacRuntimeVersion = artifact.getVersion();
                     break;
@@ -493,10 +476,9 @@ public class SCoveragePreCompileMojo
             }
         }
 
-        result =
-            getResolvedArtifact( "org.scoverage", "scalac-scoverage-runtime_" + scalaMainVersion,
-                                 resolvedScalacRuntimeVersion );
-        return result;
+        return getResolvedArtifact(
+                "org.scoverage", "scalac-scoverage-runtime_" + scalaMainVersion,
+                resolvedScalacRuntimeVersion );
     }
 
     /**
@@ -505,7 +487,6 @@ public class SCoveragePreCompileMojo
      * @throws MojoExecutionException
      */
     private void addScoverageDependenciesToClasspath( Artifact scalaScoveragePluginArtifact )
-        throws MojoExecutionException
     {
         @SuppressWarnings( "unchecked" )
         Set<Artifact> set = new LinkedHashSet<Artifact>( project.getDependencyArtifacts() );
