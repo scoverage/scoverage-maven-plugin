@@ -250,11 +250,11 @@ under the License.
                         <detectJavaApiLink>false</detectJavaApiLink>
                         <subpackages>org.scoverage.plugin</subpackages>
                         <links>
-                            <link>http://docs.oracle.com/javase/1.6.0/docs/api/</link>
-                            <link>http://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
-                            <link>http://maven.apache.org/ref/${maven.version}/maven-project/apidocs/</link>
-                            <link>http://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
-                            <link>http://maven.apache.org/doxia/doxia/apidocs/</link>
+                            <link>https://docs.oracle.com/javase/8/docs/api/</link>
+                            <link>https://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
+                            <link>https://maven.apache.org/ref/${maven.version}/maven-project/apidocs/</link>
+                            <link>https://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
+                            <link>https://maven.apache.org/doxia/doxia/apidocs/</link>
                         </links>
                         <notimestamp>true</notimestamp>
                         <!-- graphviz -->
