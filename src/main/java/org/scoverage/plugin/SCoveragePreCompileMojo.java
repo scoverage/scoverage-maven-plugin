@@ -452,6 +452,10 @@ public class SCoveragePreCompileMojo
         }
         catch ( ArtifactNotFoundException | ArtifactResolutionException e )
         {
+            getLog().warn( String.format( "Artifact \"org.scoverage:scalac-scoverage-plugin_%s:%s\" not found, " +
+                            "falling back to \"org.scoverage:scalac-scoverage-plugin_%s:%s\"",
+                    resolvedScalaVersion,  resolvedScalacPluginVersion, scalaMainVersion, resolvedScalacPluginVersion ) );
+
             // for scalac-scoverage-plugin versions up to 1.4.1
             return getResolvedArtifact(
                     "org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion,
