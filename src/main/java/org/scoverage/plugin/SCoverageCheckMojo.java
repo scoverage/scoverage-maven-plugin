@@ -30,11 +30,11 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import scala.Tuple2;
-import scala.collection.JavaConverters;
+import scala.jdk.javaapi.CollectionConverters;
 
-import scoverage.Coverage;
-import scoverage.IOUtils;
-import scoverage.Serializer;
+import scoverage.domain.Coverage;
+import scoverage.reporter.IOUtils;
+import scoverage.serialize.Serializer;
 
 /**
  * Checks if minimum code coverage by unit tests reached
@@ -94,6 +94,15 @@ public class SCoverageCheckMojo
     private boolean failOnMinimumCoverage;
 
     /**
+     * The file encoding to use when reading Scala sources.
+     * <br>
+     *
+     * @since 1.4.12
+     */
+    @Parameter( property = "encoding", defaultValue = "${project.build.sourceEncoding}" )
+    private String encoding;
+
+    /**
      * Maven project to interact with.
      */
     @Parameter( defaultValue = "${project}", readonly = true, required = true )
@@ -148,10 +157,10 @@ public class SCoverageCheckMojo
             return;
         }
 
-        Coverage coverage = Serializer.deserialize( coverageFile );
+        Coverage coverage = Serializer.deserialize( coverageFile, project.getBasedir() );
         List<File> measurementFiles = Arrays.asList( IOUtils.findMeasurementFiles( dataDirectory ) );
         scala.collection.Set<Tuple2<Object, String>> measurements =
-                IOUtils.invoked( JavaConverters.asScalaBuffer( measurementFiles ) );
+                IOUtils.invoked( CollectionConverters.asScala( measurementFiles ).toSeq(), encoding );
         coverage.apply( measurements );
 
         int branchCount = coverage.branchCount();
@@ -165,7 +174,7 @@ public class SCoverageCheckMojo
                                       invokedBranchesCount, branchCount, invokedStatementCount, statementCount ) );
         if ( minimumCoverage > 0.0 )
         {
-            String minimumCoverageFormatted = scoverage.DoubleFormat.twoFractionDigits( minimumCoverage );
+            String minimumCoverageFormatted = scoverage.domain.DoubleFormat.twoFractionDigits( minimumCoverage );
             if ( is100( minimumCoverage ) && is100( coverage.statementCoveragePercent() ) )
             {
                 getLog().info( "100% Coverage !" );

@@ -22,13 +22,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -286,10 +284,10 @@ public class SCoveragePreCompileMojo
 
         try
         {
-            Artifact pluginArtifact = getScalaScoveragePluginArtifact( resolvedScalaVersion, scalaBinaryVersion );
+            List<Artifact> pluginArtifacts = getScalaScoveragePluginArtifacts( resolvedScalaVersion, scalaBinaryVersion );
             Artifact runtimeArtifact = getScalaScoverageRuntimeArtifact( scalaBinaryVersion );
 
-            if ( pluginArtifact == null )
+            if ( pluginArtifacts == null )
             {
                 return; // scoverage plugin will not be configured
             }
@@ -299,6 +297,10 @@ public class SCoveragePreCompileMojo
             String arg = DATA_DIR_OPTION + dataDirectory.getAbsolutePath();
             String _scalacOptions = quoteArgument( arg );
             String addScalacArgs = arg;
+
+            arg = SOURCE_ROOT_OPTION + project.getBasedir().getAbsolutePath();
+            _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
+            addScalacArgs = addScalacArgs + PIPE + arg;
 
             if ( !StringUtils.isEmpty( excludedPackages ) )
             {
@@ -320,11 +322,10 @@ public class SCoveragePreCompileMojo
                 addScalacArgs = addScalacArgs + PIPE + "-Yrangepos";
             }
 
-            String _scalacPlugins =
-                String.format( "%s:%s:%s", pluginArtifact.getGroupId(), pluginArtifact.getArtifactId(),
-                               pluginArtifact.getVersion() );
+            String _scalacPlugins = pluginArtifacts.stream()
+                    .map(x -> String.format("%s:%s:%s", x.getGroupId(), x.getArtifactId(),x.getVersion())).collect(Collectors.joining(" "));
 
-            arg = PLUGIN_OPTION + pluginArtifact.getFile().getAbsolutePath();
+            arg = PLUGIN_OPTION + pluginArtifacts.stream().map(x -> x.getFile().getAbsolutePath()).collect(Collectors.joining(":"));
             addScalacArgs = addScalacArgs + PIPE + arg;
 
             Properties projectProperties = project.getProperties();
@@ -371,6 +372,7 @@ public class SCoveragePreCompileMojo
     private static final String SCALA_LIBRARY_ARTIFACT_ID = "scala-library";
 
     private static final String DATA_DIR_OPTION = "-P:scoverage:dataDir:";
+    private static final String SOURCE_ROOT_OPTION = "-P:scoverage:sourceRoot:";
     private static final String EXCLUDED_PACKAGES_OPTION = "-P:scoverage:excludedPackages:";
     private static final String EXCLUDED_FILES_OPTION = "-P:scoverage:excludedFiles:";
     private static final String PLUGIN_OPTION = "-Xplugin:";
@@ -427,7 +429,7 @@ public class SCoveragePreCompileMojo
         }
     }
 
-    private Artifact getScalaScoveragePluginArtifact( String resolvedScalaVersion, String scalaMainVersion )
+    private List<Artifact> getScalaScoveragePluginArtifacts(String resolvedScalaVersion, String scalaMainVersion )
         throws ArtifactNotFoundException, ArtifactResolutionException
     {
         String resolvedScalacPluginVersion = scalacPluginVersion;
@@ -446,9 +448,11 @@ public class SCoveragePreCompileMojo
 
         try
         {
-            return getResolvedArtifact(
-                    "org.scoverage", "scalac-scoverage-plugin_" + resolvedScalaVersion,
-                    resolvedScalacPluginVersion );
+            List<Artifact> resolvedArtifacts = new ArrayList<>();
+            resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-plugin_" + resolvedScalaVersion, resolvedScalacPluginVersion));
+            resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-domain_" + scalaMainVersion, resolvedScalacPluginVersion));
+            resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-serializer_" + scalaMainVersion, resolvedScalacPluginVersion));
+            return resolvedArtifacts;
         }
         catch ( ArtifactNotFoundException | ArtifactResolutionException e )
         {
@@ -457,9 +461,9 @@ public class SCoveragePreCompileMojo
                     resolvedScalaVersion,  resolvedScalacPluginVersion, scalaMainVersion, resolvedScalacPluginVersion ) );
 
             // for scalac-scoverage-plugin versions up to 1.4.1
-            return getResolvedArtifact(
-                    "org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion,
-                    resolvedScalacPluginVersion );
+            return Collections.singletonList(
+              getResolvedArtifact("org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion, resolvedScalacPluginVersion )
+            );
         }
     }
 

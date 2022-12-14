@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.maven.doxia.module.xhtml.decoration.render.RenderingContext;
 import org.apache.maven.doxia.sink.Sink;
@@ -46,17 +47,18 @@ import org.codehaus.plexus.util.StringUtils;
 
 import scala.Option;
 import scala.Tuple2;
-import scala.collection.JavaConverters;
-import scala.collection.Seq;
+import scala.collection.immutable.Seq;
+import scala.jdk.javaapi.CollectionConverters;
 
-import scoverage.Constants;
-import scoverage.Coverage;
-import scoverage.IOUtils;
-import scoverage.Serializer;
-import scoverage.report.CoberturaXmlWriter;
-import scoverage.report.CoverageAggregator;
-import scoverage.report.ScoverageHtmlWriter;
-import scoverage.report.ScoverageXmlWriter;
+import scoverage.domain.Constants;
+import scoverage.domain.Coverage;
+import scoverage.domain.Statement;
+import scoverage.reporter.IOUtils;
+import scoverage.serialize.Serializer;
+import scoverage.reporter.CoberturaXmlWriter;
+import scoverage.reporter.CoverageAggregator;
+import scoverage.reporter.ScoverageHtmlWriter;
+import scoverage.reporter.ScoverageXmlWriter;
 
 /**
  * Generates code coverage by unit tests report in forked {@code scoverage} life cycle.
@@ -419,13 +421,13 @@ public class SCoverageReportMojo
 
         File coverageFile = Serializer.coverageFile( dataDirectory );
         getLog().info( String.format( "Reading scoverage instrumentation [%s]...", coverageFile.getAbsolutePath() ) );
-        Coverage coverage = Serializer.deserialize( coverageFile );
+        Coverage coverage = Serializer.deserialize( coverageFile, project.getBasedir() );
 
         getLog().info( String.format( "Reading scoverage measurements [%s*]...",
                                       new File( dataDirectory, Constants.MeasurementsPrefix() ).getAbsolutePath() ) );
         List<File> measurementFiles = Arrays.asList( IOUtils.findMeasurementFiles( dataDirectory ) );
         scala.collection.Set<Tuple2<Object, String>> measurements =
-                IOUtils.invoked( JavaConverters.asScalaBuffer( measurementFiles ) );
+                IOUtils.invoked( CollectionConverters.asScala( measurementFiles ).toSeq(), encoding );
         coverage.apply( measurements );
 
         getLog().info( "Generating coverage reports..." );
@@ -436,6 +438,8 @@ public class SCoverageReportMojo
     private void generateAggregatedReports()
         throws MavenReportException
     {
+        Coverage coverage = new Coverage();
+        AtomicInteger id = new AtomicInteger();
         List<File> scoverageDataDirs = new ArrayList<File>();
         List<File> sourceRoots = new ArrayList<File>();
         MavenProject topLevelModule = null;
@@ -451,6 +455,33 @@ public class SCoverageReportMojo
                 if ( scoverageDataDir.isDirectory() )
                 {
                     scoverageDataDirs.add( scoverageDataDir );
+                    File coverageFile = Serializer.coverageFile(scoverageDataDir);
+                    if (coverageFile.exists()) {
+                        Coverage subCoverage  = Serializer.deserialize(coverageFile, module.getBasedir());
+                        List<File> measurementFiles = Arrays.asList( IOUtils.findMeasurementFiles( scoverageDataDir ) );
+                        scala.collection.Set<Tuple2<Object, String>> measurements =
+                                IOUtils.invoked( CollectionConverters.asScala( measurementFiles ).toSeq(), encoding );
+                        subCoverage.apply( measurements );
+                        subCoverage.statements().foreach(statement -> {
+                            int statementId = id.getAndIncrement();
+                            Statement copy = statement.copy(
+                                    statement.location(),
+                                    statementId,
+                                    statement.start(),
+                                    statement.end(),
+                                    statement.line(),
+                                    statement.desc(),
+                                    statement.symbolName(),
+                                    statement.treeName(),
+                                    statement.branch(),
+                                    statement.count(),
+                                    statement.ignored(),
+                                    statement.tests()
+                            );
+                            coverage.add(copy);
+                            return null;
+                        });
+                    }
 
                     File sourceRootsFile = new File( scoverageDataDir, "source.roots" );
                     if ( sourceRootsFile.isFile() )
@@ -510,9 +541,6 @@ public class SCoverageReportMojo
         mkdirs( topLevelModuleOutputDirectory );
         mkdirs( topLevelModuleXmlOutputDirectory );
 
-        Coverage coverage =
-            CoverageAggregator.aggregatedCoverage( JavaConverters.asScalaBuffer( scoverageDataDirs ).toSeq() );
-
         getLog().info( "Generating coverage aggregated reports..." );
         writeReports( coverage, sourceRoots, topLevelModuleXmlOutputDirectory, topLevelModuleXmlOutputDirectory,
                       topLevelModuleOutputDirectory );
@@ -522,13 +550,13 @@ public class SCoverageReportMojo
     private void writeReports( Coverage coverage, List<File> sourceRoots, File coberturaXmlOutputDirectory,
                                File scoverageXmlOutputDirectory, File scoverageHtmlOutputDirectory )
     {
-        Seq<File> sourceRootsAsScalaSeq = JavaConverters.asScalaBuffer( sourceRoots );
+        Seq<File> sourceRootsAsScalaSeq = CollectionConverters.asScala( sourceRoots ).toSeq();
 
-        new CoberturaXmlWriter( sourceRootsAsScalaSeq, coberturaXmlOutputDirectory ).write( coverage );
+        new CoberturaXmlWriter( sourceRootsAsScalaSeq, coberturaXmlOutputDirectory, Option.<String>apply( encoding ) ).write( coverage );
         getLog().info( String.format( "Written Cobertura XML report [%s]",
                                       new File( coberturaXmlOutputDirectory, "cobertura.xml" ).getAbsolutePath() ) );
 
-        new ScoverageXmlWriter( sourceRootsAsScalaSeq, scoverageXmlOutputDirectory, false ).write( coverage );
+        new ScoverageXmlWriter( sourceRootsAsScalaSeq, scoverageXmlOutputDirectory, false, Option.<String>apply( encoding ) ).write( coverage );
         getLog().info( String.format( "Written XML coverage report [%s]",
                                       new File( scoverageXmlOutputDirectory, "scoverage.xml" ).getAbsolutePath() ) );
 
