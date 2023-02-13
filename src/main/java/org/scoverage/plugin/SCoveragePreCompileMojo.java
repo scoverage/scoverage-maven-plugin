@@ -449,7 +449,7 @@ public class SCoveragePreCompileMojo
         // * Version 1.4.1 older   - 1 artifact, plugin using scalaMainVersion
         //
         final ArtifactVersion pluginArtifactVersion = new DefaultArtifactVersion(resolvedScalacPluginVersion);
-        if(pluginArtifactVersion.getMajorVersion() > 2) {
+        if(pluginArtifactVersion.getMajorVersion() >= 2) {
             List<Artifact> resolvedArtifacts = new ArrayList<>();
             resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-plugin_" + resolvedScalaVersion, resolvedScalacPluginVersion));
             resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-domain_" + scalaMainVersion, resolvedScalacPluginVersion));
