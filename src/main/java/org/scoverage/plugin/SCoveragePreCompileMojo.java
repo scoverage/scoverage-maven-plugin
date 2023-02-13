@@ -33,6 +33,8 @@ import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
 import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.artifact.versioning.ArtifactVersion;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -287,11 +289,6 @@ public class SCoveragePreCompileMojo
             List<Artifact> pluginArtifacts = getScalaScoveragePluginArtifacts( resolvedScalaVersion, scalaBinaryVersion );
             Artifact runtimeArtifact = getScalaScoverageRuntimeArtifact( scalaBinaryVersion );
 
-            if ( pluginArtifacts == null )
-            {
-                return; // scoverage plugin will not be configured
-            }
-
             addScoverageDependenciesToClasspath( runtimeArtifact );
 
             String arg = DATA_DIR_OPTION + dataDirectory.getAbsolutePath();
@@ -446,23 +443,38 @@ public class SCoveragePreCompileMojo
             }
         }
 
-        try
-        {
+        // There are 3 cases depending on the version of scalac-scoverage-plugin
+        // * Version 2.0.0 onwards - 3 artifacts, plugin using resolvedScalaVersion
+        // * Version 1.4.2         - 1 artifact, plugin using resolvedScalaVersion falling back to scalaMainVersion
+        // * Version 1.4.1 older   - 1 artifact, plugin using scalaMainVersion
+        //
+        final ArtifactVersion pluginArtifactVersion = new DefaultArtifactVersion(resolvedScalacPluginVersion);
+        if(pluginArtifactVersion.getMajorVersion() > 2) {
             List<Artifact> resolvedArtifacts = new ArrayList<>();
             resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-plugin_" + resolvedScalaVersion, resolvedScalacPluginVersion));
             resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-domain_" + scalaMainVersion, resolvedScalacPluginVersion));
             resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-serializer_" + scalaMainVersion, resolvedScalacPluginVersion));
             return resolvedArtifacts;
-        }
-        catch ( ArtifactNotFoundException | ArtifactResolutionException e )
+        } else if (pluginArtifactVersion.getMajorVersion() == 1 && pluginArtifactVersion.getMinorVersion() == 4 && pluginArtifactVersion.getIncrementalVersion() == 2)
         {
-            getLog().warn( String.format( "Artifact \"org.scoverage:scalac-scoverage-plugin_%s:%s\" not found, " +
-                            "falling back to \"org.scoverage:scalac-scoverage-plugin_%s:%s\"",
-                    resolvedScalaVersion,  resolvedScalacPluginVersion, scalaMainVersion, resolvedScalacPluginVersion ) );
-
-            // for scalac-scoverage-plugin versions up to 1.4.1
+            try
+            {
+                return Collections.singletonList(
+                        getResolvedArtifact("org.scoverage", "scalac-scoverage-plugin_" + resolvedScalaVersion, resolvedScalacPluginVersion )
+                );
+            }
+            catch ( ArtifactNotFoundException | ArtifactResolutionException e2 )
+            {
+                getLog().warn( String.format( "Artifact \"org.scoverage:scalac-scoverage-plugin_%s:%s\" not found, " +
+                                "falling back to \"org.scoverage:scalac-scoverage-plugin_%s:%s\"",
+                        resolvedScalaVersion,  resolvedScalacPluginVersion, scalaMainVersion, resolvedScalacPluginVersion ) );
+                return Collections.singletonList(
+                        getResolvedArtifact("org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion, resolvedScalacPluginVersion )
+                );
+            }
+        } else {
             return Collections.singletonList(
-              getResolvedArtifact("org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion, resolvedScalacPluginVersion )
+                    getResolvedArtifact("org.scoverage", "scalac-scoverage-plugin_" + scalaMainVersion, resolvedScalacPluginVersion )
             );
         }
     }
