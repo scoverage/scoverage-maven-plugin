@@ -88,7 +88,7 @@ under the License.
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <maven.version>2.2.1</maven.version>
-        <maven-plugin-plugin.version>3.6.0</maven-plugin-plugin.version>
+        <maven-plugin-plugin.version>3.7.1</maven-plugin-plugin.version>
 
         <scalac-scoverage-plugin.version>1.4.11</scalac-scoverage-plugin.version>
         <scalac-scoverage-plugin.scala.version>2.12.15</scalac-scoverage-plugin.scala.version>
