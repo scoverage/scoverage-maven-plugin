@@ -29,6 +29,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.maven.doxia.module.xhtml.decoration.render.RenderingContext;
+import org.apache.maven.doxia.sink.Sink;
 import org.apache.maven.doxia.siterenderer.sink.SiteRendererSink;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -198,7 +199,7 @@ public class SCoverageReportMojo
     /** {@inheritDoc} */
     @Override
     @SuppressWarnings( "deprecation" )
-    public void generate( org.codehaus.doxia.sink.Sink sink, Locale locale )
+    public void generate( Sink sink, Locale locale )
         throws MavenReportException
     {
         boolean canGenerateNonAggregatedReport = canGenerateNonAggregatedReport();
