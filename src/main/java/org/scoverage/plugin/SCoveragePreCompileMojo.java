@@ -322,7 +322,7 @@ public class SCoveragePreCompileMojo
             String _scalacPlugins = pluginArtifacts.stream()
                     .map(x -> String.format("%s:%s:%s", x.getGroupId(), x.getArtifactId(),x.getVersion())).collect(Collectors.joining(" "));
 
-            arg = PLUGIN_OPTION + pluginArtifacts.stream().map(x -> x.getFile().getAbsolutePath()).collect(Collectors.joining(":"));
+            arg = PLUGIN_OPTION + pluginArtifacts.stream().map(x -> x.getFile().getAbsolutePath()).collect(Collectors.joining(String.valueOf(java.io.File.pathSeparatorChar)));
             addScalacArgs = addScalacArgs + PIPE + arg;
 
             Properties projectProperties = project.getProperties();
