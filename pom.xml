@@ -90,7 +90,7 @@ under the License.
         <maven.version>2.2.1</maven.version>
         <maven-plugin-plugin.version>3.9.0</maven-plugin-plugin.version>
 
-        <scalac-scoverage-plugin.version>2.0.7</scalac-scoverage-plugin.version>
+        <scalac-scoverage-plugin.version>2.0.11</scalac-scoverage-plugin.version>
         <scalac-scoverage-plugin.scala.version>2.13</scalac-scoverage-plugin.scala.version>
     </properties>
 
