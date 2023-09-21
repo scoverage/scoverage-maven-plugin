@@ -246,30 +246,17 @@ under the License.
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.6.0</version>
                     <configuration>
-                        <source>1.8</source>
+                        <source>11</source>
                         <detectJavaApiLink>false</detectJavaApiLink>
                         <subpackages>org.scoverage.plugin</subpackages>
                         <links>
-                            <link>https://docs.oracle.com/javase/8/docs/api/</link>
+                            <link>https://docs.oracle.com/javase/11/docs/api/</link>
                             <link>https://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
                             <link>https://maven.apache.org/ref/${maven.version}/maven-project/apidocs/</link>
                             <link>https://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
                             <link>https://maven.apache.org/doxia/doxia/apidocs/</link>
                         </links>
                         <notimestamp>true</notimestamp>
-                        <!-- graphviz -->
-                        <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-                        <docletArtifact>
-                            <groupId>org.umlgraph</groupId>
-                            <artifactId>umlgraph</artifactId>
-                            <version>5.6.6</version>
-                        </docletArtifact>
-                        <additionalOptions>
-                            -inferrel -inferdep -quiet -hide (java|javax)\..*
-                            -collpackages java\.util\..* -qualify
-                            -postfixpackage -nodefontsize 9
-                            -nodefontpackagesize 7
-                        </additionalOptions>
                     </configuration>
                 </plugin>
 
@@ -765,7 +752,7 @@ under the License.
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>3.6.0</version>
                     </plugin>
 
                     <plugin>
