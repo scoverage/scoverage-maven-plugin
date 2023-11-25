@@ -45,7 +45,7 @@ Maven generated plugin documentation:
 |------------------|--------------------------------------------------------------------------------------------------|
 | `1.4.11`         | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/plugin-info.html)         |
 
-##### Prerequisities / limitations
+##### Prerequisites / limitations
 
 Plugin is compatible with two Maven Scala compiler plugins:
 
@@ -61,7 +61,7 @@ This can be set as project property.
 ```xml
 <project>
     <properties>
-        <scoverage.plugin.version>1.4.11</scoverage.plugin.version>
+        <scoverage.plugin.version>2.0.0</scoverage.plugin.version>
     </properties>
 </project>
 ```
@@ -69,12 +69,12 @@ This can be set as project property.
 
 ##### Scala version configuration
 
-Plugin supports Scala 2.10.x, 2.11.x, 2.12.x and 2.13.x versions by automatically loading and configuring scalac-scoverage-plugin_2.10, scalac-scoverage-plugin_2.11, scalac-scoverage-plugin_2.12 or scalac-scoverage-plugin_2.13 Scalac SCoverage Plugin artifact. For this to work Scala version has to be set. It can be done by defining `scalaVersion` plugin configuration parameter or `scala.version` project property. Without this setting, coverage will not be calculated. 
+Plugin supports Scala 2.12.x and 2.13.x versions by automatically loading and configuring matching `scalac-scoverage-plugin` Scalac SCoverage Plugin artifact. For this to work Scala version has to be set. It can be done by defining `scalaVersion` plugin configuration parameter or `scala.version` project property. Without this setting, coverage will not be calculated. 
 
 ```xml
 <project>
     <properties>
-        <scala.version>2.13.8</scala.version>
+        <scala.version>2.13.12</scala.version>
     </properties>
 </project>
 ```
@@ -90,7 +90,7 @@ or
                 <artifactId>scoverage-maven-plugin</artifactId>
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
-                    <scalaVersion>2.13.8</scalaVersion>
+                    <scalaVersion>2.13.12</scalaVersion>
                     <!-- other parameters -->
                 </configuration>
              </plugin>
@@ -113,6 +113,8 @@ The first method is better because once the property is defined it's value can b
 </project>
 ```
 
+For Scala 2.10 and 2.11 support please use Scoverage Maven plugin `1.4.11`.
+
 ##### Scalac SCoverage plugin version configuration
 
 Maven SCoverage plugin uses by default the latest version of the [scalac-scoverage-plugin](https://github.com/scoverage/scalac-scoverage-plugin) available on its release day.
@@ -122,7 +124,7 @@ It can be configured by defining `scalacPluginVersion` plugin configuration para
 ```xml
 <project>
     <properties>
-        <scoverage.scalacPluginVersion>1.4.11</scoverage.scalacPluginVersion>
+        <scoverage.scalacPluginVersion>2.0.11</scoverage.scalacPluginVersion>
     </properties>
 </project>
 ```
@@ -138,7 +140,7 @@ or
                 <artifactId>scoverage-maven-plugin</artifactId>
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
-                    <scalacPluginVersion>1.4.11</scalacPluginVersion>
+                    <scalacPluginVersion>2.0.11</scalacPluginVersion>
                     <!-- other parameters -->
                 </configuration>
              </plugin>
