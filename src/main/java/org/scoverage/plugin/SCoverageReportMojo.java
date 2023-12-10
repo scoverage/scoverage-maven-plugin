@@ -29,8 +29,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.maven.doxia.module.xhtml.decoration.render.RenderingContext;
-import org.apache.maven.doxia.sink.Sink;
+import org.apache.maven.doxia.siterenderer.RenderingContext;
 import org.apache.maven.doxia.siterenderer.sink.SiteRendererSink;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -43,6 +42,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.MavenReport;
 import org.apache.maven.reporting.MavenReportException;
 
+import org.codehaus.doxia.sink.Sink;
 import org.codehaus.plexus.util.StringUtils;
 
 import scala.Option;
