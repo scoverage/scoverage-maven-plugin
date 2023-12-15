@@ -26,12 +26,13 @@
         <scala.compat.version>2.13</scala.compat.version>
         <scala.minor.version>12</scala.minor.version>
         <scala.version>${scala.compat.version}.${scala.minor.version}</scala.version>
+        <scala.library.artifact.id>scala-library</scala.library.artifact.id>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
+            <artifactId>${scala.library.artifact.id}</artifactId>
             <version>${scala.version}</version>
         </dependency>
 
