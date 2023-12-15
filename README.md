@@ -69,7 +69,7 @@ This can be set as project property.
 
 ##### Scala version configuration
 
-Plugin supports Scala 2.12.x and 2.13.x versions by automatically loading and configuring matching `scalac-scoverage-plugin` Scalac SCoverage Plugin artifact. For this to work Scala version has to be set. It can be done by defining `scalaVersion` plugin configuration parameter or `scala.version` project property. Without this setting, coverage will not be calculated. 
+Plugin supports Scala 2.12.8+, 2.13.0+ and 3.2.0+ versions by automatically loading and configuring matching `scalac-scoverage-plugin` Scalac SCoverage Plugin artifact. For this to work Scala version has to be set. It can be done by defining `scalaVersion` plugin configuration parameter or `scala.version` project property. Without this setting, coverage will not be calculated. 
 
 ```xml
 <project>

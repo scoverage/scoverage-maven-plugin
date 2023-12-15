@@ -24,9 +24,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -228,6 +226,7 @@ public class SCoveragePreCompileMojo
 
         String scalaBinaryVersion = null;
         String resolvedScalaVersion = resolveScalaVersion();
+        boolean scala2 = true;
         if ( resolvedScalaVersion != null )
         {
             if ( "2.12".equals( resolvedScalaVersion ) || resolvedScalaVersion.startsWith( "2.12." ) )
@@ -238,9 +237,14 @@ public class SCoveragePreCompileMojo
             {
                 scalaBinaryVersion = "2.13";
             }
+            else if ( resolvedScalaVersion.compareTo("3.2.") > 0 ) // Scala 3 is supported from 3.2.0
+            {
+                scalaBinaryVersion = "3";
+                scala2 = false;
+            }
             else
             {
-                getLog().warn( String.format( "Skipping SCoverage execution - unsupported Scala version \"%s\"",
+                getLog().warn( String.format( "Skipping SCoverage execution - unsupported Scala version \"%s\". Supported Scala versions are 2.12.8+, 2.13.0+ and 3.2.0+ .",
                                               resolvedScalaVersion ) );
                 return;
             }
@@ -278,16 +282,18 @@ public class SCoveragePreCompileMojo
 
         try
         {
-            List<Artifact> pluginArtifacts = getScalaScoveragePluginArtifacts( resolvedScalaVersion, scalaBinaryVersion );
-            Artifact runtimeArtifact = getScalaScoverageRuntimeArtifact( scalaBinaryVersion );
+            List<Artifact> pluginArtifacts = getScalaScoveragePluginArtifacts( resolvedScalaVersion, scalaBinaryVersion, scala2 );
+            if ( scala2 ) // Scala 3 doesn't need scalac-scoverage-runtime
+            {
+                Artifact runtimeArtifact = getScalaScoverageRuntimeArtifact( scalaBinaryVersion );
+                addScoverageDependenciesToClasspath( runtimeArtifact );
+            }
 
-            addScoverageDependenciesToClasspath( runtimeArtifact );
-
-            String arg = DATA_DIR_OPTION + dataDirectory.getAbsolutePath();
+            String arg = ( scala2 ? SCALA2_DATA_DIR_OPTION : SCALA3_COVERAGE_OUT_OPTION ) + dataDirectory.getAbsolutePath();
             String _scalacOptions = quoteArgument( arg );
             String addScalacArgs = arg;
 
-            arg = SOURCE_ROOT_OPTION + project.getBasedir().getAbsolutePath();
+            arg = scala2 ? ( SOURCE_ROOT_OPTION + project.getBasedir().getAbsolutePath() ) : "";
             _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
             addScalacArgs = addScalacArgs + PIPE + arg;
 
@@ -305,17 +311,19 @@ public class SCoveragePreCompileMojo
                 addScalacArgs = addScalacArgs + PIPE + arg;
             }
 
-            if ( highlighting )
+            if ( highlighting && scala2 )
             {
                 _scalacOptions = _scalacOptions + SPACE + "-Yrangepos";
                 addScalacArgs = addScalacArgs + PIPE + "-Yrangepos";
             }
 
-            String _scalacPlugins = pluginArtifacts.stream()
-                    .map(x -> String.format("%s:%s:%s", x.getGroupId(), x.getArtifactId(),x.getVersion())).collect(Collectors.joining(" "));
+            String _scalacPlugins = scala2 ? pluginArtifacts.stream()
+                    .map(x -> String.format("%s:%s:%s", x.getGroupId(), x.getArtifactId(), x.getVersion())).collect(Collectors.joining(" ")) : "";
 
-            arg = PLUGIN_OPTION + pluginArtifacts.stream().map(x -> x.getFile().getAbsolutePath()).collect(Collectors.joining(String.valueOf(java.io.File.pathSeparatorChar)));
-            addScalacArgs = addScalacArgs + PIPE + arg;
+            if ( scala2 ) {
+                arg = PLUGIN_OPTION + pluginArtifacts.stream().map(x -> x.getFile().getAbsolutePath()).collect(Collectors.joining(String.valueOf(java.io.File.pathSeparatorChar)));
+                addScalacArgs = addScalacArgs + PIPE + arg;
+            }
 
             Properties projectProperties = project.getProperties();
 
@@ -358,9 +366,11 @@ public class SCoveragePreCompileMojo
     // Private utility methods
 
     private static final String SCALA_LIBRARY_GROUP_ID = "org.scala-lang";
-    private static final String SCALA_LIBRARY_ARTIFACT_ID = "scala-library";
+    private static final String SCALA2_LIBRARY_ARTIFACT_ID = "scala-library";
+    private static final String SCALA3_LIBRARY_ARTIFACT_ID = "scala3-library_3";
 
-    private static final String DATA_DIR_OPTION = "-P:scoverage:dataDir:";
+    private static final String SCALA2_DATA_DIR_OPTION = "-P:scoverage:dataDir:";
+    private static final String SCALA3_COVERAGE_OUT_OPTION = "-coverage-out:";
     private static final String SOURCE_ROOT_OPTION = "-P:scoverage:sourceRoot:";
     private static final String EXCLUDED_PACKAGES_OPTION = "-P:scoverage:excludedPackages:";
     private static final String EXCLUDED_FILES_OPTION = "-P:scoverage:excludedFiles:";
@@ -378,7 +388,7 @@ public class SCoveragePreCompileMojo
     private String resolveScalaVersion()
     {
         String result = scalaVersion;
-        if ( result == null )
+        if ( result == null || result.isEmpty() )
         {
             // check project direct dependencies (transitive dependencies cannot be checked in this Maven lifecycle phase)
             @SuppressWarnings( "unchecked" )
@@ -386,7 +396,11 @@ public class SCoveragePreCompileMojo
             for ( Dependency dependency: dependencies )
             {
                 if ( SCALA_LIBRARY_GROUP_ID.equals( dependency.getGroupId() )
-                    && SCALA_LIBRARY_ARTIFACT_ID.equals( dependency.getArtifactId() ) )
+                    && (
+                            SCALA2_LIBRARY_ARTIFACT_ID.equals( dependency.getArtifactId() ) ||
+                            SCALA3_LIBRARY_ARTIFACT_ID.equals( dependency.getArtifactId() )
+                       )
+                )
                 {
                     result = dependency.getVersion();
                     break;
@@ -428,22 +442,25 @@ public class SCoveragePreCompileMojo
         }
     }
 
-    private List<Artifact> getScalaScoveragePluginArtifacts(String resolvedScalaVersion, String scalaMainVersion )
+    private List<Artifact> getScalaScoveragePluginArtifacts( String resolvedScalaVersion, String scalaBinaryVersion, boolean scala2 )
         throws ArtifactNotFoundException, ArtifactResolutionException
     {
         String resolvedScalacPluginVersion = getScalacPluginVersion().toString();
         List<Artifact> resolvedArtifacts = new ArrayList<>();
-        resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-plugin_" + resolvedScalaVersion, resolvedScalacPluginVersion));
-        resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-domain_" + scalaMainVersion, resolvedScalacPluginVersion));
-        resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-serializer_" + scalaMainVersion, resolvedScalacPluginVersion));
+        if ( scala2 ) // Scala 3 doesn't need scalac-scoverage-plugin
+        {
+            resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-plugin_" + resolvedScalaVersion, resolvedScalacPluginVersion));
+        }
+        resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-domain_" + scalaBinaryVersion, resolvedScalacPluginVersion));
+        resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-serializer_" + scalaBinaryVersion, resolvedScalacPluginVersion));
         return resolvedArtifacts;
     }
 
-    private Artifact getScalaScoverageRuntimeArtifact( String scalaMainVersion )
+    private Artifact getScalaScoverageRuntimeArtifact( String scalaBinaryVersion )
         throws ArtifactNotFoundException, ArtifactResolutionException
     {
         return getResolvedArtifact(
-                "org.scoverage", "scalac-scoverage-runtime_" + scalaMainVersion,
+                "org.scoverage", "scalac-scoverage-runtime_" + scalaBinaryVersion,
                 getScalacPluginVersion().toString() );
     }
 
