@@ -263,7 +263,7 @@ under the License.
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jxr-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.3.1</version>
                     <configuration>
                         <excludes>
                             <exclude>org/scoverage/plugin/HelpMojo.java</exclude>
