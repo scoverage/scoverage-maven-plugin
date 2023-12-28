@@ -792,7 +792,7 @@ under the License.
                             <streamLogs>true</streamLogs>
                             <projectsDirectory>src/it</projectsDirectory>
                             <pomIncludes>
-                                <pomInclude>**/pom.xml</pomInclude>
+                                <pomInclude>test_*/pom.xml</pomInclude>
                             </pomIncludes>
                             <pomExcludes>
                                 <pomExclude>**/off-*/pom.xml</pomExclude>
