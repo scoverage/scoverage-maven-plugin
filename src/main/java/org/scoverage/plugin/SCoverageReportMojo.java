@@ -23,9 +23,11 @@ import java.io.IOException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -533,6 +535,31 @@ public class SCoverageReportMojo
         {
             getLog().info( String.format( "Found %d subproject scoverage data directories.",
                     scoverageDataDirs.size() ) );
+        }
+
+        /* traverse up the module tree until a module isExecutionRoot */
+        if ( topLevelModule == null )
+        {
+            Queue<MavenProject> candidateForTopLevelModules = new ArrayDeque<>(reactorProjects);
+            while ( !candidateForTopLevelModules.isEmpty() )
+            {
+                MavenProject module = candidateForTopLevelModules.poll();
+                if ( module.isExecutionRoot() )
+                {
+                    topLevelModule = module;
+                    break;
+                }
+                if ( module.hasParent() )
+                {
+                    candidateForTopLevelModules.add(module.getParent());
+                }
+            }
+        }
+        if ( topLevelModule == null )
+        {
+            // This exception should never be thrown.
+            throw new IllegalStateException("Cannot find the top level module to write the " +
+                    "aggregated reports.");
         }
 
         File topLevelModuleOutputDirectory = rebase( outputDirectory, topLevelModule );

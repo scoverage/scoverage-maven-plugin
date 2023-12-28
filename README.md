@@ -158,7 +158,8 @@ or
 There is no separate mojo for aggregated reports, there is `aggregate` parameter.
 To additionally generate aggregated SCoverage report for root module, when generating regular reports,
 set `aggregate` parameter value to `true`.
-It works only in multimodule projects.
+It works only in multimodule projects, the aggregated report will be generated in the current
+execution root.
 
 It can be configured by defining `aggregate` plugin configuration parameter or `scoverage.aggregate` project property.
 
