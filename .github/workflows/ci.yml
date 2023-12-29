@@ -25,4 +25,4 @@ jobs:
     - name: print Maven and Java versions
       run: mvn --version
     - name: Build
-      run: mvn --no-transfer-progress -B clean verify animal-sniffer:check
+      run: mvn -ntp -B clean verify
