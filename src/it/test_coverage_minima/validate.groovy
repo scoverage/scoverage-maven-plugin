@@ -17,7 +17,7 @@ try {
             """
             |[INFO] Statement coverage.: 100.00%
             |[INFO] Branch coverage....: 100.00%
-            |[INFO] Coverage is above minimum [100.00% >= 95.00%]
+            |[INFO] 100% Coverage !
             |""".stripMargin()
     )
     checkModule(logText, "module02",

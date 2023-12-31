@@ -175,7 +175,7 @@ public class SCoverageCheckMojo
         if ( minimumCoverage > 0.0 )
         {
             String minimumCoverageFormatted = scoverage.domain.DoubleFormat.twoFractionDigits( minimumCoverage );
-            if ( is100( minimumCoverage ) && is100( coverage.statementCoveragePercent() ) )
+            if ( is100( coverage.statementCoveragePercent() ) )
             {
                 getLog().info( "100% Coverage !" );
             }
@@ -201,7 +201,7 @@ public class SCoverageCheckMojo
 
     // Private utility methods
 
-    private boolean is100( Double d )
+    private static boolean is100( Double d )
     {
         return Math.abs( 100 - d ) <= 0.00001d;
     }
