@@ -49,6 +49,10 @@
                     <aggregate>true</aggregate> <!-- for aggregated report -->
                     <minimumCoverage>95</minimumCoverage>
                     <minimumCoverageBranchTotal>90</minimumCoverageBranchTotal>
+                    <minimumCoverageStmtPerPackage>90</minimumCoverageStmtPerPackage>
+                    <minimumCoverageBranchPerPackage>85</minimumCoverageBranchPerPackage>
+                    <minimumCoverageStmtPerFile>85</minimumCoverageStmtPerFile>
+                    <minimumCoverageBranchPerFile>80</minimumCoverageBranchPerFile>
                     <failOnMinimumCoverage>false</failOnMinimumCoverage>
                 </configuration>
                 <executions>

@@ -23,6 +23,10 @@ try {
             """
             |[ERROR] Coverage is below minimum [50.00% < 95.00%]: Statement:Total
             |[INFO] Coverage is 100%: Branch:Total!
+            |[ERROR] Coverage is below minimum [0.00% < 90.00%]: Statement:Package:pkg02
+            |[ERROR] Coverage is below minimum [0.00% < 85.00%]: Branch:Package:pkg02
+            |[ERROR] Coverage is below minimum [0.00% < 85.00%]: Statement:File:HelloService1.scala
+            |[ERROR] Coverage is below minimum [0.00% < 80.00%]: Branch:File:HelloService1.scala
             |""".stripMargin()
     )
     checkModule(logText, "module03",

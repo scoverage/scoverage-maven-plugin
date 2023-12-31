@@ -337,6 +337,10 @@ Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scove
                 <configuration>
                     <minimumCoverage>95</minimumCoverage>
                     <minimumCoverageBranchTotal>90</minimumCoverageBranchTotal>
+                    <minimumCoverageStmtPerPackage>90</minimumCoverageStmtPerPackage>
+                    <minimumCoverageBranchPerPackage>85</minimumCoverageBranchPerPackage>
+                    <minimumCoverageStmtPerFile>85</minimumCoverageStmtPerFile>
+                    <minimumCoverageBranchPerFile>80</minimumCoverageBranchPerFile>
                     <failOnMinimumCoverage>true</failOnMinimumCoverage>
                 </configuration>
                 <executions>

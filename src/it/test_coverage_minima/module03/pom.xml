@@ -22,6 +22,10 @@
                     <aggregate>true</aggregate>
                     <minimumCoverage>100</minimumCoverage>
                     <minimumCoverageBranchTotal>100</minimumCoverageBranchTotal>
+                    <minimumCoverageStmtPerPackage>100</minimumCoverageStmtPerPackage>
+                    <minimumCoverageBranchPerPackage>100</minimumCoverageBranchPerPackage>
+                    <minimumCoverageStmtPerFile>100</minimumCoverageStmtPerFile>
+                    <minimumCoverageBranchPerFile>100</minimumCoverageBranchPerFile>
                 </configuration>
                 <executions>
                     <execution>

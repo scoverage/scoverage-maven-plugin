@@ -20,6 +20,8 @@ package org.scoverage.plugin;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
@@ -36,6 +38,8 @@ import scala.jdk.javaapi.CollectionConverters;
 import scoverage.domain.Coverage;
 import scoverage.domain.CoverageMetrics;
 import scoverage.domain.DoubleFormat;
+import scoverage.domain.MeasuredFile;
+import scoverage.domain.MeasuredPackage;
 import scoverage.reporter.IOUtils;
 import scoverage.serialize.Serializer;
 
@@ -95,6 +99,54 @@ public class SCoverageCheckMojo
      */
     @Parameter( property = "scoverage.minimumCoverageBranchTotal", defaultValue = "0" )
     private Double minimumCoverageBranchTotal;
+
+    /**
+     * Required minimum per-package statement coverage.
+     * <br>
+     * <br>
+     * See <a href="https://github.com/scoverage/sbt-scoverage#minimum-coverage">https://github.com/scoverage/sbt-scoverage#minimum-coverage</a> for additional documentation.
+     * <br>
+     *
+     * @since 2.0.1
+     */
+    @Parameter( property = "scoverage.minimumCoverageStmtPerPackage", defaultValue = "0" )
+    private Double minimumCoverageStmtPerPackage;
+
+    /**
+     * Required minimum per-package branch coverage.
+     * <br>
+     * <br>
+     * See <a href="https://github.com/scoverage/sbt-scoverage#minimum-coverage">https://github.com/scoverage/sbt-scoverage#minimum-coverage</a> for additional documentation.
+     * <br>
+     *
+     * @since 2.0.1
+     */
+    @Parameter( property = "scoverage.minimumCoverageBranchPerPackage", defaultValue = "0" )
+    private Double minimumCoverageBranchPerPackage;
+
+    /**
+     * Required minimum per-file statement coverage.
+     * <br>
+     * <br>
+     * See <a href="https://github.com/scoverage/sbt-scoverage#minimum-coverage">https://github.com/scoverage/sbt-scoverage#minimum-coverage</a> for additional documentation.
+     * <br>
+     *
+     * @since 2.0.1
+     */
+    @Parameter( property = "scoverage.minimumCoverageStmtPerFile", defaultValue = "0" )
+    private Double minimumCoverageStmtPerFile;
+
+    /**
+     * Required minimum per-file branch coverage.
+     * <br>
+     * <br>
+     * See <a href="https://github.com/scoverage/sbt-scoverage#minimum-coverage">https://github.com/scoverage/sbt-scoverage#minimum-coverage</a> for additional documentation.
+     * <br>
+     *
+     * @since 2.0.1
+     */
+    @Parameter( property = "scoverage.minimumCoverageBranchPerFile", defaultValue = "0" )
+    private Double minimumCoverageBranchPerFile;
 
     /**
      * Fail the build if minimum coverage was not reached.
@@ -188,6 +240,10 @@ public class SCoverageCheckMojo
 
         boolean ok = checkCoverage( getLog(), "Total", coverage,
                                     minimumCoverage, minimumCoverageBranchTotal, true );
+        ok = checkCoverage( getLog(), "Package:", coverage.packages(), MeasuredPackage::name,
+                            minimumCoverageStmtPerPackage, minimumCoverageBranchPerPackage ) && ok;
+        ok = checkCoverage( getLog(), "File:", coverage.files(), MeasuredFile::filename,
+                            minimumCoverageStmtPerFile, minimumCoverageBranchPerFile ) && ok;
 
         if ( !ok && failOnMinimumCoverage )
         {
@@ -203,6 +259,17 @@ public class SCoverageCheckMojo
     private static boolean is100( Double d )
     {
         return Math.abs( 100 - d ) <= 0.00001d;
+    }
+
+    private static <T extends CoverageMetrics >
+        boolean checkCoverage( Log logger, String metricPrefix,
+                               scala.collection.Iterable< T > metrics,
+                               Function< T, String > toName,
+                               double minStmt, double minBranch )
+    {
+        return minStmt <= 0 && minBranch <= 0 || checkAll(metrics, cov ->
+            checkCoverage(logger, metricPrefix + toName.apply(cov), cov, minStmt, minBranch, false)
+        );
     }
 
     private static boolean checkCoverage( Log logger, String metric, CoverageMetrics metrics,
@@ -259,6 +326,16 @@ public class SCoverageCheckMojo
         {
             logger.debug( message );
         }
+    }
+
+    private static <T> boolean checkAll( scala.collection.Iterable<T> iterable, Predicate<T> predicate )
+    {
+        boolean ok = true;
+        for ( T elem : CollectionConverters.asJava( iterable ) )
+        {
+            ok = predicate.test( elem ) && ok;
+        }
+        return ok;
     }
 
 }
