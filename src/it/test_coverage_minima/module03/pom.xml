@@ -21,6 +21,7 @@
                 <configuration>
                     <aggregate>true</aggregate>
                     <minimumCoverage>100</minimumCoverage>
+                    <minimumCoverageBranchTotal>100</minimumCoverageBranchTotal>
                 </configuration>
                 <executions>
                     <execution>

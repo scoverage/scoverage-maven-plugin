@@ -48,6 +48,7 @@
                 <configuration>
                     <aggregate>true</aggregate> <!-- for aggregated report -->
                     <minimumCoverage>95</minimumCoverage>
+                    <minimumCoverageBranchTotal>90</minimumCoverageBranchTotal>
                     <failOnMinimumCoverage>false</failOnMinimumCoverage>
                 </configuration>
                 <executions>

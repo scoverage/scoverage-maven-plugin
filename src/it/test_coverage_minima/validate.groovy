@@ -15,23 +15,20 @@ try {
 
     checkModule(logText, "module01",
             """
-            |[INFO] Statement coverage.: 100.00%
-            |[INFO] Branch coverage....: 100.00%
-            |[INFO] 100% Coverage !
+            |[INFO] Coverage is 100%: Statement:Total!
+            |[INFO] Coverage is 100%: Branch:Total!
             |""".stripMargin()
     )
     checkModule(logText, "module02",
             """
-            |[INFO] Statement coverage.: 50.00%
-            |[INFO] Branch coverage....: 100.00%
-            |[ERROR] Coverage is below minimum [50.00% < 95.00%]
+            |[ERROR] Coverage is below minimum [50.00% < 95.00%]: Statement:Total
+            |[INFO] Coverage is 100%: Branch:Total!
             |""".stripMargin()
     )
     checkModule(logText, "module03",
             """
-            |[INFO] Statement coverage.: 100.00%
-            |[INFO] Branch coverage....: 100.00%
-            |[INFO] 100% Coverage !
+            |[INFO] Coverage is 100%: Statement:Total!
+            |[INFO] Coverage is 100%: Branch:Total!
             |""".stripMargin()
     )
 
