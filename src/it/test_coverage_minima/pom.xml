@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>it.scoverage-maven-plugin</groupId>
+        <artifactId>integration_tests_parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../integration_tests_parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>test_coverage_minima</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Test Scoverage coverage minima</name>
+    <description>Test Scoverage coverage minima</description>
+
+    <properties>
+        <scala.compat.version>2.13</scala.compat.version>
+        <scala.minor.version>12</scala.minor.version>
+    </properties>
+
+    <modules>
+        <module>module01</module>
+        <module>module02</module>
+        <module>module03</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>@project.groupId@</groupId>
+                <artifactId>@project.artifactId@</artifactId>
+                <configuration>
+                    <aggregate>true</aggregate> <!-- for aggregated report -->
+                    <minimumCoverage>95</minimumCoverage>
+                    <minimumCoverageBranchTotal>90</minimumCoverageBranchTotal>
+                    <minimumCoverageStmtPerPackage>90</minimumCoverageStmtPerPackage>
+                    <minimumCoverageBranchPerPackage>85</minimumCoverageBranchPerPackage>
+                    <minimumCoverageStmtPerFile>85</minimumCoverageStmtPerFile>
+                    <minimumCoverageBranchPerFile>80</minimumCoverageBranchPerFile>
+                    <failOnMinimumCoverage>false</failOnMinimumCoverage>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
