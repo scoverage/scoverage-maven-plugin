@@ -14,35 +14,36 @@ scoverage-maven-plugin is a plugin for Maven that integrates the scoverage code 
 
 mostly used mojos:
 
-- **[check](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/check-mojo.html)** goal compiles classes with instrumentation, runs unit tests and checks coverage,
+- **[check](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/check-mojo.html)** goal compiles classes with instrumentation, runs unit tests and checks coverage,
 
-- **[report](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/report-mojo.html)** goal compiles classes with instrumentation, runs unit tests and generates reports,
+- **[report](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/report-mojo.html)** goal compiles classes with instrumentation, runs unit tests and generates reports,
 
-- **[integration-check](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/integration-check-mojo.html)** goal compiles classes with instrumentation, runs unit and integration tests and checks coverage,
+- **[integration-check](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/integration-check-mojo.html)** goal compiles classes with instrumentation, runs unit and integration tests and checks coverage,
 
-- **[integration-report](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/integration-report-mojo.html)** goal compiles classes with instrumentation, runs unit and integration tests and generates reports,
+- **[integration-report](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/integration-report-mojo.html)** goal compiles classes with instrumentation, runs unit and integration tests and generates reports,
 
 additional, sometimes useful, mojos:
 
-- **[test](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/test-mojo.html)** goal compiles classes with instrumentation and runs unit tests,
+- **[test](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/test-mojo.html)** goal compiles classes with instrumentation and runs unit tests,
 
-- **[integration-test](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/integration-test-mojo.html)** goal compiles classes with instrumentation and runs unit and integration tests,
+- **[integration-test](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/integration-test-mojo.html)** goal compiles classes with instrumentation and runs unit and integration tests,
 
-- **[check-only](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/check-only-mojo.html)** goal only checks coverage using coverage data generated earlier in the build (by **test**, **report**, **integration-test** or **integration-report** goal).
+- **[check-only](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/check-only-mojo.html)** goal only checks coverage using coverage data generated earlier in the build (by **test**, **report**, **integration-test** or **integration-report** goal).
 
-- **[report-only](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/report-only-mojo.html)** goal generates reports using coverage data generated earlier in the build (by **test**, **check**, **integration-test** or **integration-check** goal),
+- **[report-only](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/report-only-mojo.html)** goal generates reports using coverage data generated earlier in the build (by **test**, **check**, **integration-test** or **integration-check** goal),
 
-- **[package](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/package-mojo.html)** goal generates artifact file containing instrumented classes (e.g. for testing outside of the Maven build),
+- **[package](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/package-mojo.html)** goal generates artifact file containing instrumented classes (e.g. for testing outside of the Maven build),
 
 internal mojos:
 
-- **[pre-compile](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/pre-compile-mojo.html)** and **[post-compile](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/post-compile-mojo.html)** are internal goals, they configure Maven build in forked `scoverage` life cycle; don't use them.
+- **[pre-compile](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/pre-compile-mojo.html)** and **[post-compile](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/post-compile-mojo.html)** are internal goals, they configure Maven build in forked `scoverage` life cycle; don't use them.
 
 Maven generated plugin documentation:
 
-| Version          | Documentation                                                                                    |
-|------------------|--------------------------------------------------------------------------------------------------|
-| `1.4.11`         | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/plugin-info.html)         |
+| Version       | Documentation                                                                                 |
+|---------------|-----------------------------------------------------------------------------------------------|
+| `2.0.0` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/plugin-info.html) |
+| `1.4.11`      | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/plugin-info.html)      |
 
 ##### Prerequisites / limitations
 
@@ -292,11 +293,11 @@ Configure one of them depending on your case.
 
 Which reporting mojo should be selected:
 
-| Reporting mojo       | When                                          |
-|----------------------|-----------------------------------------------|
-| [report](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/report-mojo.html) | When not using integration tests (most cases) |
-| [integration-report](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/integration-report-mojo.html) | When using integration tests                  |
-| [report-only](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/report-only-mojo.html) | When coverage data was already generated (usually by [check](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/check-mojo.html) or [integration-check](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/integration-check-mojo.html) mojo) |
+| Reporting mojo                                                                                             | When                                                                                                                                                                                                                                                    |
+|------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [report](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/report-mojo.html)                         | When not using integration tests (most cases)                                                                                                                                                                                                           |
+| [integration-report](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/integration-report-mojo.html) | When using integration tests                                                                                                                                                                                                                            |
+| [report-only](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/report-only-mojo.html)               | When coverage data was already generated (usually by [check](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/check-mojo.html) or [integration-check](http://scoverage.github.io/scoverage-maven-plugin/2.0.0/integration-check-mojo.html) mojo) |
 
 ##### Customizing code instrumentation
 
@@ -464,8 +465,10 @@ If you want to set multiple properties from within `<additionalForkedProjectProp
 
 
 ## Examples
+There are many example projects in [integration tests](src/it) directory. To run them, execute `mvn integration-test`. 
+To execute only one of them, execute `mvn integration-test -Dinvoker.test=test_aggregate`, where `test_aggregate` is the name of the directory with the example project.
 
-There are many [example projects](https://github.com/scoverage/scoverage-maven-samples/tree/scoverage-maven-samples-1.4.11/).
+Also, there are many [example projects](https://github.com/scoverage/scoverage-maven-samples/tree/scoverage-maven-samples-1.4.11/) for older versions of the plugin in a separate repo.
 Go to one of them and run `mvn site`.
 
 ## License
