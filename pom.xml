@@ -89,6 +89,8 @@ under the License.
 
         <maven.version>3.9.6</maven.version>
         <maven-plugin-plugin.version>3.10.2</maven-plugin-plugin.version>
+        <maven-reporting-api.version>3.1.1</maven-reporting-api.version>
+        <doxia.version>1.11.1</doxia.version>
 
         <scalac-scoverage-plugin.version>2.0.11</scalac-scoverage-plugin.version>
         <scalac-scoverage-plugin.scala.version>2.13</scalac-scoverage-plugin.scala.version>
@@ -147,13 +149,13 @@ under the License.
         <dependency>
             <groupId>org.apache.maven.reporting</groupId>
             <artifactId>maven-reporting-api</artifactId>
-            <version>3.1.1</version>
+            <version>${maven-reporting-api.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.maven.doxia</groupId>
             <artifactId>doxia-site-renderer</artifactId>
-            <version>1.11.1</version>
+            <version>${doxia.version}</version>
         </dependency>
 
         <dependency>
@@ -264,10 +266,9 @@ under the License.
                         <subpackages>org.scoverage.plugin</subpackages>
                         <links>
                             <link>https://docs.oracle.com/javase/11/docs/api/</link>
-                            <link>https://maven.apache.org/ref/${maven.version}/maven-plugin-api/apidocs/</link>
-                            <link>https://maven.apache.org/ref/${maven.version}/maven-project/apidocs/</link>
-                            <link>https://maven.apache.org/ref/${maven.version}/maven-reporting/maven-reporting-api/apidocs/</link>
-                            <link>https://maven.apache.org/doxia/doxia/apidocs/</link>
+                            <link>https://maven.apache.org/ref/${maven.version}/apidocs/</link>
+                            <link>https://maven.apache.org/shared-archives/maven-reporting-api-${maven-reporting-api.version}/apidocs/</link>
+                            <link>https://maven.apache.org/doxia/components/doxia-archives/doxia-${doxia.version}/apidocs/</link>
                         </links>
                         <notimestamp>true</notimestamp>
                     </configuration>
@@ -582,6 +583,10 @@ under the License.
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-plugin-report-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <reportSets>
                             <reportSet>
@@ -590,10 +595,6 @@ under the License.
                                 </reports>
                             </reportSet>
                         </reportSets>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-plugin-report-plugin</artifactId>
                     </plugin>
                 </plugins>
             </reporting>
@@ -749,13 +750,11 @@ under the License.
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.3.0</version>
                     </plugin>
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.6.3</version>
                     </plugin>
 
                     <plugin>
