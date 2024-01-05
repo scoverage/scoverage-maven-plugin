@@ -26,3 +26,5 @@ jobs:
       run: mvn --version
     - name: Build
       run: mvn -ntp -B clean verify
+    - name: Generate site
+      run: mvn -ntp -B clean site -P publicsite
