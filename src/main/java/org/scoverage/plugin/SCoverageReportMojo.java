@@ -23,17 +23,16 @@ import java.io.IOException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.maven.doxia.siterenderer.RenderingContext;
 import org.apache.maven.doxia.siterenderer.sink.SiteRendererSink;
 
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Execute;
@@ -58,7 +57,6 @@ import scoverage.domain.Statement;
 import scoverage.reporter.IOUtils;
 import scoverage.serialize.Serializer;
 import scoverage.reporter.CoberturaXmlWriter;
-import scoverage.reporter.CoverageAggregator;
 import scoverage.reporter.ScoverageHtmlWriter;
 import scoverage.reporter.ScoverageXmlWriter;
 
@@ -130,6 +128,12 @@ public class SCoverageReportMojo
      */
     @Parameter( defaultValue = "${project}", readonly = true, required = true )
     private MavenProject project;
+
+    /**
+     * The current Maven session.
+     */
+    @Parameter(defaultValue = "${session}", readonly = true, required = true)
+    private MavenSession session;
 
     /**
      * All Maven projects in the reactor.
@@ -423,7 +427,7 @@ public class SCoverageReportMojo
 
         File coverageFile = Serializer.coverageFile( dataDirectory );
         getLog().info( String.format( "Reading scoverage instrumentation [%s]...", coverageFile.getAbsolutePath() ) );
-        Coverage coverage = Serializer.deserialize( coverageFile, project.getBasedir() );
+        Coverage coverage = Serializer.deserialize( coverageFile, executionRootDirectory() );
 
         getLog().info( String.format( "Reading scoverage measurements [%s*]...",
                                       new File( dataDirectory, Constants.MeasurementsPrefix() ).getAbsolutePath() ) );
@@ -444,22 +448,17 @@ public class SCoverageReportMojo
         AtomicInteger id = new AtomicInteger();
         List<File> scoverageDataDirs = new ArrayList<File>();
         List<File> sourceRoots = new ArrayList<File>();
-        MavenProject topLevelModule = null;
         for ( MavenProject module : reactorProjects )
         {
-            if ( module.isExecutionRoot() )
+            if ( !module.getPackaging().equals( "pom" ) )
             {
-                topLevelModule = module;
-            }
-            else if ( !module.getPackaging().equals( "pom" ) )
-            {
-                File scoverageDataDir = rebase( dataDirectory, module );
+                File scoverageDataDir = rebase( dataDirectory, module.getBasedir() );
                 if ( scoverageDataDir.isDirectory() )
                 {
                     scoverageDataDirs.add( scoverageDataDir );
                     File coverageFile = Serializer.coverageFile(scoverageDataDir);
                     if (coverageFile.exists()) {
-                        Coverage subCoverage  = Serializer.deserialize(coverageFile, module.getBasedir());
+                        Coverage subCoverage  = Serializer.deserialize(coverageFile, executionRootDirectory() );
                         List<File> measurementFiles = Arrays.asList( IOUtils.findMeasurementFiles( scoverageDataDir ) );
                         scala.collection.Set<Tuple2<Object, String>> measurements =
                                 IOUtils.invoked( CollectionConverters.asScala( measurementFiles ).toSeq(), encoding );
@@ -537,40 +536,15 @@ public class SCoverageReportMojo
                     scoverageDataDirs.size() ) );
         }
 
-        /* traverse up the module tree until a module isExecutionRoot */
-        if ( topLevelModule == null )
-        {
-            Queue<MavenProject> candidateForTopLevelModules = new ArrayDeque<>(reactorProjects);
-            while ( !candidateForTopLevelModules.isEmpty() )
-            {
-                MavenProject module = candidateForTopLevelModules.poll();
-                if ( module.isExecutionRoot() )
-                {
-                    topLevelModule = module;
-                    break;
-                }
-                if ( module.hasParent() )
-                {
-                    candidateForTopLevelModules.add(module.getParent());
-                }
-            }
-        }
-        if ( topLevelModule == null )
-        {
-            // This exception should never be thrown.
-            throw new IllegalStateException("Cannot find the top level module to write the " +
-                    "aggregated reports.");
-        }
+        File executionRootOutputDirectory = rebase( outputDirectory, executionRootDirectory() );
+        File executionRootXmlOutputDirectory = rebase( xmlOutputDirectory, executionRootDirectory() );
 
-        File topLevelModuleOutputDirectory = rebase( outputDirectory, topLevelModule );
-        File topLevelModuleXmlOutputDirectory = rebase( xmlOutputDirectory, topLevelModule );
-
-        mkdirs( topLevelModuleOutputDirectory );
-        mkdirs( topLevelModuleXmlOutputDirectory );
+        mkdirs( executionRootOutputDirectory );
+        mkdirs( executionRootXmlOutputDirectory );
 
         getLog().info( "Generating coverage aggregated reports..." );
-        writeReports( coverage, sourceRoots, topLevelModuleXmlOutputDirectory, topLevelModuleXmlOutputDirectory,
-                      topLevelModuleOutputDirectory );
+        writeReports( coverage, sourceRoots, executionRootXmlOutputDirectory, executionRootXmlOutputDirectory,
+                      executionRootOutputDirectory );
         getLog().info( "Coverage aggregated reports completed." );
     }
 
@@ -610,10 +584,15 @@ public class SCoverageReportMojo
         }
     }
 
-    private File rebase( File file, MavenProject otherModule )
+    private File rebase( File file, File otherProjectDir )
     {
         return new File( file.getAbsolutePath().replace( project.getBasedir().getAbsolutePath(),
-                                                         otherModule.getBasedir().getAbsolutePath() ) );
+                                                         otherProjectDir.getAbsolutePath() ) );
+    }
+
+    private File executionRootDirectory()
+    {
+        return new File(session.getExecutionRootDirectory());
     }
 
 }

@@ -33,6 +33,7 @@ import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -154,6 +155,12 @@ public class SCoveragePreCompileMojo
      */
     @Parameter( defaultValue = "${project}", readonly = true, required = true )
     private MavenProject project;
+
+    /**
+     * The current Maven session.
+     */
+    @Parameter( defaultValue = "${session}", readonly = true, required = true )
+    private MavenSession session;
 
     /**
      * All Maven projects in the reactor.
@@ -283,7 +290,7 @@ public class SCoveragePreCompileMojo
             String _scalacOptions = quoteArgument( arg );
             String addScalacArgs = arg;
 
-            arg = scala2 ? ( SOURCE_ROOT_OPTION + project.getBasedir().getAbsolutePath() ) : "";
+            arg = scala2 ? ( SOURCE_ROOT_OPTION + session.getExecutionRootDirectory() ) : "";
             _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
             addScalacArgs = addScalacArgs + PIPE + arg;
 
