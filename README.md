@@ -478,7 +478,7 @@ Go to one of them and run `mvn site`.
 ```
 This software is licensed under the Apache 2 license, quoted below.
 
-Copyright 2014-2022 Grzegorz Slowikowski
+Copyright 2014-2024 Grzegorz Slowikowski
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
