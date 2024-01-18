@@ -12,6 +12,7 @@ jobs:
   build:
     strategy:
       matrix:
+        maven: [ '3.8.8', '3.9.6' ]
         java: [ '11', '17' ]
         os: [ 'ubuntu-latest', 'windows-latest' ]
     runs-on: ${{ matrix.os }}
@@ -22,6 +23,10 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4.5
+      with:
+        maven-version: ${{ matrix.maven }}
     - name: print Maven and Java versions
       run: mvn --version
     - name: Build
