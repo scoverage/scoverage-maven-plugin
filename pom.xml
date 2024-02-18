@@ -19,12 +19,6 @@ under the License.
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.scoverage</groupId>
     <artifactId>scoverage-maven-plugin</artifactId>
@@ -52,6 +46,17 @@ under the License.
         <system>GitHub</system>
         <url>https://github.com/scoverage/scoverage-maven-plugin/issues</url>
     </issueManagement>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>central</id>
+            <url>${nexus.url}/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>central</id>
+            <url>${nexus.url}/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
 
     <developers>
         <developer>
@@ -94,6 +99,8 @@ under the License.
 
         <scalac-scoverage-plugin.version>2.0.11</scalac-scoverage-plugin.version>
         <scalac-scoverage-plugin.scala.version>2.13</scalac-scoverage-plugin.scala.version>
+
+        <nexus.url>https://oss.sonatype.org</nexus.url>
     </properties>
 
     <dependencies>
@@ -328,6 +335,9 @@ under the License.
                     <version>3.0.1</version>
                     <configuration>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <releaseProfiles>release</releaseProfiles>
+                        <goals>deploy</goals>
                     </configuration>
                 </plugin>
 
@@ -740,11 +750,10 @@ under the License.
                     </plugin>
                 </plugins>
             </build>
-        </profile>    
+        </profile>
 
         <profile>
-            <id>sonatype-oss-release</id> <!-- org.sonatype.oss:oss-parent:7 (parent) defined profile - plugin versions upgraded -->
-
+            <id>release</id>
             <build>
                 <plugins>
                     <plugin>
@@ -761,6 +770,26 @@ under the License.
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
                         <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.13</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <nexusUrl>${nexus.url}</nexusUrl>
+                            <serverId>central</serverId>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

@@ -474,6 +474,30 @@ To execute only one of them, execute `mvn integration-test -Dinvoker.test=test_a
 Also, there are many [example projects](https://github.com/scoverage/scoverage-maven-samples/tree/scoverage-maven-samples-1.4.11/) for older versions of the plugin in a separate repo.
 Go to one of them and run `mvn site`.
 
+## Development
+
+### Manual deployment
+
+Set sonatype credentials in `~/.m2/settings.xml`:
+
+```xml
+<settings>
+  <servers>
+    <server>
+      <id>central</id>
+      <username>sonatype-username-goes-here</username>
+      <password>sonatype-password-goes-here</password>
+    </server>
+  </servers>
+</settings>
+```
+
+#### Snapshot deployment
+To deploy snapshot to sonatype snapshot repo run `mvn clean deploy -P release`.
+
+#### Release deployment
+To deploy release to sonatype release repo run `mvn release:clean release:prepare release:perform -P release`.
+
 ## License
 ```
 This software is licensed under the Apache 2 license, quoted below.
