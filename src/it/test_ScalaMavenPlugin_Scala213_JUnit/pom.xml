@@ -19,7 +19,7 @@
 
     <properties>
         <scala.compat.version>2.13</scala.compat.version>
-        <scala.minor.version>12</scala.minor.version>
+        <scala.minor.version>13</scala.minor.version>
     </properties>
 
     <build>
