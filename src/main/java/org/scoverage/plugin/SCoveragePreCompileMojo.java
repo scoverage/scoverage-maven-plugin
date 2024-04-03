@@ -296,16 +296,34 @@ public class SCoveragePreCompileMojo
 
             if ( !StringUtils.isEmpty( excludedPackages ) )
             {
-                arg = EXCLUDED_PACKAGES_OPTION + excludedPackages.replace( "(empty)", "<empty>" );
-                _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
-                addScalacArgs = addScalacArgs + PIPE + arg;
+                if ( scala2 ) {
+                    arg = SCALA2_EXCLUDED_PACKAGES_OPTION + excludedPackages.replace( "(empty)", "<empty>" );
+                    _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
+                    addScalacArgs = addScalacArgs + PIPE + arg;
+                } else if ( resolvedScalaVersion.isAtLeast( "3.4.2" ) ) {
+                    String scala3FormatExcludedPackages = excludedPackages.replace( ";", "," );
+                    arg = SCALA3_EXCLUDED_PACKAGES_OPTION + scala3FormatExcludedPackages;
+                    _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
+                    addScalacArgs = addScalacArgs + PIPE + arg;
+                } else {
+                    getLog().warn( "Package exclusion is supported since Scala 3.4.2" );
+                }
             }
 
             if ( !StringUtils.isEmpty( excludedFiles ) )
             {
-                arg = EXCLUDED_FILES_OPTION + excludedFiles;
-                _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
-                addScalacArgs = addScalacArgs + PIPE + arg;
+                if ( scala2 ) {
+                    arg = SCALA2_EXCLUDED_FILES_OPTION + excludedFiles;
+                    _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
+                    addScalacArgs = addScalacArgs + PIPE + arg;
+                } else if ( resolvedScalaVersion.isAtLeast( "3.4.2" ) ) {
+                    String scala3FormatExcludedFiles = excludedFiles.replace( ";", "," );
+                    arg = SCALA3_EXCLUDED_FILES_OPTION + scala3FormatExcludedFiles;
+                    _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
+                    addScalacArgs = addScalacArgs + PIPE + arg;
+                } else {
+                    getLog().warn( "File exclusion is supported since Scala 3.4.2" );
+                }
             }
 
             if ( highlighting && scala2 )
@@ -361,8 +379,10 @@ public class SCoveragePreCompileMojo
     private static final String SCALA2_DATA_DIR_OPTION = "-P:scoverage:dataDir:";
     private static final String SCALA3_COVERAGE_OUT_OPTION = "-coverage-out:";
     private static final String SOURCE_ROOT_OPTION = "-P:scoverage:sourceRoot:";
-    private static final String EXCLUDED_PACKAGES_OPTION = "-P:scoverage:excludedPackages:";
-    private static final String EXCLUDED_FILES_OPTION = "-P:scoverage:excludedFiles:";
+    private static final String SCALA2_EXCLUDED_PACKAGES_OPTION = "-P:scoverage:excludedPackages:";
+    private static final String SCALA3_EXCLUDED_PACKAGES_OPTION = "-coverage-exclude-classlikes:";
+    private static final String SCALA2_EXCLUDED_FILES_OPTION = "-P:scoverage:excludedFiles:";
+    private static final String SCALA3_EXCLUDED_FILES_OPTION = "-coverage-exclude-files:";
     private static final String PLUGIN_OPTION = "-Xplugin:";
 
     private static final char DOUBLE_QUOTE = '\"';
