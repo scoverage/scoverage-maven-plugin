@@ -18,7 +18,7 @@
 
         <compiler.plugin.version>3.11.0</compiler.plugin.version>
         <surefire.plugin.version>3.1.2</surefire.plugin.version>
-        <scala.plugin.version>4.8.1</scala.plugin.version>
+        <scala.plugin.version>4.9.1</scala.plugin.version>
         <scalatest.plugin.version>2.0.0</scalatest.plugin.version>
         <project-info-reports.plugin.version>3.5.0</project-info-reports.plugin.version>
         <site.plugin.version>3.12.1</site.plugin.version>
