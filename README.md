@@ -476,8 +476,10 @@ Go to one of them and run `mvn site`.
 
 ## Development
 
-### Manual deployment
+### Snapshot deployment
+A new snapshot is deployed to sonatype on each commit merged to `main` branch. See [snapshot.yml](.github/workflows/snapshot.yml) workflow for details.
 
+### Manual Release deployment
 Set sonatype credentials in `~/.m2/settings.xml`:
 
 ```xml
@@ -492,11 +494,9 @@ Set sonatype credentials in `~/.m2/settings.xml`:
 </settings>
 ```
 
-#### Snapshot deployment
-To deploy snapshot to sonatype snapshot repo run `mvn clean deploy -P release`.
-
-#### Release deployment
-To deploy release to sonatype release repo run `mvn release:clean release:prepare release:perform -P release`.
+To deploy release to sonatype release repo run `mvn release:clean release:prepare release:perform -P release`. 
+Make sure you have proper pgp keys set up.   
+This process will be automated in the future.
 
 ## License
 ```
