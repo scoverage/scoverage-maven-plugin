@@ -1,0 +1,26 @@
+name: Deploy snapshot
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven
+          server-id: central
+          server-username: SONATYPE_USERNAME
+          server-password: SONATYPE_PASSWORD
+      - name: Deploy snapshot
+        run: mvn clean deploy -P release
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
