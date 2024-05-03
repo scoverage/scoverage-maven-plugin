@@ -17,11 +17,6 @@
     <name>Test Scoverage only aggregation</name>
     <description>Test Scoverage only aggregation</description>
 
-    <properties>
-        <scala.compat.version>2.13</scala.compat.version>
-        <scala.minor.version>12</scala.minor.version>
-    </properties>
-
     <modules>
         <module>module01</module>
         <module>module02</module>
