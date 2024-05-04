@@ -27,8 +27,9 @@ jobs:
 
       - name: Release new version
         run:
-          mvn -B release:clean release:prepare release:perform -P release
+          mvn -Dmaven.test.skip=true -ntp -B release:clean release:prepare release:perform -P release
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
