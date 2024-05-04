@@ -17,13 +17,12 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.scoverage</groupId>
     <artifactId>scoverage-maven-plugin</artifactId>
-    <version>2.0.4-SNAPSHOT</version>
+    <version>2.0.4</version>
     <packaging>maven-plugin</packaging>
 
     <name>SCoverage Maven Plugin</name>
@@ -35,7 +34,7 @@ under the License.
         <connection>scm:git:git://github.com/scoverage/scoverage-maven-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:scoverage/scoverage-maven-plugin.git</developerConnection>
         <url>https://github.com/scoverage/scoverage-maven-plugin/tree/${project.scm.tag}</url>
-        <tag>HEAD</tag>
+        <tag>scoverage-maven-plugin-2.0.4</tag>
     </scm>
 
     <ciManagement>
@@ -474,7 +473,7 @@ under the License.
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
 
@@ -489,7 +488,7 @@ under the License.
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
 
@@ -503,7 +502,7 @@ under the License.
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
