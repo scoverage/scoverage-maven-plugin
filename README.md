@@ -479,7 +479,9 @@ Go to one of them and run `mvn site`.
 ### Snapshot deployment
 A new snapshot is deployed to sonatype on each commit merged to `main` branch. See [snapshot.yml](.github/workflows/snapshot.yml) workflow for details.
 
-### Manual Release deployment
+### New release deployment
+
+#### Prerequisites
 Set sonatype credentials in `~/.m2/settings.xml`:
 
 ```xml
@@ -493,10 +495,25 @@ Set sonatype credentials in `~/.m2/settings.xml`:
   </servers>
 </settings>
 ```
+Make sure you have proper pgp keys set up. See [Maven Central Guide](https://central.sonatype.org/pages/working-with-pgp-signatures.html) for details.
 
-To deploy release to sonatype release repo run `mvn release:clean release:prepare release:perform -P release`. 
-Make sure you have proper pgp keys set up.   
-This process will be automated in the future.
+#### Steps
+
+1. Run
+`mvn -Darguments="-Dmaven.test.skip=true" -B release:clean release:prepare release:perform -P release`.
+2. Wait ~ 8 hours for sync to maven central.
+3. Check jars are available in maven central https://search.maven.org/artifact/org.scoverage/scoverage-maven-plugin and GH label in README is updated.
+4. Checkout new tag, e.g. `git checkout scoverage-maven-plugin-2.0.4`.
+5. Generate site docs with `mvn clean site -P publicsite` and check that all required docs are generated in `./target/site`.
+6. Checkout `gh-pages` branch, e.g. `git checkout gh-pages`.
+7. Copy generated site to new directory named as version number, e.g. `cp -r ./target/site ./2.0.4`, commit and push.
+8. Wait several seconds for the docs to be published and verify, e.g. https://scoverage.github.io/scoverage-maven-plugin/2.0.4/check-mojo.html.
+9. Checkout `main` branch, e.g. `git checkout main`.
+10. Update versions in README, e.g. `sed -i 's/2.0.3/2.0.4/g' README.md`, commit and push.
+11. Create new Release on GitHub.
+
+   
+This process will be fully or partially automated in the future.
 
 ## License
 ```
