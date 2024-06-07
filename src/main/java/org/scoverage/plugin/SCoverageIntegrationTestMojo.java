@@ -27,7 +27,7 @@ import org.apache.maven.project.MavenProject;
 import java.util.List;
 
 /**
- * Executes forked {@code scoverage} life cycle up to {@code vefiry} phase.
+ * Executes forked {@code scoverage} life cycle up to {@code verify} phase.
  * <br>
  * <br>
  * In forked {@code scoverage} life cycle project is compiled with SCoverage instrumentation
