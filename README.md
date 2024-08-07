@@ -328,7 +328,7 @@ If you want to customize plugin's configuration parameters used by compilation s
 Read [SBT SCoverage Plugin documentation](https://github.com/scoverage/sbt-scoverage) for more information about
 [excludedPackages and excludedFiles](https://github.com/scoverage/sbt-scoverage?tab=readme-ov-file#exclude-classes-and-packages-and-files).
 
-File and package exclusions are supported for Scala 2 and Scala 3 since version `3.4.2`.
+File and package exclusions are supported for Scala 2, Scala [`3.3.4`-`3.4.0`) and `3.4.2`+.
 
 ### Checking minimum test coverage level
 

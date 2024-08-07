@@ -278,6 +278,10 @@ public class SCoveragePreCompileMojo
         try
         {
             boolean scala2 = resolvedScalaVersion.isScala2();
+            boolean filePackageExclusionSupportingScala3 =
+                    resolvedScalaVersion.isAtLeast( "3.4.2" ) ||
+                            // backported to Scala 3.3 LTS
+                            ( resolvedScalaVersion.full.startsWith( "3.3." ) && resolvedScalaVersion.isAtLeast( "3.3.4" ) );
 
             List<Artifact> pluginArtifacts = getScalaScoveragePluginArtifacts( resolvedScalaVersion );
             if ( scala2 ) // Scala 3 doesn't need scalac-scoverage-runtime
@@ -300,13 +304,13 @@ public class SCoveragePreCompileMojo
                     arg = SCALA2_EXCLUDED_PACKAGES_OPTION + excludedPackages.replace( "(empty)", "<empty>" );
                     _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
                     addScalacArgs = addScalacArgs + PIPE + arg;
-                } else if ( resolvedScalaVersion.isAtLeast( "3.4.2" ) ) {
+                } else if ( filePackageExclusionSupportingScala3 ) {
                     String scala3FormatExcludedPackages = excludedPackages.replace( ";", "," );
                     arg = SCALA3_EXCLUDED_PACKAGES_OPTION + scala3FormatExcludedPackages;
                     _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
                     addScalacArgs = addScalacArgs + PIPE + arg;
                 } else {
-                    getLog().warn( "Package exclusion is supported since Scala 3.4.2" );
+                    getLog().warn( "Package exclusion is supported for Scala [3.3.4-3.4.0) or 3.4.2+" );
                 }
             }
 
@@ -316,13 +320,13 @@ public class SCoveragePreCompileMojo
                     arg = SCALA2_EXCLUDED_FILES_OPTION + excludedFiles;
                     _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
                     addScalacArgs = addScalacArgs + PIPE + arg;
-                } else if ( resolvedScalaVersion.isAtLeast( "3.4.2" ) ) {
+                } else if ( filePackageExclusionSupportingScala3 ) {
                     String scala3FormatExcludedFiles = excludedFiles.replace( ";", "," );
                     arg = SCALA3_EXCLUDED_FILES_OPTION + scala3FormatExcludedFiles;
                     _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
                     addScalacArgs = addScalacArgs + PIPE + arg;
                 } else {
-                    getLog().warn( "File exclusion is supported since Scala 3.4.2" );
+                    getLog().warn( "File exclusion is supported for Scala [3.3.4-3.4.0) or 3.4.2+" );
                 }
             }
 
