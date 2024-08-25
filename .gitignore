@@ -10,3 +10,4 @@ pom.xml.next
 release.properties
 .idea/
 *.iml
+./src/site/markdown/README.md

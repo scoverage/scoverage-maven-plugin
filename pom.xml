@@ -272,7 +272,7 @@ under the License.
                         <detectJavaApiLink>false</detectJavaApiLink>
                         <subpackages>org.scoverage.plugin</subpackages>
                         <links>
-                            <link>https://docs.oracle.com/javase/11/docs/api/</link>
+                            <link>https://docs.oracle.com/en/java/javase/11/docs/api/</link>
                             <link>https://maven.apache.org/ref/${maven.version}/apidocs/</link>
                             <link>https://maven.apache.org/shared-archives/maven-reporting-api-${maven-reporting-api.version}/apidocs/</link>
                             <link>https://maven.apache.org/doxia/components/doxia-archives/doxia-${doxia.version}/apidocs/</link>
@@ -364,7 +364,7 @@ under the License.
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.12.1</version>
+                    <version>3.20.0</version>
                 </plugin>
 
                 <plugin>
@@ -507,6 +507,33 @@ under the License.
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <!-- Copy the readme file to the site source files so that a page is generated from it. -->
+                        <id>copy-readme</id>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/src/site/markdown</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}</directory>
+                                    <includes>
+                                        <include>README.md</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
