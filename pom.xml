@@ -97,7 +97,7 @@ under the License.
         <maven-reporting-api.version>3.1.1</maven-reporting-api.version>
         <doxia.version>1.11.1</doxia.version>
 
-        <scalac-scoverage-plugin.version>2.1.1</scalac-scoverage-plugin.version>
+        <scalac-scoverage-plugin.version>2.2.0</scalac-scoverage-plugin.version>
         <scalac-scoverage-plugin.scala.version>2.13</scalac-scoverage-plugin.scala.version>
 
         <nexus.url>https://oss.sonatype.org</nexus.url>
