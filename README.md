@@ -127,7 +127,7 @@ It can be configured by defining the `scalacPluginVersion` plugin configuration 
 ```xml
 <project>
     <properties>
-        <scoverage.scalacPluginVersion>2.1.1</scoverage.scalacPluginVersion>
+        <scoverage.scalacPluginVersion>2.2.0</scoverage.scalacPluginVersion>
     </properties>
 </project>
 ```
@@ -143,7 +143,7 @@ or
                 <artifactId>scoverage-maven-plugin</artifactId>
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
-                    <scalacPluginVersion>2.1.1</scalacPluginVersion>
+                    <scalacPluginVersion>2.2.0</scalacPluginVersion>
                     <!-- other parameters -->
                 </configuration>
              </plugin>
