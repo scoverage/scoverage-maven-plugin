@@ -20,16 +20,9 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }} # has to be read directly from secrets
           gpg-passphrase: MAVEN_GPG_PASSPHRASE # default name used by maven-gpg-plugin
 
-      - name: Setup git profile
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "123456+github-actions[bot]@users.noreply.github.com"
-
       - name: Release new version
-        run:
-          mvn -Dmaven.test.skip=true -ntp -B release:clean release:prepare release:perform -P release
+        run: mvn -Dmaven.test.skip=true -ntp -B release:clean release:prepare release:perform -P release
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
