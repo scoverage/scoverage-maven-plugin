@@ -4,7 +4,7 @@ on:
   workflow_dispatch
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,12 +22,13 @@ jobs:
 
       - name: Setup git profile
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Release new version
-        run: mvn -Dmaven.test.skip=true -Darguments=-DskipTests -ntp -B release:clean release:prepare release:perform -P release
+        run: mvn clean -Darguments=-DskipTests -ntp -B release:clean release:prepare release:perform -P release
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
