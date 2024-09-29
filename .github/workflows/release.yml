@@ -9,6 +9,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Setup git profile
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -21,15 +30,9 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }} # has to be read directly from secrets
           gpg-passphrase: MAVEN_GPG_PASSPHRASE # default name used by maven-gpg-plugin
 
-      - name: Setup git profile
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
       - name: Release new version
         run: mvn clean -Darguments=-DskipTests -ntp -B release:clean release:prepare release:perform -P release
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          GITHUB_TOKEN: ${{ github.token }}
