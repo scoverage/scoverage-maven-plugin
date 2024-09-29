@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -19,11 +23,6 @@ jobs:
           server-password: SONATYPE_PASSWORD
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }} # has to be read directly from secrets
           gpg-passphrase: MAVEN_GPG_PASSPHRASE # default name used by maven-gpg-plugin
-
-      - name: Setup git profile
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
 
       - name: Release new version
         run: mvn -Dmaven.test.skip=true -Darguments=-DskipTests -ntp -B release:clean release:prepare release:perform -P release
