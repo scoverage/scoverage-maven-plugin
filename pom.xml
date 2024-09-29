@@ -22,7 +22,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.scoverage</groupId>
     <artifactId>scoverage-maven-plugin</artifactId>
-    <version>2.0.6-SNAPSHOT</version>
+    <version>2.0.6</version>
     <packaging>maven-plugin</packaging>
 
     <name>SCoverage Maven Plugin</name>
@@ -34,7 +34,7 @@ under the License.
         <connection>scm:git:git://github.com/scoverage/scoverage-maven-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:scoverage/scoverage-maven-plugin.git</developerConnection>
         <url>https://github.com/scoverage/scoverage-maven-plugin/tree/${project.scm.tag}</url>
-        <tag>HEAD</tag>
+        <tag>scoverage-maven-plugin-2.0.6</tag>
     </scm>
 
     <ciManagement>
@@ -856,7 +856,7 @@ under the License.
                                                 </goals>
                                             </pluginExecutionFilter>
                                             <action>
-                                                <ignore/>
+                                                <ignore />
                                             </action>
                                         </pluginExecution>
 
@@ -871,7 +871,7 @@ under the License.
                                                 </goals>
                                             </pluginExecutionFilter>
                                             <action>
-                                                <ignore/>
+                                                <ignore />
                                             </action>
                                         </pluginExecution>
 
@@ -885,7 +885,7 @@ under the License.
                                                 </goals>
                                             </pluginExecutionFilter>
                                             <action>
-                                                <ignore/>
+                                                <ignore />
                                             </action>
                                         </pluginExecution>
                                     </pluginExecutions>
