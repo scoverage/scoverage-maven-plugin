@@ -94,8 +94,8 @@ under the License.
 
         <maven.version>3.9.9</maven.version>
         <maven-plugin-plugin.version>3.15.0</maven-plugin-plugin.version>
-        <maven-reporting-api.version>3.1.1</maven-reporting-api.version>
-        <doxia.version>1.11.1</doxia.version>
+        <maven-reporting-api.version>4.0.0</maven-reporting-api.version>
+        <doxia.version>2.0.0</doxia.version>
 
         <scalac-scoverage-plugin.version>2.2.1</scalac-scoverage-plugin.version>
         <scalac-scoverage-plugin.scala.version>2.13</scalac-scoverage-plugin.scala.version>
@@ -273,9 +273,9 @@ under the License.
                         <subpackages>org.scoverage.plugin</subpackages>
                         <links>
                             <link>https://docs.oracle.com/en/java/javase/11/docs/api/</link>
-                            <link>https://maven.apache.org/ref/${maven.version}/apidocs/</link>
                             <link>https://maven.apache.org/shared-archives/maven-reporting-api-${maven-reporting-api.version}/apidocs/</link>
                             <link>https://maven.apache.org/doxia/components/doxia-archives/doxia-${doxia.version}/apidocs/</link>
+                            <link>https://maven.apache.org/ref/${maven.version}/apidocs/</link>
                         </links>
                         <notimestamp>true</notimestamp>
                     </configuration>
