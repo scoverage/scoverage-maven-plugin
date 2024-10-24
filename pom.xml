@@ -95,7 +95,7 @@ under the License.
         <maven.version>3.9.9</maven.version>
         <maven-plugin-plugin.version>3.15.0</maven-plugin-plugin.version>
         <maven-reporting-api.version>3.1.1</maven-reporting-api.version>
-        <doxia.version>1.11.1</doxia.version>
+        <doxia.version>2.0.0</doxia.version>
 
         <scalac-scoverage-plugin.version>2.2.1</scalac-scoverage-plugin.version>
         <scalac-scoverage-plugin.scala.version>2.13</scalac-scoverage-plugin.scala.version>
