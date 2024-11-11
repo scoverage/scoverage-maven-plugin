@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
@@ -37,7 +38,6 @@ import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -171,13 +171,13 @@ public class SCoveragePreCompileMojo
     /**
      * Artifact factory used to look up artifacts in the remote repository.
      */
-    @Component
+    @Inject
     private ArtifactFactory factory;
 
     /**
      * Artifact resolver used to resolve artifacts.
      */
-    @Component
+    @Inject
     private ArtifactResolver resolver;
 
     /**

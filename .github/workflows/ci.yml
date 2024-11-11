@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         maven: [ '3.8.8', '3.9.9' ]
-        java: [ '11', '17' ]
+        java: [ '17', '21' ]
         os: [ 'ubuntu-latest', 'windows-latest' ]
     runs-on: ${{ matrix.os }}
     steps:

@@ -80,7 +80,7 @@ public class ScalaVersion {
         // compute compatible
         compatible =
                 modifier != null ? full : // non-stable versions are not compatible with anything else
-                        isScala2() ? major + "." + minor : // Scala 2.X.Y is compatible with any Scala 2.X.Z
+                        major == 2 ? major + "." + minor : // Scala 2.X.Y is compatible with any Scala 2.X.Z
                                 major + ""; // Scala 3.X is compatible with any Scala 3.Y
     }
 
