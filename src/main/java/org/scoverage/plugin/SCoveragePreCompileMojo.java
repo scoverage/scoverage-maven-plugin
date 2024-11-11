@@ -22,8 +22,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
@@ -31,13 +33,10 @@ import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
 import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
-import org.apache.maven.artifact.versioning.ArtifactVersion;
-import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -106,7 +105,7 @@ public class SCoveragePreCompileMojo
      *
      * @since 1.0.0
      */
-    @Parameter( property = "scoverage.excludedPackages", defaultValue = "" )
+    @Parameter( property = "scoverage.excludedPackages" )
     private String excludedPackages;
 
     /**
@@ -115,7 +114,7 @@ public class SCoveragePreCompileMojo
      *
      * @since 1.0.0
      */
-    @Parameter( property = "scoverage.excludedFiles", defaultValue = "" )
+    @Parameter( property = "scoverage.excludedFiles" )
     private String excludedFiles;
 
     /**
@@ -147,7 +146,7 @@ public class SCoveragePreCompileMojo
      *
      * @since 1.4.0
      */
-    @Parameter( property = "scoverage.additionalForkedProjectProperties", defaultValue = "" )
+    @Parameter( property = "scoverage.additionalForkedProjectProperties" )
     private String additionalForkedProjectProperties;
 
     /**
@@ -171,13 +170,13 @@ public class SCoveragePreCompileMojo
     /**
      * Artifact factory used to look up artifacts in the remote repository.
      */
-    @Component
+    @Inject
     private ArtifactFactory factory;
 
     /**
      * Artifact resolver used to resolve artifacts.
      */
-    @Component
+    @Inject
     private ArtifactResolver resolver;
 
     /**
@@ -191,12 +190,6 @@ public class SCoveragePreCompileMojo
      */
     @Parameter( property = "project.remoteArtifactRepositories", readonly = true, required = true )
     private List<ArtifactRepository> remoteRepos;
-
-    /**
-     * List of artifacts this plugin depends on.
-     */
-    @Parameter( property = "plugin.artifacts", readonly = true, required = true )
-    private List<Artifact> pluginArtifacts;
 
     /**
      * Configures project for compilation with SCoverage instrumentation.
@@ -231,16 +224,16 @@ public class SCoveragePreCompileMojo
 
         long ts = System.currentTimeMillis();
 
-        ScalaVersion resolvedScalaVersion = resolveScalaVersion();
+        ScalaVersion scalaVersion = resolveScalaVersion();
 
-        if ( resolvedScalaVersion != null )
+        if ( scalaVersion != null )
         {
-            boolean supportedScalaVersion = resolvedScalaVersion.isScala2() && resolvedScalaVersion.isAtLeast( "2.12.8" ) ||
-                                            resolvedScalaVersion.isAtLeast( "3.2.0" );
+            boolean supportedScalaVersion = scalaVersion.isScala2() && scalaVersion.isAtLeast( "2.12.8" ) ||
+                                            scalaVersion.isAtLeast( "3.2.0" );
             if (!supportedScalaVersion)
             {
                 getLog().warn( String.format( "Skipping SCoverage execution - unsupported Scala version \"%s\". Supported Scala versions are 2.12.8+, 2.13.0+ and 3.2.0+ .",
-                                              resolvedScalaVersion.full ) );
+                                              scalaVersion.full ) );
                 return;
             }
         }
@@ -254,7 +247,7 @@ public class SCoveragePreCompileMojo
         if ( additionalForkedProjectProperties != null && !additionalForkedProjectProperties.isEmpty() )
         {
             String[] props = additionalForkedProjectProperties.split( ";" );
-            additionalProjectPropertiesMap = new HashMap<String, String>( props.length );
+            additionalProjectPropertiesMap = new HashMap<>(props.length);
             for ( String propVal: props )
             {
                 String[] tmp = propVal.split( "=", 2 );
@@ -277,17 +270,16 @@ public class SCoveragePreCompileMojo
 
         try
         {
-            boolean scala2 = resolvedScalaVersion.isScala2();
+            boolean scala2 = scalaVersion.isScala2();
             boolean filePackageExclusionSupportingScala3 =
-                    resolvedScalaVersion.isAtLeast( "3.4.2" ) ||
+                    scalaVersion.isAtLeast( "3.4.2" ) ||
                             // backported to Scala 3.3 LTS
-                            ( resolvedScalaVersion.full.startsWith( "3.3." ) && resolvedScalaVersion.isAtLeast( "3.3.4" ) );
+                            ( scalaVersion.full.startsWith( "3.3." ) && scalaVersion.isAtLeast( "3.3.4" ) );
 
-            List<Artifact> pluginArtifacts = getScalaScoveragePluginArtifacts( resolvedScalaVersion );
+            List<Artifact> pluginArtifacts = getScoveragePluginArtifacts( scalaVersion );
             if ( scala2 ) // Scala 3 doesn't need scalac-scoverage-runtime
             {
-                Artifact runtimeArtifact = getScalaScoverageRuntimeArtifact( resolvedScalaVersion );
-                addScoverageDependenciesToClasspath( runtimeArtifact );
+                addScalacScoverageRuntimeDependencyToClasspath( scalaVersion );
             }
 
             String arg = ( scala2 ? SCALA2_DATA_DIR_OPTION : SCALA3_COVERAGE_OUT_OPTION ) + dataDirectory.getAbsolutePath();
@@ -404,7 +396,6 @@ public class SCoveragePreCompileMojo
         if ( result == null || result.isEmpty() )
         {
             // check project direct dependencies (transitive dependencies cannot be checked in this Maven lifecycle phase)
-            @SuppressWarnings( "unchecked" )
             List<Dependency> dependencies = project.getDependencies();
             for ( Dependency dependency: dependencies )
             {
@@ -445,55 +436,46 @@ public class SCoveragePreCompileMojo
         }
     }
 
-    private ArtifactVersion getScalacPluginVersion() {
-        if ( scalacPluginVersion == null || scalacPluginVersion.isEmpty()) {
+    private String getScalacPluginVersion() {
+        if ( StringUtils.isEmpty(scalacPluginVersion) ) {
             throw new IllegalStateException("scalacPluginVersion is unset.");
         } else if ( scalacPluginVersion.startsWith("1.") ) {
             throw new IllegalStateException( String.format( "Unsupported scalacPluginVersion \"%s\". Please use scalacPluginVersion 2.0.0+ or use older version of scoverage-maven-plugin", scalacPluginVersion ) );
         } else {
-            return new DefaultArtifactVersion(scalacPluginVersion);
+            return scalacPluginVersion;
         }
     }
 
-    private List<Artifact> getScalaScoveragePluginArtifacts( ScalaVersion resolvedScalaVersion )
+    private List<Artifact> getScoveragePluginArtifacts(ScalaVersion scalaVersion )
         throws ArtifactNotFoundException, ArtifactResolutionException
     {
-        String resolvedScalacPluginVersion = getScalacPluginVersion().toString();
         List<Artifact> resolvedArtifacts = new ArrayList<>();
-        if ( resolvedScalaVersion.isScala2() ) // Scala 3 doesn't need scalac-scoverage-plugin
+        if ( scalaVersion.isScala2() ) // Scala 3 doesn't need scalac-scoverage-plugin
         {
-            resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-plugin_" + resolvedScalaVersion.full, resolvedScalacPluginVersion));
+            resolvedArtifacts.add(resolveScoverageArtifact("scalac-scoverage-plugin_" + scalaVersion.full ));
         }
-        resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-domain_" + resolvedScalaVersion.compatible, resolvedScalacPluginVersion));
-        resolvedArtifacts.add(getResolvedArtifact("org.scoverage", "scalac-scoverage-serializer_" + resolvedScalaVersion.compatible, resolvedScalacPluginVersion));
+        resolvedArtifacts.add(resolveScoverageArtifact("scalac-scoverage-domain_" + scalaVersion.compatible ));
+        resolvedArtifacts.add(resolveScoverageArtifact("scalac-scoverage-serializer_" + scalaVersion.compatible ));
         return resolvedArtifacts;
-    }
-
-    private Artifact getScalaScoverageRuntimeArtifact( ScalaVersion resolvedScalaVersion )
-        throws ArtifactNotFoundException, ArtifactResolutionException
-    {
-        return getResolvedArtifact(
-                "org.scoverage", "scalac-scoverage-runtime_" + resolvedScalaVersion.compatible,
-                getScalacPluginVersion().toString() );
     }
 
     /**
      * We need to tweak our test classpath for Scoverage.
-     *
-     * @throws MojoExecutionException
      */
-    private void addScoverageDependenciesToClasspath( Artifact scalaScoveragePluginArtifact )
-    {
-        @SuppressWarnings( "unchecked" )
-        Set<Artifact> set = new LinkedHashSet<Artifact>( project.getDependencyArtifacts() );
-        set.add( scalaScoveragePluginArtifact );
+    private void addScalacScoverageRuntimeDependencyToClasspath(ScalaVersion resolvedScalaVersion )
+            throws ArtifactResolutionException, ArtifactNotFoundException {
+
+        Set<Artifact> set = new LinkedHashSet<>(project.getDependencyArtifacts());
+        set.add(resolveScoverageArtifact( "scalac-scoverage-runtime_" + resolvedScalaVersion.compatible) );
         project.setDependencyArtifacts( set );
     }
 
-    private Artifact getResolvedArtifact( String groupId, String artifactId, String version )
+    private Artifact resolveScoverageArtifact( String artifactId )
         throws ArtifactNotFoundException, ArtifactResolutionException
     {
-        Artifact artifact = factory.createArtifact( groupId, artifactId, version, Artifact.SCOPE_COMPILE, "jar" );
+        Artifact artifact = factory.createArtifact(
+            "org.scoverage", artifactId, getScalacPluginVersion(), Artifact.SCOPE_COMPILE, "jar"
+        );
         resolver.resolve( artifact, remoteRepos, localRepo );
         return artifact;
     }
@@ -509,21 +491,13 @@ public class SCoveragePreCompileMojo
                         dataDirectory.getAbsolutePath() ) );
             }
             File sourceRootsFile = new File( dataDirectory, "source.roots" );
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter( new FileOutputStream( sourceRootsFile ), "UTF-8" ) );
-            try
-            {
-                for ( String sourceRoot: sourceRoots )
-                {
+            try ( BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter( new FileOutputStream(sourceRootsFile), StandardCharsets.UTF_8 ))) {
+                for ( String sourceRoot : sourceRoots ) {
                     writer.write( sourceRoot );
                     writer.newLine();
                 }
             }
-            finally
-            {
-                writer.close();
-            }
         }
     }
-
 }
