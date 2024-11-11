@@ -212,6 +212,10 @@ under the License.
                     <version>3.13.0</version>
                     <configuration>
                         <release>11</release>
+                        <compilerArgs>
+                            <arg>-Xlint:all</arg>
+                            <arg>-Xlint:-processing</arg>
+                        </compilerArgs>
                     </configuration>
                 </plugin>
 
@@ -273,9 +277,9 @@ under the License.
                         <subpackages>org.scoverage.plugin</subpackages>
                         <links>
                             <link>https://docs.oracle.com/en/java/javase/11/docs/api/</link>
-                            <link>https://maven.apache.org/ref/${maven.version}/apidocs/</link>
                             <link>https://maven.apache.org/shared-archives/maven-reporting-api-${maven-reporting-api.version}/apidocs/</link>
                             <link>https://maven.apache.org/doxia/components/doxia-archives/doxia-${doxia.version}/apidocs/</link>
+                            <link>https://maven.apache.org/ref/${maven.version}/apidocs/</link>
                         </links>
                         <notimestamp>true</notimestamp>
                     </configuration>

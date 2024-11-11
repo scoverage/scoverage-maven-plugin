@@ -388,7 +388,7 @@ public class SCoverageReportMojo
 
         try
         {
-            RenderingContext context = new RenderingContext( outputDirectory, getOutputName() + ".html" );
+            RenderingContext context = new RenderingContext( outputDirectory, getOutputName() + ".html", null );
             SiteRendererSink sink = new SiteRendererSink( context );
             Locale locale = Locale.getDefault();
             generate( sink, locale );
