@@ -29,7 +29,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.maven.doxia.siterenderer.RenderingContext;
+import org.apache.maven.doxia.sink.Sink;
+import org.apache.maven.doxia.siterenderer.DocumentRenderingContext;
 import org.apache.maven.doxia.siterenderer.sink.SiteRendererSink;
 
 import org.apache.maven.execution.MavenSession;
@@ -43,7 +44,6 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.MavenReport;
 import org.apache.maven.reporting.MavenReportException;
 
-import org.codehaus.doxia.sink.Sink;
 import org.codehaus.plexus.util.StringUtils;
 
 import scala.Option;
@@ -206,7 +206,6 @@ public class SCoverageReportMojo
 
     /** {@inheritDoc} */
     @Override
-    @SuppressWarnings( "deprecation" )
     public void generate( Sink sink, Locale locale )
         throws MavenReportException
     {
@@ -261,8 +260,16 @@ public class SCoverageReportMojo
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings( "deprecation" ) // it's deprecated and abstract, so we have no choice, but to keep it
     @Override
     public String getOutputName()
+    {
+        return getOutputPath();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getOutputPath()
     {
         return destDir + "/index";
     }
@@ -388,7 +395,7 @@ public class SCoverageReportMojo
 
         try
         {
-            RenderingContext context = new RenderingContext( outputDirectory, getOutputName() + ".html", null );
+            DocumentRenderingContext context = new DocumentRenderingContext( outputDirectory, getOutputName() + ".html", null );
             SiteRendererSink sink = new SiteRendererSink( context );
             Locale locale = Locale.getDefault();
             generate( sink, locale );
@@ -496,7 +503,7 @@ public class SCoverageReportMojo
                                 String path = r.readLine();
                                 while ( path != null )
                                 {
-                                    sourceRoots.add( new File( path ) );
+                                    sourceRoots.add(new File(path));
                                     path = r.readLine();
                                 }
                             }
