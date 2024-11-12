@@ -198,7 +198,7 @@ public class SCoveragePreCompileMojo
 
         if ( skip )
         {
-            getLog().info( "Skipping Scoverage execution" );
+            getLog().info( "Skipping Scoverage execution as configured" );
 
             Properties projectProperties = project.getProperties();
 
