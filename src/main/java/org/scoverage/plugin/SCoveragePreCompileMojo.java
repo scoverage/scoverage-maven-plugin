@@ -27,12 +27,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
-import org.apache.maven.artifact.resolver.ArtifactResolutionException;
-import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
@@ -43,6 +37,14 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import org.codehaus.plexus.util.StringUtils;
+import org.eclipse.aether.artifact.Artifact;
+import org.eclipse.aether.RepositorySystem;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.artifact.DefaultArtifact;
+import org.eclipse.aether.repository.RemoteRepository;
+import org.eclipse.aether.resolution.ArtifactRequest;
+import org.eclipse.aether.resolution.ArtifactResolutionException;
+import org.eclipse.aether.resolution.ArtifactResult;
 
 /**
  * Configures project for compilation with SCoverage instrumentation.
@@ -168,28 +170,16 @@ public class SCoveragePreCompileMojo
     private List<MavenProject> reactorProjects;
 
     /**
-     * Artifact factory used to look up artifacts in the remote repository.
+     * Repository system used to look up artifacts in the remote repository.
      */
     @Inject
-    private ArtifactFactory factory;
+    private RepositorySystem repositorySystem;
 
-    /**
-     * Artifact resolver used to resolve artifacts.
-     */
-    @Inject
-    private ArtifactResolver resolver;
+    @Parameter( defaultValue = "${repositorySystemSession}", readonly = true )
+    protected RepositorySystemSession repoSession;
 
-    /**
-     * Location of the local repository.
-     */
-    @Parameter( property = "localRepository", readonly = true, required = true )
-    private ArtifactRepository localRepo;
-
-    /**
-     * Remote repositories used by the resolver
-     */
-    @Parameter( property = "project.remoteArtifactRepositories", readonly = true, required = true )
-    private List<ArtifactRepository> remoteRepos;
+    @Parameter( defaultValue = "${project.remoteProjectRepositories}", readonly = true )
+    protected List<RemoteRepository> remoteRepos;
 
     /**
      * Configures project for compilation with SCoverage instrumentation.
@@ -357,7 +347,7 @@ public class SCoveragePreCompileMojo
 
             saveSourceRootsToFile();
         }
-        catch (ArtifactNotFoundException | ArtifactResolutionException | IOException e )
+        catch ( ArtifactResolutionException | IOException e )
         {
             throw new MojoExecutionException( "SCoverage preparation failed", e );
         }
@@ -447,8 +437,7 @@ public class SCoveragePreCompileMojo
     }
 
     private List<Artifact> getScoveragePluginArtifacts(ScalaVersion scalaVersion )
-        throws ArtifactNotFoundException, ArtifactResolutionException
-    {
+            throws ArtifactResolutionException {
         List<Artifact> resolvedArtifacts = new ArrayList<>();
         if ( scalaVersion.isScala2() ) // Scala 3 doesn't need scalac-scoverage-plugin
         {
@@ -462,22 +451,41 @@ public class SCoveragePreCompileMojo
     /**
      * We need to tweak our test classpath for Scoverage.
      */
+    @SuppressWarnings( "deprecation" ) // didn't find a good way to do this with Aether artifacts
     private void addScalacScoverageRuntimeDependencyToClasspath(ScalaVersion resolvedScalaVersion )
-            throws ArtifactResolutionException, ArtifactNotFoundException {
+        throws ArtifactResolutionException {
 
-        Set<Artifact> set = new LinkedHashSet<>(project.getDependencyArtifacts());
-        set.add(resolveScoverageArtifact( "scalac-scoverage-runtime_" + resolvedScalaVersion.compatible) );
-        project.setDependencyArtifacts( set );
+        Set<org.apache.maven.artifact.Artifact> set = new LinkedHashSet<>(project.getDependencyArtifacts());
+        set.add(toMavenClasspathArtifact(
+                resolveScoverageArtifact("scalac-scoverage-runtime_" + resolvedScalaVersion.compatible)
+        ));
+        project.setDependencyArtifacts( set);
+    }
+
+    private org.apache.maven.artifact.Artifact toMavenClasspathArtifact( Artifact artifact ) {
+        org.apache.maven.artifact.handler.DefaultArtifactHandler artifactHandler =
+                new org.apache.maven.artifact.handler.DefaultArtifactHandler( artifact.getExtension() );
+        artifactHandler.setAddedToClasspath(true);
+        return new org.apache.maven.artifact.DefaultArtifact(
+                artifact.getGroupId(),
+                artifact.getArtifactId(),
+                artifact.getVersion(),
+                org.apache.maven.artifact.Artifact.SCOPE_COMPILE,
+                artifact.getExtension(),
+                artifact.getClassifier(),
+                artifactHandler
+        );
     }
 
     private Artifact resolveScoverageArtifact( String artifactId )
-        throws ArtifactNotFoundException, ArtifactResolutionException
-    {
-        Artifact artifact = factory.createArtifact(
-            "org.scoverage", artifactId, getScalacPluginVersion(), Artifact.SCOPE_COMPILE, "jar"
-        );
-        resolver.resolve( artifact, remoteRepos, localRepo );
-        return artifact;
+            throws ArtifactResolutionException {
+
+        ArtifactRequest request = new ArtifactRequest();
+        request.setArtifact( new DefaultArtifact("org.scoverage", artifactId, "jar", getScalacPluginVersion()) );
+        request.setRepositories(remoteRepos);
+
+        ArtifactResult result = repositorySystem.resolveArtifact(repoSession, request);
+        return result.getArtifact();
     }
 
     private void saveSourceRootsToFile() throws IOException
