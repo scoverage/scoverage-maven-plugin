@@ -21,7 +21,7 @@
         <scala.plugin.version>4.9.1</scala.plugin.version>
         <scalatest.plugin.version>2.0.0</scalatest.plugin.version>
         <project-info-reports.plugin.version>3.5.0</project-info-reports.plugin.version>
-        <site.plugin.version>3.12.1</site.plugin.version>
+        <site.plugin.version>3.21.0</site.plugin.version>
 
         <scala.compat.version>2.13</scala.compat.version>
         <scala.minor.version>14</scala.minor.version>
