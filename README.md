@@ -45,13 +45,10 @@ internal mojos:
 
 ### Prerequisites / limitations
 
-- The plugin is compatible with two Maven Scala compiler plugins:
-
-    - [Scala Maven Plugin](http://davidb.github.io/scala-maven-plugin/) - version `3.0.0` or later required, [addScalacArgs](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#addScalacArgs) and [analysisCacheFile](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#analysisCacheFile) configuration parameters cannot be set directly, use project properties `addScalacArgs` and `analysisCacheFile` instead.
-  
-    - [SBT Compiler Maven Plugin](https://github.com/sbt-compiler-maven-plugin/sbt-compiler-maven-plugin/) - version `1.0.0-beta5` or later required. Currently it works only with Scoverage Maven Plugin `1.4.11` or earlier.
-
-- Starting with version `2.0.0` the plugin supports Scala `2.12.8+`, `2.13.0+` and `3.2.0+`. For Scala `2.10` and `2.11` support please use version `1.4.11`.
+- The plugin is compatible with [Scala Maven Plugin](http://davidb.github.io/scala-maven-plugin/) 
+  - version `3.0.0` or later required
+  - [addScalacArgs](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#addScalacArgs) and [analysisCacheFile](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#analysisCacheFile) configuration parameters cannot be set directly, use project properties `addScalacArgs` and `analysisCacheFile` instead.
+- Starting with version `2.0.0` the plugin supports Scala `2.12.8+`, `2.13.0+` and `3.2.0+`. For Scala `2.12.7` and lower please use version `1.4.11` of the plugin.
 - The plugin is not thread-safe, so it should not be used in multi-threaded builds.
 
 
@@ -78,7 +75,7 @@ If all the attempts to resolve the Scala version fail, then coverage will not be
 ```xml
 <project>
     <properties>
-        <scala.version>2.13.12</scala.version>
+        <scala.version>2.13.15</scala.version>
     </properties>
 </project>
 ```
@@ -94,7 +91,7 @@ or
                 <artifactId>scoverage-maven-plugin</artifactId>
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
-                    <scalaVersion>2.13.12</scalaVersion>
+                    <scalaVersion>2.13.15</scalaVersion>
                     <!-- other parameters -->
                 </configuration>
              </plugin>
