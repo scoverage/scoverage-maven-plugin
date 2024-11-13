@@ -211,7 +211,7 @@ under the License.
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.13.0</version>
                     <configuration>
-                        <release>11</release>
+                        <release>17</release>
                         <compilerArgs>
                             <arg>-Xlint:all</arg>
                             <arg>-Xlint:-processing</arg>
@@ -272,11 +272,11 @@ under the License.
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.11.1</version>
                     <configuration>
-                        <source>11</source>
+                        <source>17</source>
                         <detectJavaApiLink>false</detectJavaApiLink>
                         <subpackages>org.scoverage.plugin</subpackages>
                         <links>
-                            <link>https://docs.oracle.com/en/java/javase/11/docs/api/</link>
+                            <link>https://docs.oracle.com/en/java/javase/17/docs/api/</link>
                             <link>https://maven.apache.org/shared-archives/maven-reporting-api-${maven-reporting-api.version}/apidocs/</link>
                             <link>https://maven.apache.org/doxia/components/doxia-archives/doxia-${doxia.version}/apidocs/</link>
                             <link>https://maven.apache.org/ref/${maven.version}/apidocs/</link>
@@ -331,7 +331,7 @@ under the License.
                         <excludes>
                             <exclude>org/scoverage/plugin/HelpMojo.java</exclude>
                         </excludes>
-                        <targetJdk>11</targetJdk>
+                        <targetJdk>17</targetJdk>
                     </configuration>
                 </plugin>
 
@@ -503,8 +503,8 @@ under the License.
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>11</version>
-                                    <message>Java 11 or later required.</message>
+                                    <version>17</version>
+                                    <message>Java 17 or later required.</message>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
