@@ -6,21 +6,28 @@
 
     <parent>
         <groupId>it.scoverage-maven-plugin</groupId>
-        <artifactId>integration_tests_parent</artifactId>
+        <artifactId>integration_tests_Scala3_parent</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../integration_tests_parent/pom.xml</relativePath>
+        <relativePath>../integration_tests_Scala3_parent/pom.xml</relativePath>
     </parent>
 
-    <artifactId>test_ScalaMavenPlugin_Scala212_ScalaTest</artifactId>
+    <artifactId>test_ScalaMavenPlugin_Scala3_2_Plus_ScalaTest_ScalaVersion_Not_Set</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Test Scoverage Report using scala-maven-plugin, Scala 2.12 and ScalaTest</name>
-    <description>Test Scoverage Report using scala-maven-plugin, Scala 2.12 and ScalaTest</description>
+    <name>Test Scoverage Report using scala-maven-plugin, Scala 3.2+ and ScalaTest when scala.version is not set</name>
+    <description>Test Scoverage Report using scala-maven-plugin, Scala 3.2+ and ScalaTest when scala.version is not set</description>
 
     <properties>
-        <scala.compat.version>2.12</scala.compat.version>
-        <scala.minor.version>19</scala.minor.version>
+        <scala.version/>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>${scala.library.artifact.id}</artifactId>
+            <version>3.5.2</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
