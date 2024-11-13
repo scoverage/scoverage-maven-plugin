@@ -80,8 +80,6 @@ public class SCoveragePostCompileMojo
 
         Properties projectProperties = project.getProperties();
 
-        restoreProperty( projectProperties, "sbt._scalacOptions" );
-        restoreProperty( projectProperties, "sbt._scalacPlugins" );
         restoreProperty( projectProperties, "addScalacArgs" );
         restoreProperty( projectProperties, "analysisCacheFile" );
         restoreProperty( projectProperties, "maven.test.failure.ignore" );
