@@ -19,7 +19,7 @@
 
     <properties>
         <scala.compat.version>2.12</scala.compat.version>
-        <scala.minor.version>8</scala.minor.version> <!-- Testing that 2.12.8 is supported -->
+        <scala.minor.version>20</scala.minor.version>
     </properties>
 
     <build>
@@ -39,9 +39,6 @@
             <plugin>
                 <groupId>@project.groupId@</groupId>
                 <artifactId>@project.artifactId@</artifactId>
-                <configuration>
-                    <scalacPluginVersion>2.0.0</scalacPluginVersion> <!-- Downgrading for Scala 2.12.8 -->
-                </configuration>
             </plugin>
         </plugins>
     </build>
