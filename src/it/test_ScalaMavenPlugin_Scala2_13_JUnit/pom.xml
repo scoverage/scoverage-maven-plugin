@@ -11,22 +11,11 @@
         <relativePath>../integration_tests_parent/pom.xml</relativePath>
     </parent>
 
-    <artifactId>test_Scala3_multimodule</artifactId>
+    <artifactId>test_ScalaMavenPlugin_Scala2_13_JUnit</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>Test Scala 3 Multi-Module</name>
-    <description>Test Scala 3 Multi-Module</description>
-
-    <properties>
-        <scala.compat.version>3</scala.compat.version>
-        <scala.version>3.3.1</scala.version>
-        <scala.library.artifact.id>scala3-library_3</scala.library.artifact.id>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <modules>
-        <module>module01</module>
-    </modules>
+    <packaging>jar</packaging>
+    <name>Test Scoverage Report using scala-maven-plugin, Scala 2.13 and JUnit</name>
+    <description>Test Scoverage Report using scala-maven-plugin, Scala 2.13 and JUnit</description>
 
     <build>
         <plugins>
@@ -45,22 +34,7 @@
             <plugin>
                 <groupId>@project.groupId@</groupId>
                 <artifactId>@project.artifactId@</artifactId>
-                <configuration>
-                    <aggregate>true</aggregate> <!-- for aggregated report -->
-                </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>@project.groupId@</groupId>
-                <artifactId>@project.artifactId@</artifactId>
-                <configuration>
-                    <aggregate>true</aggregate> <!-- for aggregated report -->
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
 </project>

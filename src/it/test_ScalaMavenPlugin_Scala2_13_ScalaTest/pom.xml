@@ -11,7 +11,7 @@
         <relativePath>../integration_tests_parent/pom.xml</relativePath>
     </parent>
 
-    <artifactId>test_ScalaMavenPlugin_Scala213_ScalaTest</artifactId>
+    <artifactId>test_ScalaMavenPlugin_Scala2_13_ScalaTest</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Test Scoverage Report using scala-maven-plugin, Scala 2.13 and ScalaTest</name>

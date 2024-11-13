@@ -11,25 +11,16 @@
         <relativePath>../integration_tests_parent/pom.xml</relativePath>
     </parent>
 
-    <artifactId>test_ScalaMavenPlugin_Scala32Plus_ScalaTest_ScalaVersion_Not_Set</artifactId>
+    <artifactId>test_ScalaMavenPlugin_Scala2_12_ScalaTest</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Test Scoverage Report using scala-maven-plugin, Scala 3.2+ and ScalaTest when scala.version is not set</name>
-    <description>Test Scoverage Report using scala-maven-plugin, Scala 3.2+ and ScalaTest when scala.version is not set</description>
+    <name>Test Scoverage Report using scala-maven-plugin, Scala 2.12 and ScalaTest</name>
+    <description>Test Scoverage Report using scala-maven-plugin, Scala 2.12 and ScalaTest</description>
 
     <properties>
-        <scala.compat.version>3</scala.compat.version>
-        <scala.version/>
-        <scala.library.artifact.id>scala3-library_3</scala.library.artifact.id>
+        <scala.compat.version>2.12</scala.compat.version>
+        <scala.minor.version>19</scala.minor.version>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>${scala.library.artifact.id}</artifactId>
-            <version>3.3.1</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
