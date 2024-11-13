@@ -53,7 +53,6 @@ import org.eclipse.aether.resolution.ArtifactResult;
  * Supported compiler plugins:
  * <ul>
  * <li><a href="https://davidb.github.io/scala-maven-plugin/">net.alchim31.maven:scala-maven-plugin</a></li>
- * <li><a href="https://sbt-compiler-maven-plugin.github.io/sbt-compiler-maven-plugin/">com.google.code.sbt-compiler-maven-plugin:sbt-compiler-maven-plugin</a></li>
  * </ul>
  * <br>
  * This is internal mojo, executed in forked {@code scoverage} life cycle.
@@ -203,8 +202,7 @@ public class SCoveragePreCompileMojo
             Properties projectProperties = project.getProperties();
 
             // for maven-resources-plugin (testResources), maven-compiler-plugin (testCompile),
-            // sbt-compiler-maven-plugin (testCompile), scala-maven-plugin (testCompile),
-            // maven-surefire-plugin and scalatest-maven-plugin
+            // scala-maven-plugin (testCompile), maven-surefire-plugin and scalatest-maven-plugin
             setProperty( projectProperties, "maven.test.skip", "true" );
             // for scalatest-maven-plugin and specs2-maven-plugin
             setProperty( projectProperties, "skipTests", "true" );
@@ -273,23 +271,19 @@ public class SCoveragePreCompileMojo
             }
 
             String arg = ( scala2 ? SCALA2_DATA_DIR_OPTION : SCALA3_COVERAGE_OUT_OPTION ) + dataDirectory.getAbsolutePath();
-            String _scalacOptions = quoteArgument( arg );
             String addScalacArgs = arg;
 
             arg = scala2 ? ( SOURCE_ROOT_OPTION + session.getExecutionRootDirectory() ) : "";
-            _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
             addScalacArgs = addScalacArgs + PIPE + arg;
 
             if ( !StringUtils.isEmpty( excludedPackages ) )
             {
                 if ( scala2 ) {
                     arg = SCALA2_EXCLUDED_PACKAGES_OPTION + excludedPackages.replace( "(empty)", "<empty>" );
-                    _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
                     addScalacArgs = addScalacArgs + PIPE + arg;
                 } else if ( filePackageExclusionSupportingScala3 ) {
                     String scala3FormatExcludedPackages = excludedPackages.replace( ";", "," );
                     arg = SCALA3_EXCLUDED_PACKAGES_OPTION + scala3FormatExcludedPackages;
-                    _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
                     addScalacArgs = addScalacArgs + PIPE + arg;
                 } else {
                     getLog().warn( "Package exclusion is supported for Scala [3.3.4-3.4.0) or 3.4.2+" );
@@ -300,12 +294,10 @@ public class SCoveragePreCompileMojo
             {
                 if ( scala2 ) {
                     arg = SCALA2_EXCLUDED_FILES_OPTION + excludedFiles;
-                    _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
                     addScalacArgs = addScalacArgs + PIPE + arg;
                 } else if ( filePackageExclusionSupportingScala3 ) {
                     String scala3FormatExcludedFiles = excludedFiles.replace( ";", "," );
                     arg = SCALA3_EXCLUDED_FILES_OPTION + scala3FormatExcludedFiles;
-                    _scalacOptions = _scalacOptions + SPACE + quoteArgument( arg );
                     addScalacArgs = addScalacArgs + PIPE + arg;
                 } else {
                     getLog().warn( "File exclusion is supported for Scala [3.3.4-3.4.0) or 3.4.2+" );
@@ -314,12 +306,8 @@ public class SCoveragePreCompileMojo
 
             if ( highlighting && scala2 )
             {
-                _scalacOptions = _scalacOptions + SPACE + "-Yrangepos";
                 addScalacArgs = addScalacArgs + PIPE + "-Yrangepos";
             }
-
-            String _scalacPlugins = scala2 ? pluginArtifacts.stream()
-                    .map(x -> String.format("%s:%s:%s", x.getGroupId(), x.getArtifactId(), x.getVersion())).collect(Collectors.joining(" ")) : "";
 
             if ( scala2 ) {
                 arg = PLUGIN_OPTION + pluginArtifacts.stream().map(x -> x.getFile().getAbsolutePath()).collect(Collectors.joining(String.valueOf(java.io.File.pathSeparatorChar)));
@@ -328,10 +316,6 @@ public class SCoveragePreCompileMojo
 
             Properties projectProperties = project.getProperties();
 
-            // for sbt-compiler-maven-plugin (version 1.0.0-beta5+)
-            setProperty( projectProperties, "sbt._scalacOptions", _scalacOptions );
-            // for sbt-compiler-maven-plugin (version 1.0.0-beta5+)
-            setProperty( projectProperties, "sbt._scalacPlugins", _scalacPlugins );
             // for scala-maven-plugin (version 3.0.0+)
             setProperty( projectProperties, "addScalacArgs", addScalacArgs );
             // for scala-maven-plugin (version 3.1.0+)
@@ -371,14 +355,7 @@ public class SCoveragePreCompileMojo
     private static final String SCALA3_EXCLUDED_FILES_OPTION = "-coverage-exclude-files:";
     private static final String PLUGIN_OPTION = "-Xplugin:";
 
-    private static final char DOUBLE_QUOTE = '\"';
-    private static final char SPACE = ' ';
     private static final char PIPE = '|';
-
-    private String quoteArgument( String arg )
-    {
-        return arg.indexOf( SPACE ) >= 0 ? DOUBLE_QUOTE + arg + DOUBLE_QUOTE : arg;
-    }
 
     private ScalaVersion resolveScalaVersion()
     {
