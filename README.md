@@ -48,7 +48,7 @@ internal mojos:
 - The plugin is compatible with [Scala Maven Plugin](http://davidb.github.io/scala-maven-plugin/) 
   - version `3.0.0` or later required
   - [addScalacArgs](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#addScalacArgs) and [analysisCacheFile](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#analysisCacheFile) configuration parameters cannot be set directly, use project properties `addScalacArgs` and `analysisCacheFile` instead.
-- Starting with version `2.1.0` JDK `17+`, Maven `3.6.3` and `maven-site-plugin` `3.20.0+` required.
+- Starting with version `2.1.0` JDK `17+`, Maven `3.6.3` and `maven-site-plugin` `3.20.0+` are required.
 - Starting with version `2.0.0` the plugin supports Scala `2.12.8+`, `2.13.0+` and `3.2.0+`. For Scala `2.12.7` and lower please use version `1.4.11` of the plugin.
 - The plugin is not thread-safe, so it should not be used in multi-threaded builds.
 
