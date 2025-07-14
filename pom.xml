@@ -234,7 +234,7 @@ under the License.
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.6.0</version>
                 </plugin>
 
                 <plugin>
@@ -478,7 +478,6 @@ under the License.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>enforce-maven</id>
@@ -488,8 +487,8 @@ under the License.
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.2.2</version>
-                                    <message>Maven 3.2.2 or later required.</message>
+                                    <version>3.8.1</version>
+                                    <message>Maven 3.8.1 or later required.</message>
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
