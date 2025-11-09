@@ -50,7 +50,7 @@ under the License.
     <distributionManagement>
         <snapshotRepository>
             <id>central</id>
-            <url>${nexus.url}/content/repositories/snapshots</url>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>central</id>
@@ -100,7 +100,7 @@ under the License.
         <scalac-scoverage-plugin.version>2.3.0</scalac-scoverage-plugin.version>
         <scalac-scoverage-plugin.scala.version>2.13</scalac-scoverage-plugin.scala.version>
 
-        <nexus.url>https://oss.sonatype.org</nexus.url>
+        <nexus.url>https://ossrh-staging-api.central.sonatype.com</nexus.url>
     </properties>
 
     <dependencies>
