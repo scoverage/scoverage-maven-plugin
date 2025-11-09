@@ -28,7 +28,7 @@
         <site.plugin.version>3.21.0</site.plugin.version>
 
         <scala.compat.version>2.13</scala.compat.version>
-        <scala.minor.version>16</scala.minor.version>
+        <scala.minor.version>17</scala.minor.version>
         <scala.version>${scala.compat.version}.${scala.minor.version}</scala.version>
         <scala.library.artifact.id>scala-library</scala.library.artifact.id>
     </properties>
