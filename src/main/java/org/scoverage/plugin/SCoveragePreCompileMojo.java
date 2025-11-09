@@ -133,7 +133,7 @@ public class SCoveragePreCompileMojo
      *
      * @since 1.0.0
      */
-    @Parameter( property = "scoverage.scalacPluginVersion", defaultValue = "2.3.0" )
+    @Parameter( property = "scoverage.scalacPluginVersion", defaultValue = "2.4.1" )
     private String scalacPluginVersion;
 
     /**
