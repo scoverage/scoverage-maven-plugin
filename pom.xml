@@ -54,7 +54,7 @@ under the License.
         </snapshotRepository>
         <repository>
             <id>central</id>
-            <url>${nexus.url}/service/local/staging/deploy/maven2</url>
+            <url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2</url>
         </repository>
     </distributionManagement>
 
@@ -99,8 +99,6 @@ under the License.
 
         <scalac-scoverage-plugin.version>2.4.1</scalac-scoverage-plugin.version>
         <scalac-scoverage-plugin.scala.version>2.13</scalac-scoverage-plugin.scala.version>
-
-        <nexus.url>https://ossrh-staging-api.central.sonatype.com</nexus.url>
     </properties>
 
     <dependencies>
@@ -773,14 +771,14 @@ under the License.
                     </plugin>
 
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.7.0</version>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.9.0</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <nexusUrl>${nexus.url}</nexusUrl>
-                            <serverId>central</serverId>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                            <waitUntil>published</waitUntil>
                         </configuration>
                     </plugin>
                 </plugins>
