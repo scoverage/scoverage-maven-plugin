@@ -1,4 +1,6 @@
 name: Release new version
+permissions:
+  contents: write
 
 on:
   workflow_dispatch
@@ -6,12 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v5
-      - uses: webfactory/ssh-agent@v0.9.1
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          fetch-depth: 0
 
       - name: Setup git profile
         run: |
@@ -21,18 +21,18 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '17'
           cache: maven
           server-id: central # Value of the distributionManagement/repository/id field of the pom.xml
           server-username: SONATYPE_USERNAME
           server-password: SONATYPE_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }} # has to be read directly from secrets
+          gpg-private-key: ${{ secrets.PGP_SECRET }} # has to be read directly from secrets
           gpg-passphrase: MAVEN_GPG_PASSPHRASE # default name used by maven-gpg-plugin
 
-      - name: Release new version
-        run: mvn clean -Darguments=-DskipTests -ntp -B release:clean release:prepare release:perform -P release
+      - name: Release
+        run: mvn -ntp -B release:clean release:prepare release:perform -P release -Darguments="-DskipTests"
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
