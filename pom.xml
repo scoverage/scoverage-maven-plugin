@@ -31,7 +31,7 @@ under the License.
     <url>https://scoverage.github.io/scoverage-maven-plugin/${project.version}/</url>
 
     <scm>
-        <connection>scm:git:git://github.com/scoverage/scoverage-maven-plugin.git</connection>
+        <connection>scm:git:https://github.com/scoverage/scoverage-maven-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:scoverage/scoverage-maven-plugin.git</developerConnection>
         <url>https://github.com/scoverage/scoverage-maven-plugin/tree/${project.scm.tag}</url>
         <tag>HEAD</tag>
