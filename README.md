@@ -12,35 +12,35 @@ scoverage-maven-plugin is a plugin for Maven that integrates the scoverage code 
 
 mostly used mojos:
 
-- **[check](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/check-mojo.html)** goal compiles classes with instrumentation, runs unit tests and checks coverage,
+- **[check](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/check-mojo.html)** goal compiles classes with instrumentation, runs unit tests and checks coverage,
 
-- **[report](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/report-mojo.html)** goal compiles classes with instrumentation, runs unit tests and generates reports,
+- **[report](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/report-mojo.html)** goal compiles classes with instrumentation, runs unit tests and generates reports,
 
-- **[integration-check](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/integration-check-mojo.html)** goal compiles classes with instrumentation, runs unit and integration tests and checks coverage,
+- **[integration-check](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/integration-check-mojo.html)** goal compiles classes with instrumentation, runs unit and integration tests and checks coverage,
 
-- **[integration-report](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/integration-report-mojo.html)** goal compiles classes with instrumentation, runs unit and integration tests and generates reports,
+- **[integration-report](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/integration-report-mojo.html)** goal compiles classes with instrumentation, runs unit and integration tests and generates reports,
 
 additional, sometimes useful, mojos:
 
-- **[test](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/test-mojo.html)** goal compiles classes with instrumentation and runs unit tests,
+- **[test](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/test-mojo.html)** goal compiles classes with instrumentation and runs unit tests,
 
-- **[integration-test](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/integration-test-mojo.html)** goal compiles classes with instrumentation and runs unit and integration tests,
+- **[integration-test](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/integration-test-mojo.html)** goal compiles classes with instrumentation and runs unit and integration tests,
 
-- **[check-only](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/check-only-mojo.html)** goal only checks coverage using coverage data generated earlier in the build (by **test**, **report**, **integration-test** or **integration-report** goal).
+- **[check-only](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/check-only-mojo.html)** goal only checks coverage using coverage data generated earlier in the build (by **test**, **report**, **integration-test** or **integration-report** goal).
 
-- **[report-only](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/report-only-mojo.html)** goal generates reports using coverage data generated earlier in the build (by **test**, **check**, **integration-test** or **integration-check** goal),
+- **[report-only](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/report-only-mojo.html)** goal generates reports using coverage data generated earlier in the build (by **test**, **check**, **integration-test** or **integration-check** goal),
 
-- **[package](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/package-mojo.html)** goal generates artifact file containing instrumented classes (e.g. for testing outside of the Maven build),
+- **[package](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/package-mojo.html)** goal generates artifact file containing instrumented classes (e.g. for testing outside of the Maven build),
 
 internal mojos:
 
-- **[pre-compile](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/pre-compile-mojo.html)** and **[post-compile](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/post-compile-mojo.html)** are internal goals, they configure Maven build in forked `scoverage` life cycle; don't use them.
+- **[pre-compile](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/pre-compile-mojo.html)** and **[post-compile](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/post-compile-mojo.html)** are internal goals, they configure Maven build in forked `scoverage` life cycle; don't use them.
 
 ### Maven generated plugin documentation
 
 | Version  | Documentation                                                                            |
 |----------|------------------------------------------------------------------------------------------|
-| `2.1.2`  | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/plugin-info.html)  |
+| `2.1.3`  | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/plugin-info.html)  |
 | `1.4.11` | [Plugin Info](http://scoverage.github.io/scoverage-maven-plugin/1.4.11/plugin-info.html) |
 
 ### Prerequisites / limitations
@@ -60,7 +60,7 @@ This can be set as project property.
 ```xml
 <project>
     <properties>
-        <scoverage.plugin.version>2.1.2</scoverage.plugin.version>
+        <scoverage.plugin.version>2.1.3</scoverage.plugin.version>
     </properties>
 </project>
 ```
@@ -76,7 +76,7 @@ If all the attempts to resolve the Scala version fail, then coverage will not be
 ```xml
 <project>
     <properties>
-        <scala.version>2.13.17</scala.version>
+        <scala.version>2.13.18</scala.version>
     </properties>
 </project>
 ```
@@ -92,7 +92,7 @@ or
                 <artifactId>scoverage-maven-plugin</artifactId>
                 <version>${scoverage.plugin.version}</version>
                 <configuration>
-                    <scalaVersion>2.13.17</scalaVersion>
+                    <scalaVersion>2.13.18</scalaVersion>
                     <!-- other parameters -->
                 </configuration>
              </plugin>
@@ -296,9 +296,9 @@ Which reporting mojo should be selected:
 
 | Reporting mojo                                                                                             | When                                                                                                                                                                                                                                                    |
 |------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [report](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/report-mojo.html)                         | When not using integration tests (most cases)                                                                                                                                                                                                           |
-| [integration-report](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/integration-report-mojo.html) | When using integration tests                                                                                                                                                                                                                            |
-| [report-only](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/report-only-mojo.html)               | When coverage data was already generated (usually by [check](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/check-mojo.html) or [integration-check](http://scoverage.github.io/scoverage-maven-plugin/2.1.2/integration-check-mojo.html) mojo) |
+| [report](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/report-mojo.html)                         | When not using integration tests (most cases)                                                                                                                                                                                                           |
+| [integration-report](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/integration-report-mojo.html) | When using integration tests                                                                                                                                                                                                                            |
+| [report-only](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/report-only-mojo.html)               | When coverage data was already generated (usually by [check](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/check-mojo.html) or [integration-check](http://scoverage.github.io/scoverage-maven-plugin/2.1.3/integration-check-mojo.html) mojo) |
 
 ### Customizing code instrumentation
 
@@ -487,13 +487,13 @@ A new release can be done on demand using `Release new version` workflow. See [r
 1. [Run](https://github.com/scoverage/scoverage-maven-plugin/actions/workflows/release.yml) `Release new version` workflow.
 2. Wait ~ 8 hours for sync to maven central.
 3. Check jars are available in maven central https://search.maven.org/artifact/org.scoverage/scoverage-maven-plugin and GH label in README is updated.
-4. Checkout new tag, e.g. `git checkout scoverage-maven-plugin-2.1.2`.
+4. Checkout new tag, e.g. `git checkout scoverage-maven-plugin-2.1.3`.
 5. Generate site docs with `mvn clean site -P publicsite` and check that all required docs are generated in `./target/site`.
 6. Checkout `gh-pages` branch, e.g. `git checkout gh-pages`.
-7. Copy generated site to new directory named as version number, e.g. `cp -r ./target/site ./2.1.2`, commit and push.
-8. Wait several seconds for the docs to be published and verify, e.g. https://scoverage.github.io/scoverage-maven-plugin/2.1.2/check-mojo.html.
+7. Copy generated site to new directory named as version number, e.g. `cp -r ./target/site ./2.1.3`, commit and push.
+8. Wait several seconds for the docs to be published and verify, e.g. https://scoverage.github.io/scoverage-maven-plugin/2.1.3/check-mojo.html.
 9. Checkout `main` branch, e.g. `git checkout main`.
-10. Update versions in README, e.g. `sed -i 's/2.1.0/2.1.2/g' README.md`, commit and push.
+10. Update versions in README, e.g. `sed -i 's/2.1.2/2.1.3/g' README.md`, commit and push.
 11. Create new Release on GitHub.
 
 
