@@ -52,10 +52,51 @@ try {
     def aggregatedReportFile = new File(basedir, "target/site/scoverage/index.html")
     assert aggregatedReportFile.exists()
 
-    return true
+    // Parse aggregated report
+    def aggregatedXml = new groovy.xml.XmlSlurper().parse(aggregatedScoverageFile)
+    def statementCount = aggregatedXml.@'statement-count'.toInteger()
+    def statementsInvoked = aggregatedXml.@'statements-invoked'.toInteger()
+    def statementRate = aggregatedXml.@'statement-rate'.toDouble()
+
+    def packages = aggregatedXml.packages.package
+    def packageNames = packages.collect { it.@name.toString() }.sort()
+
+    // Expected values
+    def expectedStatements = 15
+    def expectedStatementsInvoked = 15
+    def expectedCoverage = 100.0
+    def expectedPackages = [
+            'apps.api', 'apps.cli',
+            'core.api', 'core.impl',
+            'services.auth', 'services.common', 'services.data'
+    ].sort()
+
+    // Validate statement count
+    assert statementCount == expectedStatements,
+            "Wrong statement count: expected ${expectedStatements}, got ${statementCount}"
+
+    // Validate statements invoked (catches aggregation bugs)
+    assert statementsInvoked == expectedStatementsInvoked,
+            "Wrong statements invoked: expected ${expectedStatementsInvoked}, got ${statementsInvoked} (${statementRate}% coverage)"
+
+    // Validate coverage rate
+    assert statementRate == expectedCoverage,
+            "Wrong coverage rate: expected ${expectedCoverage}%, got ${statementRate}%"
+
+    // Validate package count
+    assert packageNames.size() == expectedPackages.size(),
+            "Wrong package count: expected ${expectedPackages.size()}, got ${packageNames.size()}"
+
+    // Validate all packages present
+    def missingPackages = expectedPackages - packageNames
+    assert missingPackages.isEmpty(),
+            "Missing packages: ${missingPackages}"
+
+    println ":white_check_mark: Aggregated report validated: ${statementCount} statements, ${statementsInvoked} invoked, ${statementRate}% coverage, ${packageNames.size()} packages"
 
 } catch (Throwable e) {
     e.printStackTrace()
     return false
 }
 
+return true
