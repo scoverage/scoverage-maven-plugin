@@ -537,7 +537,7 @@ Make sure you have proper pgp keys set up. See [Maven Central Guide](https://cen
 ```
 This software is licensed under the Apache 2 license, quoted below.
 
-Copyright 2014-2025 Grzegorz Slowikowski
+Copyright 2014-2026 Grzegorz Slowikowski
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
