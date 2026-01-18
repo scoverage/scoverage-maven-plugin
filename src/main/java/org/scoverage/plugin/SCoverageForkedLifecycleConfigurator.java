@@ -18,10 +18,8 @@
 package org.scoverage.plugin;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -185,28 +183,6 @@ public class SCoverageForkedLifecycleConfigurator
     }
 
     /**
-     * Extracts project IDs of all reactor dependencies for the given project.
-     *
-     * @param project The Maven project to analyze
-     * @return Set of project IDs (groupId:artifactId:version) that are reactor dependencies
-     */
-    private static Set<String> getDependencyProjectIds( MavenProject project )
-    {
-        Set<String> dependencyIds = new HashSet<>();
-
-        if ( project.getDependencyArtifacts() != null )
-        {
-            for ( Artifact artifact : project.getDependencyArtifacts() )
-            {
-                String projectId = artifact.getGroupId() + ":" + artifact.getArtifactId() + ":" + artifact.getVersion();
-                dependencyIds.add( projectId );
-            }
-        }
-
-        return dependencyIds;
-    }
-
-    /**
      * Configures project and dependent modules in multi-module project when entering forked {@code scoverage}
      * life cycle.
      * <br>
@@ -240,11 +216,10 @@ public class SCoverageForkedLifecycleConfigurator
             }
         } );
 
-        // Update reactor projects configuration, but only those that are dependencies of the current project
-        Set<String> dependencyProjectIds = getDependencyProjectIds( project );
+        // Update reactor projects configuration
         for ( MavenProject reactorProject : reactorProjects )
         {
-            if ( dependencyProjectIds.contains( reactorProject.getId() ) )
+            if ( reactorProject != project )
             {
                 // Switch dependency to 'FORKED' (scoverage) configuration, saving its current ('ORIGINAL') values
                 swapReactorProjectConfiguration(reactorProject, FORKED, ORIGINAL );
@@ -276,11 +251,9 @@ public class SCoverageForkedLifecycleConfigurator
         } );
 
         // Restore changed outputDirectory and artifact.file in other reactor projects
-        // Only check projects that might have been modified (have backup properties)
         for ( MavenProject reactorProject : reactorProjects )
         {
-            if ( reactorProject.getProperties().containsKey( propertyName( ORIGINAL, OUTPUT_DIRECTORY ) )
-                    || reactorProject.getProperties().containsKey( propertyName( ORIGINAL, ARTIFACT_FILE ) ) )
+            if ( reactorProject != project )
             {
                 // Restore project to its 'ORIGINAL' configuration, saving its current ('FORKED') values
                 swapReactorProjectConfiguration(reactorProject, ORIGINAL, FORKED );
