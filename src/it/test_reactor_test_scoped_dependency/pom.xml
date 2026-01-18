@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>it.scoverage-maven-plugin</groupId>
+        <artifactId>integration_tests_parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../integration_tests_parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>test_reactor_test_scoped_dependency</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Test Reactor Test-Scoped Dependencies</name>
+    <description>Reproduces homesplice scenario: test-scoped dependency on test library</description>
+
+    <modules>
+        <module>test-lib</module>
+        <module>consumer</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>@project.groupId@</groupId>
+                <artifactId>@project.artifactId@</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
