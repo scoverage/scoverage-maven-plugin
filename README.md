@@ -45,22 +45,11 @@ internal mojos:
 
 ### Prerequisites / limitations
 
-- The plugin is compatible with [Scala Maven Plugin](http://davidb.github.io/scala-maven-plugin/) 
+- The plugin is compatible with [Scala Maven Plugin](http://davidb.github.io/scala-maven-plugin/)
   - version `3.0.0` or later required
   - [addScalacArgs](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#addScalacArgs) and [analysisCacheFile](http://davidb.github.io/scala-maven-plugin/compile-mojo.html#analysisCacheFile) configuration parameters cannot be set directly, use project properties `addScalacArgs` and `analysisCacheFile` instead.
 - Starting with version `2.1.0` JDK `17+`, Maven `3.6.3` and `maven-site-plugin` `3.20.0+` are required.
 - Starting with version `2.0.0` the plugin supports Scala `2.12.8+`, `2.13.0+` and `3.2.0+`. For Scala `2.12.7` and lower please use version `1.4.11` of the plugin.
-- Multi-threaded builds (mvn -T N):
-  - Safe: Individual module coverage reports with <aggregate>false</aggregate>
-  - Not safe: Aggregated coverage reports during parallel builds
-  - Recommended approach: Run parallel builds with aggregation disabled, then run sequential aggregation separately:
-
-    ```bash
-    # Step 1: Parallel build with individual reports only
-    mvn clean verify site -T 4 -Dscoverage.aggregate=false
-
-    # Step 2: Sequential aggregation using existing coverage data
-    mvn scoverage:report-only -Dscoverage.aggregateOnly=true
 
 ### Scoverage Maven plugin version
 

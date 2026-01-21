@@ -18,6 +18,7 @@
     <modules>
         <module>app-cli</module>
         <module>app-api</module>
+        <module>app-admin-skipped</module>
     </modules>
 
 </project>

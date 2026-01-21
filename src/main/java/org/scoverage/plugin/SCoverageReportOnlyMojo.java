@@ -34,7 +34,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
  */
-@Mojo( name = "report-only" )
+@Mojo( name = "report-only", threadSafe = true )
 @Execute( phase = LifecyclePhase.NONE )
 public class SCoverageReportOnlyMojo
     extends SCoverageReportMojo

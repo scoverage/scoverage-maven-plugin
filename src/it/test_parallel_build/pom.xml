@@ -41,9 +41,8 @@
                 <groupId>@project.groupId@</groupId>
                 <artifactId>@project.artifactId@</artifactId>
                 <configuration>
-                    <!-- Disable aggregation during parallel build as it's still not thread-safe -->
-                    <!-- Will aggregate separately with report-only -->
-                    <aggregate>false</aggregate>
+                    <!-- Enable aggregation - now thread-safe -->
+                    <aggregate>true</aggregate>
                 </configuration>
             </plugin>
         </plugins>
@@ -55,8 +54,8 @@
                 <groupId>@project.groupId@</groupId>
                 <artifactId>@project.artifactId@</artifactId>
                 <configuration>
-                    <!-- Disable aggregation during parallel build -->
-                    <aggregate>false</aggregate>
+                    <!-- Enable aggregation - now thread-safe -->
+                    <aggregate>true</aggregate>
                 </configuration>
             </plugin>
         </plugins>

@@ -33,7 +33,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.1.0
  */
-@Mojo( name = "integration-check" )
+@Mojo( name = "integration-check", threadSafe = true )
 @Execute( lifecycle = "scoverage", phase = LifecyclePhase.VERIFY )
 public class SCoverageIntegrationCheckMojo
     extends SCoverageCheckMojo

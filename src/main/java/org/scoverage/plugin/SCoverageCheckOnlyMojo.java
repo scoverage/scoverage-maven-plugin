@@ -33,7 +33,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
  */
-@Mojo( name = "check-only" )
+@Mojo( name = "check-only", threadSafe = true )
 @Execute( phase = LifecyclePhase.NONE )
 public class SCoverageCheckOnlyMojo
     extends SCoverageCheckMojo

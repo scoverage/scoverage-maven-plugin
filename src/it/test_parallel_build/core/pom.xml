@@ -18,6 +18,7 @@
     <modules>
         <module>core-api</module>
         <module>core-impl</module>
+        <module>core-util-skipped</module>
     </modules>
 
 </project>

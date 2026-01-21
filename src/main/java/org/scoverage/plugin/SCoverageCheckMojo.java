@@ -55,7 +55,7 @@ import scoverage.serialize.Serializer;
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.0.0
  */
-@Mojo( name = "check", threadSafe = false )
+@Mojo( name = "check", threadSafe = true )
 @Execute( lifecycle = "scoverage", phase = LifecyclePhase.TEST )
 public class SCoverageCheckMojo
     extends AbstractMojo

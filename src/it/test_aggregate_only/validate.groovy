@@ -18,6 +18,12 @@ try {
     def module3ReportFile = new File(basedir, "module03/target/site/scoverage/index.html")
     assert !module3ReportFile.exists()
 
+    def module4ScoverageFile = new File(basedir, "module04/target/scoverage.xml")
+    assert !module4ScoverageFile.exists(), "Skipped module (via custom property) should not generate scoverage.xml"
+
+    def module4ReportFile = new File(basedir, "module04/target/site/scoverage/index.html")
+    assert !module4ReportFile.exists(), "Skipped module (via custom property) should not generate report"
+
     def aggregatedScoverageFile = new File(basedir, "target/scoverage.xml")
     assert aggregatedScoverageFile.exists()
 
