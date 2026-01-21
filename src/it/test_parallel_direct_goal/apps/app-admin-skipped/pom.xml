@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>it.scoverage-maven-plugin</groupId>
+        <artifactId>apps</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>app-admin-skipped</artifactId>
+    <name>Test Parallel Direct Goal : Admin Application (Skipped via Custom Property)</name>
+
+    <properties>
+        <!-- Skip coverage for this module using custom property -->
+        <skip.code-scoverage>true</skip.code-scoverage>
+    </properties>
+
+</project>

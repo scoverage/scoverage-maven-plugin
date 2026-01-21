@@ -17,10 +17,16 @@
     <name>Test Scoverage only aggregation</name>
     <description>Test Scoverage only aggregation</description>
 
+    <properties>
+        <!-- Custom property to control scoverage skip -->
+        <skip.code-scoverage>false</skip.code-scoverage>
+    </properties>
+
     <modules>
         <module>module01</module>
         <module>module02</module>
         <module>module03</module>
+        <module>module04</module>
     </modules>
 
     <build>
@@ -42,6 +48,8 @@
                 <artifactId>@project.artifactId@</artifactId>
                 <configuration>
                     <aggregateOnly>true</aggregateOnly> <!-- for aggregated report -->
+                    <!-- Allow custom property to control skip -->
+                    <skip>${skip.code-scoverage}</skip>
                 </configuration>
             </plugin>
         </plugins>

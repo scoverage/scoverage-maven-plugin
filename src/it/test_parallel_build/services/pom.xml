@@ -19,6 +19,7 @@
         <module>service-auth</module>
         <module>service-data</module>
         <module>service-common</module>
+        <module>service-util-skipped</module>
     </modules>
 
 </project>

@@ -32,7 +32,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  * @author <a href="mailto:gslowikowski@gmail.com">Grzegorz Slowikowski</a>
  * @since 1.1.0
  */
-@Mojo( name = "integration-report", threadSafe = false )
+@Mojo( name = "integration-report", threadSafe = true )
 @Execute( lifecycle = "scoverage", phase = LifecyclePhase.VERIFY )
 public class SCoverageIntegrationReportMojo
     extends SCoverageReportMojo
