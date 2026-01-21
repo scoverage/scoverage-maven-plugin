@@ -145,29 +145,24 @@ public class SCoverageForkedLifecycleConfigurator
             if ( reactorProject.getProperties().containsKey( applyOutputDirProp ) )
             {
                 String applyOutputDirectory =
-                        (String) reactorProject.getProperties().get( applyOutputDirProp );
+                        (String) reactorProject.getProperties().remove( applyOutputDirProp );
                 String currentOutputDirectory = reactorProject.getBuild().getOutputDirectory();
 
-                // Only save to target if it doesn't already exist (prevents corruption)
-                if ( currentOutputDirectory != null
-                        && !reactorProject.getProperties().containsKey( backupOutputDirProp ) )
+                if ( currentOutputDirectory != null )
                 {
                     reactorProject.getProperties().put( backupOutputDirProp, currentOutputDirectory );
                 }
 
-                // Always set to source (idempotent, ensures correct state)
                 reactorProject.getBuild().setOutputDirectory( applyOutputDirectory );
             }
 
             if ( reactorProject.getProperties().containsKey( applyArtifactFileProp ) )
             {
                 String applyArtifactFilePath =
-                        (String) reactorProject.getProperties().get( applyArtifactFileProp );
+                        (String) reactorProject.getProperties().remove( applyArtifactFileProp );
                 Artifact currentArtifact = reactorProject.getArtifact();
 
-                // Only save to target if it doesn't already exist (prevents corruption)
-                if ( currentArtifact != null
-                        && !reactorProject.getProperties().containsKey( backupArtifactFileProp ) )
+                if ( currentArtifact != null )
                 {
                     File currentArtifactFile = currentArtifact.getFile();
                     reactorProject.getProperties().put( backupArtifactFileProp,
@@ -175,7 +170,6 @@ public class SCoverageForkedLifecycleConfigurator
                                     : currentArtifactFile.getAbsolutePath() );
                 }
 
-                // Always set to source (idempotent, ensures correct state)
                 reactorProject.getArtifact().setFile( "".equals( applyArtifactFilePath ) ? null
                         : new File( applyArtifactFilePath ) );
             }
