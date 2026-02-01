@@ -49,6 +49,8 @@ import org.apache.maven.reporting.MavenReportException;
 
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 
+import org.eclipse.aether.RepositorySystemSession;
+
 import org.codehaus.plexus.util.StringUtils;
 
 import scala.Option;
@@ -139,6 +141,12 @@ public class SCoverageReportMojo
      */
     @Parameter(defaultValue = "${session}", readonly = true, required = true)
     private MavenSession session;
+
+    /**
+     * Repository system session for build-global storage.
+     */
+    @Parameter(defaultValue = "${repositorySystemSession}", readonly = true, required = true)
+    private RepositorySystemSession repositorySystemSession;
 
     /**
      * All Maven projects in the reactor.
@@ -613,7 +621,7 @@ public class SCoverageReportMojo
         String moduleId = project.getGroupId() + ":" + project.getArtifactId();
         Set<String> expectedModuleIds = getExpectedModuleIds();
 
-        boolean shouldAggregate = SCoverageAggregationCoordinator.shouldPerformAggregation( session, moduleId, expectedModuleIds );
+        boolean shouldAggregate = SCoverageAggregationCoordinator.shouldPerformAggregation( repositorySystemSession, moduleId, expectedModuleIds );
 
         if ( shouldAggregate )
         {
