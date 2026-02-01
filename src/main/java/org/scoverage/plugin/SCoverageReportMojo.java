@@ -293,9 +293,16 @@ public class SCoverageReportMojo
             SCoverageForkedLifecycleConfigurator.afterForkedLifecycleExit( project, reactorProjects );
         }
 
+        boolean canGenNonAgg = canGenerateNonAggregatedReport();
+        boolean canGenAgg = canGenerateAggregatedReport();
+        boolean result = canGenNonAgg || canGenAgg;
+
+        getLog().debug( String.format( "canGenerateReport for %s: eligible=%s, canGenNonAgg=%s, canGenAgg=%s, result=%s",
+                project.getArtifactId(), isEligibleForReportGeneration(), canGenNonAgg, canGenAgg, result ) );
+
         // Return true if we need to generate ANY report (individual or aggregated)
         // This ensures `generate()` is called for modules that participate in aggregation
-        return canGenerateNonAggregatedReport() || canGenerateAggregatedReport();
+        return result;
     }
 
     private boolean isNotPom( MavenProject module ) {
@@ -603,14 +610,15 @@ public class SCoverageReportMojo
      */
     private void tryGenerateAggregatedReport()
     {
-        String sessionId = session.getRequest().getStartTime().toString();
         String moduleId = project.getGroupId() + ":" + project.getArtifactId();
         Set<String> expectedModuleIds = getExpectedModuleIds();
 
-        boolean shouldAggregate = SCoverageAggregationCoordinator.shouldPerformAggregation( sessionId, moduleId, expectedModuleIds );
+        boolean shouldAggregate = SCoverageAggregationCoordinator.shouldPerformAggregation( session, moduleId, expectedModuleIds );
 
         if ( shouldAggregate )
         {
+            getLog().info( String.format( "Module %s is generating aggregated report (last of %d modules with scoverage enabled)",
+                    project.getArtifactId(), expectedModuleIds.size() ) );
             try
             {
                 generateAggregatedReports();
@@ -618,11 +626,6 @@ public class SCoverageReportMojo
             catch ( MavenReportException e )
             {
                 throw new RuntimeException( e );
-            }
-            finally
-            {
-                // Cleanup coordinator session
-                SCoverageAggregationCoordinator.cleanup( sessionId );
             }
         }
     }
