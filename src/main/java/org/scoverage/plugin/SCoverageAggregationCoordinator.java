@@ -17,86 +17,90 @@
 
 package org.scoverage.plugin;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
 
-import org.apache.maven.execution.MavenSession;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.SessionData;
 
 /**
  * Coordinates aggregated coverage report generation in multi-threaded Maven builds.
  * <br>
- * Uses MavenSession request data to store state, which works across different plugin classloaders.
- * Stores only standard Java types (ConcurrentHashMap, AtomicBoolean) that are loaded by the system classloader.
+ * Uses RepositorySystemSession.getData() which provides build-global, thread-safe storage
+ * that works across different plugin classloaders and all modules in the reactor.
+ * <br>
+ * Only stores standard Java types (ConcurrentHashMap, AtomicBoolean) loaded by the bootstrap classloader
+ * to avoid ClassCastException across different plugin classloaders.
  * <br>
  * Ensures that:
  * <ul>
  * <li>Only one thread (the last module) performs the aggregation</li>
  * <li>Other threads skip aggregation and continue</li>
  * </ul>
+ * <br>
+ * Implementation Note: Uses synchronized block with SessionData.get()/set() instead of computeIfAbsent()
+ * for backward compatibility with Maven 3.6.3+ (computeIfAbsent was added in Maven Resolver 1.9.x / Maven 3.9.x).
  */
 public class SCoverageAggregationCoordinator
 {
-    private static final String REMAINING_MODULES_KEY = "scoverage-remaining-modules";
-    private static final String CLAIMED_KEY = "scoverage-claimed";
+    private static final String REMAINING_MODULES_KEY = SCoverageAggregationCoordinator.class.getName() + ".remainingModules";
+    private static final String CLAIMED_KEY = SCoverageAggregationCoordinator.class.getName() + ".claimed";
 
     /**
      * Notifies the coordinator that this module has completed testing and determines if it should perform aggregation.
      * Only the last module to complete (in a parallel build) will return true, and only once.
      *
-     * @param session Maven session
+     * @param repositorySession Repository system session providing build-global storage
      * @param moduleId unique identifier for the module (e.g., groupId:artifactId)
-     * @param expectedModuleIds set of expected module IDs (auto-registers session if needed)
+     * @param expectedModuleIds set of expected module IDs (auto-registers build if needed)
      * @return true if this module should perform aggregation, false otherwise
      */
-    public static boolean shouldPerformAggregation( MavenSession session, String moduleId, Set<String> expectedModuleIds )
+    @SuppressWarnings("unchecked")
+    public static boolean shouldPerformAggregation( RepositorySystemSession repositorySession, String moduleId, Set<String> expectedModuleIds )
     {
-        // Get shared data map from Maven session - this is shared across all plugin classloaders
-        Map<String, Object> sessionData = session.getRequest().getData();
+        SessionData sessionData = repositorySession.getData();
 
-        // Initialize remaining modules set and claimed flag (thread-safe, only once per session)
-        Set<String> remainingModules = getOrCreate( sessionData, REMAINING_MODULES_KEY, () -> {
-            Set<String> modules = ConcurrentHashMap.newKeySet();
-            modules.addAll( expectedModuleIds );
-            return modules;
-        } );
+        // Initialize data structures using backward-compatible get/set API
+        // (computeIfAbsent was added in Maven Resolver 1.9.x / Maven 3.9.x)
+        Set<String> remainingModules;
+        AtomicBoolean claimed;
 
-        AtomicBoolean claimed = getOrCreate( sessionData, CLAIMED_KEY, () -> new AtomicBoolean( false ) );
+        // Use SessionData itself as synchronization lock for initialization
+        // SessionData is build-global and thread-safe, so it's safe to synchronize on
+        synchronized ( sessionData )
+        {
+            // Get or create remaining modules set
+            remainingModules = (Set<String>) sessionData.get( REMAINING_MODULES_KEY );
+            if ( remainingModules == null )
+            {
+                remainingModules = ConcurrentHashMap.newKeySet();
+                remainingModules.addAll( expectedModuleIds );
+                sessionData.set( REMAINING_MODULES_KEY, remainingModules );
+            }
+
+            // Get or create claimed flag
+            claimed = (AtomicBoolean) sessionData.get( CLAIMED_KEY );
+            if ( claimed == null )
+            {
+                claimed = new AtomicBoolean( false );
+                sessionData.set( CLAIMED_KEY, claimed );
+            }
+        }
 
         // Remove this module from the remaining set
         remainingModules.remove( moduleId );
 
         // Return true only if this is the last module and nobody else has claimed aggregation
-        return remainingModules.isEmpty() && claimed.compareAndSet( false, true );
-    }
+        boolean result = remainingModules.isEmpty() && claimed.compareAndSet( false, true );
 
-    /**
-     * Gets an object from the session data map, or creates it if absent using double-checked locking.
-     * This ensures thread-safe initialization without unnecessary synchronization on subsequent calls.
-     *
-     * @param sessionData the shared session data map
-     * @param key the key to look up
-     * @param supplier function to create the value if absent
-     * @return the value from the map (existing or newly created)
-     */
-    @SuppressWarnings("unchecked")
-    private static <T> T getOrCreate( Map<String, Object> sessionData, String key, Supplier<T> supplier )
-    {
-        Object value = sessionData.get( key );
-        if ( value == null )
+        // Clean up after aggregation is claimed
+        if ( result )
         {
-            synchronized ( sessionData )
-            {
-                value = sessionData.get( key );
-                if ( value == null )
-                {
-                    value = supplier.get();
-                    sessionData.put( key, value );
-                }
-            }
+            sessionData.set( REMAINING_MODULES_KEY, null );
+            sessionData.set( CLAIMED_KEY, null );
         }
-        return (T) value;
+
+        return result;
     }
 }

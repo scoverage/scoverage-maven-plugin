@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
 
     <name>Test Reactor Test-Scoped Dependencies</name>
-    <description>Reproduces homesplice scenario: test-scoped dependency on test library</description>
+    <description>Reproduces test-scoped dependency on test library scenario</description>
 
     <modules>
         <module>test-lib</module>
