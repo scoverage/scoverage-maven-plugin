@@ -17,12 +17,19 @@
 
 package org.scoverage.plugin;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
+
+import org.apache.maven.execution.MavenSession;
 
 /**
  * Coordinates aggregated coverage report generation in multi-threaded Maven builds.
+ * <br>
+ * Uses MavenSession request data to store state, which works across different plugin classloaders.
+ * Stores only standard Java types (ConcurrentHashMap, AtomicBoolean) that are loaded by the system classloader.
  * <br>
  * Ensures that:
  * <ul>
@@ -32,70 +39,64 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class SCoverageAggregationCoordinator
 {
-    /**
-     * Map of build session ID to aggregation session.
-     * Each Maven build session gets its own coordinator.
-     */
-    private static final ConcurrentHashMap<String, AggregationSession> sessions = new ConcurrentHashMap<>();
-
-    /**
-     * Represents a single Maven build session's aggregation state.
-     */
-    private static class AggregationSession
-    {
-        private final AtomicBoolean aggregationClaimed;
-        private final Set<String> remainingModuleIds;
-
-        AggregationSession( Set<String> expectedModuleIds )
-        {
-            this.remainingModuleIds = ConcurrentHashMap.newKeySet();
-            this.remainingModuleIds.addAll( expectedModuleIds );
-            this.aggregationClaimed = new AtomicBoolean( false );
-        }
-
-        /**
-         * Notifies that this module has completed and determines if it should perform aggregation.
-         * Returns true only for the last module to complete, and only once.
-         * <p>
-         * Thread-safe: The Set removes completed modules.
-         * When set gets empty, we know all modules have entered the report phase,
-         * which means their test phases are complete and measurement files are written.
-         * The AtomicBoolean ensures only one thread claims aggregation.
-         *
-         * @param moduleId unique identifier for the module
-         * @return true if this module should perform aggregation
-         */
-        boolean shouldPerformAggregation( String moduleId )
-        {
-            remainingModuleIds.remove( moduleId );
-            return remainingModuleIds.isEmpty() && aggregationClaimed.compareAndSet( false, true );
-        }
-    }
+    private static final String REMAINING_MODULES_KEY = "scoverage-remaining-modules";
+    private static final String CLAIMED_KEY = "scoverage-claimed";
 
     /**
      * Notifies the coordinator that this module has completed testing and determines if it should perform aggregation.
      * Only the last module to complete (in a parallel build) will return true, and only once.
      *
-     * @param sessionId build session identifier
+     * @param session Maven session
      * @param moduleId unique identifier for the module (e.g., groupId:artifactId)
      * @param expectedModuleIds set of expected module IDs (auto-registers session if needed)
      * @return true if this module should perform aggregation, false otherwise
      */
-    public static boolean shouldPerformAggregation( String sessionId, String moduleId, Set<String> expectedModuleIds )
+    public static boolean shouldPerformAggregation( MavenSession session, String moduleId, Set<String> expectedModuleIds )
     {
-        AggregationSession session = sessions.computeIfAbsent( sessionId,
-                id -> new AggregationSession( expectedModuleIds ) );
+        // Get shared data map from Maven session - this is shared across all plugin classloaders
+        Map<String, Object> sessionData = session.getRequest().getData();
 
-        return session.shouldPerformAggregation( moduleId );
+        // Initialize remaining modules set and claimed flag (thread-safe, only once per session)
+        Set<String> remainingModules = getOrCreate( sessionData, REMAINING_MODULES_KEY, () -> {
+            Set<String> modules = ConcurrentHashMap.newKeySet();
+            modules.addAll( expectedModuleIds );
+            return modules;
+        } );
+
+        AtomicBoolean claimed = getOrCreate( sessionData, CLAIMED_KEY, () -> new AtomicBoolean( false ) );
+
+        // Remove this module from the remaining set
+        remainingModules.remove( moduleId );
+
+        // Return true only if this is the last module and nobody else has claimed aggregation
+        return remainingModules.isEmpty() && claimed.compareAndSet( false, true );
     }
 
     /**
-     * Cleans up session data after build completes.
+     * Gets an object from the session data map, or creates it if absent using double-checked locking.
+     * This ensures thread-safe initialization without unnecessary synchronization on subsequent calls.
      *
-     * @param sessionId build session identifier
+     * @param sessionData the shared session data map
+     * @param key the key to look up
+     * @param supplier function to create the value if absent
+     * @return the value from the map (existing or newly created)
      */
-    public static void cleanup( String sessionId )
+    @SuppressWarnings("unchecked")
+    private static <T> T getOrCreate( Map<String, Object> sessionData, String key, Supplier<T> supplier )
     {
-        sessions.remove( sessionId );
+        Object value = sessionData.get( key );
+        if ( value == null )
+        {
+            synchronized ( sessionData )
+            {
+                value = sessionData.get( key );
+                if ( value == null )
+                {
+                    value = supplier.get();
+                    sessionData.put( key, value );
+                }
+            }
+        }
+        return (T) value;
     }
 }
