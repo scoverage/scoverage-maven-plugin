@@ -276,7 +276,7 @@ under the License.
                         <links>
                             <link>https://docs.oracle.com/en/java/javase/17/docs/api/</link>
                             <link>https://maven.apache.org/shared-archives/maven-reporting-api-${maven-reporting-api.version}/apidocs/</link>
-                            <link>https://maven.apache.org/doxia/components/doxia-archives/doxia-${doxia.version}/apidocs/</link>
+                            <link>https://maven.apache.org/doxia/doxia-archives/doxia-${doxia.version}/doxia-core/apidocs/</link>
                             <link>https://maven.apache.org/ref/${maven.version}/apidocs/</link>
                         </links>
                         <notimestamp>true</notimestamp>
