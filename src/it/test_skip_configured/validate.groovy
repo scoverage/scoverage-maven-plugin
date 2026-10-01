@@ -1,15 +1,17 @@
 try {
 
     def logFile = new File(basedir, "build.log")
-    def lines = logFile.readLines()
-    assert lines.contains("[INFO] Skipping Scoverage execution as configured")
-    assert !lines.contains("Generating \"SCoverage\" report")
+    def logText = logFile.text
+
+    assert logText.contains("[INFO] Skipping Scoverage execution as configured")
+    assert !logText.contains("Generating \"SCoverage\" report")
 
     // let's check main code is also not compiled
-    def scalaMainSourcesCompilerInfoIndex = lines.findIndexOf { it ==~ /.*:compile \(default-sbt-compile\).*/ } + 1
-    def scalaMainSourcesCompilerInfo = lines.get(scalaMainSourcesCompilerInfoIndex)
-    def expectedInfo = "[INFO] Not compiling main sources"
-    assert scalaMainSourcesCompilerInfo.contains(expectedInfo) : "Expected '$expectedInfo' but got: '$scalaMainSourcesCompilerInfo'"
+    def sbtCompileSection = logText.split("--- ").find { it.contains(":compile (default-sbt-compile)") }
+    assert sbtCompileSection != null : "Did not find scala:compile (default-sbt-compile) in build.log"
+    assert sbtCompileSection.contains("[INFO] Not compiling main sources")
+
+    assert !new File(basedir, "target/classes").exists()
 
     return true
 
